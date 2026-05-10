@@ -1,0 +1,60 @@
+---
+description: Convenciones de escritura y formato para la memoria LaTeX. Se activa al editar archivos .tex.
+globs: "**/*.tex"
+alwaysApply: false
+---
+
+# Convenciones de escritura LaTeX para la memoria
+
+## Redaccion
+
+- Redaccion impersonal y en pasado: "se diseño", "se implemento", "se evaluo".
+- Nunca primera persona: evitar "yo hice", "diseñe", "implementé".
+- Usar expresiones de navegacion academica: "En este capitulo se presenta...", "En la figura X se puede observar...".
+- Usar "el objetivo del trabajo" en lugar de "el objetivo del proyecto".
+- Evitar conectores genericos repetitivos ("En resumen", "En conclusion") si no agregan valor.
+- Evitar abuso del gerundio; preferir verbos conjugados y oraciones directas.
+- Dividir oraciones extensas en unidades mas claras.
+- Cada capitulo inicia con un parrafo introductorio de 2-3 lineas debajo del titulo, sin titulo propio ni subseccion "Introduccion".
+
+## Formato de texto
+
+- No usar negritas dentro de parrafos.
+- No usar texto subrayado dentro de parrafos.
+- Italicas solo para siglas extranjeras o terminos en otro idioma (ej: `\textit{RTOS}, del ingles Real Time Operating System`).
+- Letra monoespaciada (`\texttt{}`) para funciones, bibliotecas, archivos, directorios y variables.
+- Consistencia en terminos tecnicos: no alternar entre ingles y español para un mismo concepto.
+
+## Figuras e imagenes
+
+- Siempre introducir la figura antes de insertarla: explicar que se mostrara.
+- Referenciar con `\ref{}`: "como se muestra en la figura \ref{fig:xxx}".
+- Despues de la figura, explicar que se observa y por que es relevante.
+- Texto interno de figuras debe ser legible a tamaño de pagina.
+- Traducir al español el texto de imagenes cuando sea posible.
+- Indicar fuente original con nota al pie si la imagen es de terceros.
+
+## Tablas
+
+- Introducir cada tabla antes de insertarla; analizar los datos despues.
+- Formato unico y consistente (el de la plantilla).
+- Construir tablas en LaTeX, no pegarlas como imagen.
+- Usar referencias bibliograficas dentro de tablas cuando los datos son de fuentes externas.
+
+## Referencias bibliograficas
+
+- Formato numerico `\citep{}` que produce [1].
+- Insertar cada referencia cerca de la afirmacion que respalda.
+- No dejar afirmaciones tecnicas sin referencia.
+- Distribuir las referencias a lo largo del texto, no agruparlas al final.
+
+## Ecuaciones
+
+- Formato formal, numeradas, referenciadas desde el texto.
+- Explicar que representa cada variable o termino.
+
+## Codigo
+
+- Evitar bloques de codigo extensos.
+- Preferir diagramas de flujo, de estado, de secuencia o UML.
+- Si se incluye codigo excepcionalmente, usar el formato de la plantilla (`lstlisting`).

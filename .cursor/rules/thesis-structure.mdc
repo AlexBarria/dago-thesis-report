@@ -1,0 +1,61 @@
+---
+description: Estructura esperada de cada capitulo de la memoria. Se activa al editar archivos de capitulos.
+globs: "Chapters/*.tex"
+alwaysApply: false
+---
+
+# Estructura de la memoria por capitulo
+
+Cada capitulo inicia con un parrafo introductorio de 2-3 lineas (sin titulo propio) y luego las secciones formales.
+
+## Capitulo 1: Introduccion general (~5 paginas)
+
+| Seccion | Contenido |
+|---------|-----------|
+| 1.1 Introduccion general al tema | Explicacion introductoria del area para preparar al lector. |
+| 1.2 Contexto y motivacion | Problema, por que la IA es adecuada, motivacion. |
+| 1.3 Estado del arte | Trabajos previos, tecnicas de IA, tabla comparativa (modelo, dataset, metricas). Obligatorio. |
+| 1.4 Objetivos del trabajo | Que se busca predecir/clasificar/generar. Concretos y verificables. |
+
+No incluir requerimientos. Explicar la problematica a alguien no experto en IA.
+
+## Capitulo 2: Introduccion especifica (~5 paginas)
+
+| Seccion | Contenido |
+|---------|-----------|
+| 2.1 Frameworks y bibliotecas | TensorFlow, PyTorch, MediaPipe, etc. Justificar eleccion. |
+| 2.2 Datasets y datos | Origen, tamaño, caracteristicas, licencia. |
+| 2.3 Modelos preentrenados | Solo si aplica transfer learning o fine-tuning. |
+| 2.4 Infraestructura | Hardware, GPU, plataformas cloud. |
+
+Incluir todo lo mencionado en Cap. 3 que no fue desarrollado por el autor.
+
+## Capitulo 3: Diseño e implementacion (~15-20 paginas)
+
+| Seccion | Contenido |
+|---------|-----------|
+| 3.1 Pipeline de datos | Recoleccion, preprocesamiento, augmentation. Diagrama del pipeline. |
+| 3.2 Arquitectura del modelo | Capas, parametros, funcion de perdida. Diagrama de arquitectura. |
+| 3.3 Entrenamiento | Hiperparametros, optimizador, scheduler, regularizacion. |
+| 3.4 Integracion del sistema | API, interfaz, sistema embebido. Diagrama de arquitectura completo. |
+
+Evitar bloques de codigo extensos. Incluir el pipeline completo.
+
+## Capitulo 4: Ensayos y resultados (~10-15 paginas)
+
+| Seccion | Contenido |
+|---------|-----------|
+| 4.1 Plan de evaluacion | Metodologia, metricas, sets de test, train/validation/test split. |
+| 4.2 Evaluacion del modelo | Resultados con metricas. Matriz de confusion, curvas ROC/PR. Comparar con baseline. |
+| 4.3 Analisis de errores | Tipos de errores, patrones, causas. Ejemplos de predicciones incorrectas. |
+| 4.4 Ensayos de integracion | Pruebas del sistema completo. Capturas, tiempos de inferencia, escenarios reales. |
+
+## Capitulo 5: Conclusiones (~2 paginas)
+
+| Seccion | Contenido |
+|---------|-----------|
+| 5.1 Logros alcanzados | Cumplimiento de objetivos. Donde se supera o no el estado del arte. |
+| 5.2 Conocimientos aplicados | ML, estadistica, programacion, etc. |
+| 5.3 Trabajo futuro | Mejoras en datos, arquitectura o despliegue. |
+
+Sin tablas ni imagenes.

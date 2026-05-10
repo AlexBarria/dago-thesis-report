@@ -19,16 +19,20 @@
     urlcolor=blue
 ]{MastersDoctoralThesis}
 
-\usepackage[utf8]{inputenc} % Codificación de entrada UTF-8
-\usepackage[T1]{fontenc}    % Codificación de salida para caracteres especiales
-\usepackage{graphicx}       % Manejo de gráficos
-\usepackage{eso-pic}        % Permite agregar fondos
-\usepackage{hyperref}       % Manejo de hipervínculos y marcadores
+% inputenc, fontenc, graphicx e hyperref ya los carga MastersDoctoralThesis.cls
+\usepackage{eso-pic} % Fondos (no está en la clase)
 
-% Redefinición de caracteres problemáticos en marcadores
+% Biblatex (cargado por la clase): más autores en citas narrativas y en la bibliografía; "y col." en español si aún se trunca
+\ExecuteBibliographyOptions{maxcitenames=6,maxbibnames=99}
+\DefineBibliographyStrings{spanish}{
+  andothers = {y\space col\adddot},
+  andmore = {y\space col\adddot}
+}
+
+% Opciones PDF adicionales (hyperref ya cargado por la clase)
 \hypersetup{
     pdftitle={Título del Documento},
-    pdfauthor={Autor del Documento},
+    pdfauthor={Alex D. Barria C.},
     pdfkeywords={Sistemas Embebidos, Internet de las Cosas, Inteligencia Artificial},
     pdfstartview={FitH},
     unicode=true,
@@ -77,7 +81,9 @@
 
 \begin{abstract}
 \addchaptertocentry{\abstractname} % Agregar resumen al índice
-El resumen debe escribirse en uno o dos párrafos. Debe ser breve y conciso, sin ningún elemento de formato en el texto como itálicas o negritas. Tampoco se deben usar siglas ni acrónimos que no resulten obvios para un lector promedio de la memoria, ni referencias bibliográficas o notas al pie de página. No debe faltar qué es lo que se hizo/logró, qué importancia/valor tiene el proyecto/resultado, qué va a encontrar el lector en la memoria y qué contenidos de la especialización/maestría se aplicaron en el proyecto.
+La enfermedad de Parkinson altera el control motor y suele evaluarse en consulta mediante la observación de ejercicios estandarizados, lo que puede introducir subjetividad y dificultar el seguimiento fino de la evolución. En este trabajo se desarrolló un sistema de software que analiza grabaciones de video de personas que realizan esos ejercicios y produce medidas cuantitativas del movimiento para complementar la valoración clínica con información objetiva y trazable. El sistema integra un flujo de procesamiento en Python con preparación del video, estimación de pose corporal mediante modelos preentrenados de visión por computadora, seguimiento temporal de puntos de interés y cálculo de métricas de oscilación y desempeño motor. Los resultados se exponen mediante una interfaz web para explorar sesiones, comparar registros y exportar informes, con una arquitectura modular orientada a entornos clínicos o de investigación.
+
+En la memoria se presentan el contexto clínico y bibliográfico, los componentes de terceros, el diseño e implementación del sistema, la estrategia de pruebas, los resultados y las conclusiones. Se aplicaron contenidos de la maestría en inteligencia artificial, en particular visión por computadora, aprendizaje automático con modelos preentrenados, ingeniería de software y operaciones de aprendizaje automático.
 \end{abstract}
 
 %----------------------------------------------------------------------------------------

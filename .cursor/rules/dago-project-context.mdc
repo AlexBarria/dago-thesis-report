@@ -1,0 +1,53 @@
+---
+description: Contexto del proyecto DAGO para orientar la redaccion de la memoria y la revision.
+alwaysApply: true
+---
+
+# Contexto del proyecto DAGO
+
+## Informacion general
+
+- **Nombre**: DAGO (Digital Analysis for Gestural Oscillations)
+- **Titulo completo**: Sistema de analisis digital de oscilaciones gestuales en pacientes con Parkinson mediante IA
+- **Autor**: Esp. Ing. Alex D. Barria C.
+- **Director**: PhD. Ing. Fernando Bernuy (Universidad Nacional de Chile)
+- **Programa**: Maestria en Inteligencia Artificial, FIUBA
+
+## Objetivo
+
+Desarrollar una herramienta basada en IA que permita realizar seguimiento cuantitativo y objetivo de movimientos involuntarios en pacientes con Parkinson, complementando evaluaciones clinicas tradicionales con metricas precisas obtenidas mediante procesamiento automatizado de video.
+
+## Modulos del sistema
+
+1. **Captura de video**: grabaciones de pacientes ejecutando ejercicios motrices clinicos.
+2. **Preprocesamiento**: limpieza, estabilizacion y preparacion de imagenes.
+3. **Estimacion de profundidad**: preparacion para analisis 3D.
+4. **Deteccion de pose corporal**: MediaPipe Pose para puntos clave del cuerpo.
+5. **Seguimiento temporal**: tracking de puntos clave entre frames.
+6. **Extraccion de metricas**: amplitud de oscilacion, frecuencia de temblores, regularidad, estabilidad postural.
+7. **Analisis estadistico**: agregacion de resultados.
+8. **Visualizacion e informes**: reportes automatizados para profesionales medicos.
+
+## Stack tecnologico
+
+- **Pipeline**: Python, MediaPipe, OpenCV
+- **API**: FastAPI
+- **Frontend**: React (TypeScript)
+- **Infraestructura**: Docker, despliegue local/cloud
+
+## Repositorio de codigo
+
+- **Ruta**: `/Users/alexbarria/Documents/Proyectos/Repositorios/dago`
+- **Estructura**:
+  - `src/pipeline/`: pose estimation, metrics, tracking, preprocessing, ingestion, analytics, CLI
+  - `api/`: FastAPI (routers: patients, sessions, insights, report; modelos, schemas, worker, LLM prompts)
+  - `frontend/`: React app (pages: Upload, Results, Patients, Compare, Export; components, utils)
+  - `tests/`: unit (charuco, static_phase, derived_angle, finger_tapping, batch_ingestion, audio_impulse) e integration (cli_smoke)
+
+## Documentacion de contexto
+
+- Planificacion completa: `docs/contexto-proyecto/planificacion-inicial.md`
+- Propuesta original: `docs/contexto-proyecto/idea-inicial.md`
+- Informe de innovacion: `docs/contexto-proyecto/informe-innovacion.md`
+- Lineamientos de escritura: `docs/lineamientos-memoria/lineamientos-memoria.md`
+- Estructura de capitulos: `docs/lineamientos-memoria/estructura-memoria.md`
