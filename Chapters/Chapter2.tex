@@ -1,184 +1,143 @@
+% Chapter 2
+
 \chapter{Introducción específica} % Main chapter title
 
 \label{Chapter2}
 
+En este capítulo se describen las herramientas, bibliotecas, modelos preentrenados y conjuntos de datos provistos por terceros que sostuvieron el desarrollo del sistema. También se detallan el origen y las características de los videos utilizados y la infraestructura de ejecución contemplada para los ensayos y para el despliegue del prototipo.
+
 %----------------------------------------------------------------------------------------
-%	SECTION 1
-%----------------------------------------------------------------------------------------
-Todos los capítulos deben comenzar con un breve párrafo introductorio que indique cuál es el contenido que se encontrará al leerlo.  La redacción sobre el contenido de la memoria debe hacerse en presente y todo lo referido al proyecto en pasado, siempre de modo impersonal.
 
-\section{Estilo y convenciones}
-\label{sec:ejemplo}
+\section{Frameworks y bibliotecas}
+\label{sec:frameworks}
 
-\subsection{Uso de mayúscula inicial para los título de secciones}
+El sistema se construyó sobre tecnologías de código abierto. El núcleo del trabajo es un flujo de procesamiento de video y señales escrito en \texttt{Python} 3.12, sobre el que se montan un servicio HTTP, una capa de persistencia y una interfaz web. Esta separación permitió que la misma lógica de procesamiento se pudiera invocar desde una línea de comandos, desde un servicio HTTP o desde un contenedor sin alterar el núcleo del cálculo.
 
-Si en el texto se hace alusión a diferentes partes del trabajo referirse a ellas como capítulo, sección o subsección según corresponda. Por ejemplo: ``En el capítulo \ref{Chapter1} se explica tal cosa'', o ``En la sección \ref{sec:ejemplo} se presenta lo que sea'', o ``En la subsección \ref{subsec:ejemplo} se discute otra cosa''.
+Para la lectura y manipulación de imagen se utilizó \texttt{OpenCV} \citep{bradski2000opencv}, que cubrió la apertura de los archivos de video, la conversión entre espacios de color y las operaciones de redimensionado y muestreo cuadro a cuadro. La extracción del canal de audio asociado a las grabaciones se realizó con \texttt{moviepy}, y el análisis posterior de ese canal, en particular para la detección de los pulsos del metrónomo que estructuran los ejercicios, se apoyó en \texttt{librosa} \citep{mcfee2015librosa}, una biblioteca especializada en el procesamiento de señales de audio musicales y rítmicas.
 
-Cuando se quiere poner una lista tabulada, se hace así:
+El cálculo de las métricas se sostuvo en el conjunto de bibliotecas científicas habituales del ecosistema \texttt{Python}, integrado por \texttt{NumPy}, \texttt{SciPy} y \texttt{pandas} \citep{virtanen2020scipy}. \texttt{NumPy} proveyó las operaciones vectoriales sobre las series temporales de los puntos detectados, \texttt{SciPy} aportó los estimadores espectrales y los algoritmos de detección de picos utilizados para el cálculo de frecuencia y de regularidad, y \texttt{pandas} se utilizó para organizar los datos por cuadro en estructuras tabulares que luego alimentan los pasos de agregación y exportación.
 
-\begin{itemize}
-	\item Este es el primer elemento de la lista.
-	\item Este es el segundo elemento de la lista.
-\end{itemize}
+La capa de servicios se desarrolló con \texttt{FastAPI} \citep{fastapi}, un \textit{framework} para servicios HTTP en \texttt{Python} con soporte nativo para validación de datos a través de \texttt{Pydantic}, generación automática de documentación interactiva y eventos de servidor (\textit{server-sent events}) que se utilizaron para informar el progreso de cada análisis en tiempo casi real. La persistencia de pacientes, sesiones y resultados quedó a cargo de \texttt{PostgreSQL} \citep{postgresql}, una base de datos relacional de uso amplio en aplicaciones de producción, accedida desde la aplicación mediante el \textit{object-relational mapper} \texttt{SQLAlchemy} y administrada mediante \texttt{Alembic} para el versionado del esquema.
 
-Notar el uso de las mayúsculas y el punto al final de cada elemento.
+La interfaz de usuario se construyó como una aplicación web de página única en \texttt{TypeScript}, con un conjunto estándar de bibliotecas para componentes visuales, ruteo y gráficos interactivos. El detalle de esa capa se desarrolla en el capítulo de diseño e implementación, donde resulta más pertinente describir la arquitectura del frontend.
 
-Si se desea poner una lista numerada el formato es este:
+En el plano de operación y empaquetado se adoptaron \texttt{Docker} \citep{merkel2014docker} y \texttt{Docker Compose} para orquestar la base de datos, el servicio HTTP y el sirviente de contenido estático en una topología única que se reproduce de igual manera en el entorno local y en el destino de despliegue. Las dependencias de \texttt{Python} se gestionaron con \texttt{uv}, mientras que la calidad del código se verificó mediante análisis estático y un conjunto de pruebas automatizadas con \texttt{pytest}.
 
-\begin{enumerate}
-	\item Este es el primer elemento de la lista.
-	\item Este es el segundo elemento de la lista.
-\end{enumerate}
+En la tabla \ref{tab:bibliotecas-cap2} se sintetizan las bibliotecas y herramientas más relevantes para el procesamiento de datos y para el funcionamiento del sistema, agrupadas por su rol y con la motivación principal de su elección.
 
-Notar el uso de las mayúsculas y el punto al final de cada elemento.
-
-\subsection{Este es el título de una subsección}
-\label{subsec:ejemplo}
-
-Se recomienda no utilizar \textbf{texto en negritas} en ningún párrafo, ni tampoco texto \underline{subrayado}. En cambio sí se debe utilizar \textit{texto en itálicas} para palabras en un idioma extranjero, al menos la primera vez que aparecen en el texto. En el caso de palabras que estamos inventando se deben utilizar ``comillas'', así como también para citas textuales. Por ejemplo, un \textit{digital filter} es una especie de ``selector'' que permite separar ciertos componentes armónicos en particular.
-
-La escritura debe ser impersonal. Por ejemplo, no utilizar ``el diseño del firmware lo hice de acuerdo con tal principio'', sino ``el firmware fue diseñado utilizando tal principio''. 
-
-El trabajo es algo que al momento de escribir la memoria se supone que ya está concluido, entonces todo lo que se refiera a hacer el trabajo se narra en tiempo pasado, porque es algo que ya ocurrió. Por ejemplo, "se diseñó el firmware empleando la técnica de test driven development".
-
-En cambio, la memoria es algo que está vivo cada vez que el lector la lee. Por eso transcurre siempre en tiempo presente, como por ejemplo:
-
-``En el presente capítulo se da una visión global sobre las distintas pruebas realizadas y los resultados obtenidos. Se explica el modo en que fueron llevados a cabo los test unitarios y las pruebas del sistema''.
-
-Se recomienda no utilizar una sección de glosario sino colocar la descripción de las abreviaturas como parte del mismo cuerpo del texto. Por ejemplo, RTOS (\textit{Real Time Operating System}, Sistema Operativo de Tiempo Real) o en caso de considerarlo apropiado mediante notas a pie de página.
-
-Si se desea indicar alguna página web utilizar el siguiente formato de referencias bibliográficas, dónde las referencias se detallan en la sección de bibliografía de la memoria, utilizado el formato establecido por IEEE en \citep{IEEE:citation}. Por ejemplo, ``el presente trabajo se basa en la plataforma EDU-CIAA-NXP \citep{CIAA}, la cual...''.
-
-\subsection{Figuras} 
-
-Al insertar figuras en la memoria se deben considerar determinadas pautas. Para empezar, usar siempre tipografía claramente legible. Luego, tener claro que \textbf{es incorrecto} escribir por ejemplo esto: ``El diseño elegido es un cuadrado, como se ve en la siguiente figura:''
-
-\begin{figure}[h]
+\vspace{0.6em}
+\begin{center}
+\begin{minipage}{\textwidth}
 \centering
-\includegraphics[scale=.45]{./Figures/cuadradoAzul.png}
-\end{figure}
+\captionof{table}{Bibliotecas y herramientas de terceros utilizadas en el desarrollo del sistema, agrupadas por capa funcional.}
+\label{tab:bibliotecas-cap2}
+\begin{tabular}{p{3.2cm}p{4.2cm}p{6.2cm}}
+\toprule
+\tabhead{Capa} & \tabhead{Herramientas} & \tabhead{Motivo de elección} \\
+\midrule
+Visión y video & MediaPipe, OpenCV & Modelos preentrenados de pose listos para uso y manipulación robusta de archivos de video. \\
+Audio & librosa, moviepy & Extracción del canal de audio y detección de pulsos rítmicos para los ejercicios con metrónomo. \\
+Numérica y métricas & NumPy, SciPy, pandas & Operaciones vectoriales, estimadores espectrales y manipulación tabular ampliamente probadas. \\
+Servicios HTTP & FastAPI, Pydantic & Validación de datos integrada y soporte nativo para flujos de progreso por SSE. \\
+Persistencia & PostgreSQL, SQLAlchemy, Alembic & Base relacional madura, ORM y versionado declarativo del esquema. \\
+Modelo de lenguaje & OpenAI Python SDK & Acceso a un modelo de lenguaje generativo para resúmenes interpretativos de las sesiones. \\
+Operación & Docker, Docker Compose, uv & Despliegue equivalente en local y nube y dependencias reproducibles. \\
+\bottomrule
+\end{tabular}
+\end{minipage}
+\end{center}
+\vspace{0.4em}
 
-La forma correcta de utilizar una figura es con referencias cruzadas, por ejemplo: ``Se eligió utilizar un cuadrado azul para el logo, como puede observarse en la figura \ref{fig:cuadradoAzul}''.
+La elección de tecnologías favoreció componentes de uso difundido y bien documentados, lo que se alineó con los supuestos del proyecto sobre disponibilidad de bibliotecas de código abierto y contribuyó a mitigar el riesgo identificado en la planificación inicial respecto a posibles incompatibilidades en la integración de modelos de visión por computadora.
 
-\begin{figure}[ht]
-	\centering
-	\includegraphics[scale=.45]{./Figures/cuadradoAzul.png}
-	\caption{Ilustración del cuadrado azul que se eligió para el diseño del logo.}
-	\label{fig:cuadradoAzul}
-\end{figure}
+\section{Datasets y datos}
+\label{sec:datasets}
 
-El texto de las figuras debe estar siempre en español, excepto que se decida reproducir una figura original tomada de alguna referencia. En ese caso la referencia de la cual se tomó la figura debe ser indicada en el epígrafe de la figura e incluida como una nota al pie, como se ilustra en la figura \ref{fig:palabraIngles}.
+El trabajo no contempló el entrenamiento de modelos desde cero, por lo que las necesidades de datos se concentraron en disponer de una cantidad de video suficiente para verificar la integración del flujo de procesamiento, evaluar la coherencia de las métricas en escenarios reproducibles y exponer la herramienta a movimientos representativos de los ejercicios contemplados.
 
-\begin{figure}[htpb]
-	\centering
-	\includegraphics[scale=.3]{./Figures/word.jpeg}
-	\caption{Imagen tomada de la página oficial del procesador\protect\footnotemark.}
-	\label{fig:palabraIngles}
-\end{figure}
+No se incorporaron conjuntos de datos públicos. La conformación de un conjunto de grabaciones de pacientes con enfermedad de Parkinson exige un marco de consentimiento informado, anonimización y resguardo bajo regulaciones de protección de datos de salud, condiciones que se inscriben en una etapa posterior a la de un prototipo de investigación. Esa restricción se reflejó desde la planificación inicial, que excluyó explícitamente del alcance la validación clínica formal y la integración con sistemas hospitalarios y dejó la evaluación funcional con especialistas como actividad opcional. En el desarrollo se realizó además un análisis preliminar de los principales puntos de mejora y de criticidad para que el sistema pueda alinearse con normativas vigentes de protección de datos sanitarios, como la \textit{Health Insurance Portability and Accountability Act} (HIPAA) en su jurisdicción de origen. El resultado de ese análisis y las propuestas asociadas se desarrollan en los capítulos posteriores como trabajo futuro y propuestas de mejora.
 
-\footnotetext{Imagen tomada de \url{https://goo.gl/images/i7C70w}}
+Para sostener el avance del desarrollo dentro del alcance descripto, se trabajó con dos fuentes complementarias de video: grabaciones propias de personas sanas que reprodujeron los ejercicios estandarizados y un conjunto reducido de grabaciones de pacientes obtenidas en condiciones controladas y bajo acuerdo de uso interno, que se mantuvieron por fuera del repositorio de código.
 
-La figura y el epígrafe deben conformar una unidad cuyo significado principal pueda ser comprendido por el lector sin necesidad de leer el cuerpo central de la memoria. Para eso es necesario que el epígrafe sea todo lo detallado que corresponda y si en la figura se utilizan abreviaturas entonces aclarar su significado en el epígrafe o en la misma figura.
+Esta estrategia resultó adecuada para los objetivos del trabajo porque el sistema se apoya en modelos preentrenados de estimación de pose, cuya capacidad de detectar puntos anatómicos no depende del diagnóstico de la persona registrada. Las grabaciones de personas sanas resultaron suficientes para verificar la robustez del seguimiento de \textit{keypoints} bajo distintos encuadres y condiciones de iluminación, mientras que las grabaciones de pacientes permitieron observar el comportamiento del sistema en presencia de los patrones motores característicos. La ampliación posterior del conjunto con material clínico anotado se identificó como una línea natural de continuidad y se desarrolla en el capítulo de conclusiones.
 
+Las grabaciones se obtuvieron con la cámara posterior de un teléfono \textit{iPhone} 15 Pro a 30 cuadros por segundo, en disposición fija sobre una superficie plana y con la región de interés (mano dominante o tronco superior, según el ejercicio) centrada en el cuadro. Durante los primeros segundos de cada grabación se ubicó en el campo visual un tablero de calibración \textit{ChArUco} \citep{garrido2014charuco}, que el sistema utiliza para estimar la conversión píxeles–milímetros sin requerir intervención manual del operador. En la tabla \ref{tab:videos-cap2} se resumen las características del conjunto de grabaciones utilizado, según la fuente de los videos y el ejercicio principal asociado a cada grupo.
 
+\vspace{0.6em}
+\begin{center}
+\begin{minipage}{\textwidth}
+\centering
+\captionof{table}{Caracterización resumida del conjunto de grabaciones de video utilizado en el desarrollo y la verificación del sistema.}
+\label{tab:videos-cap2}
+\begin{tabular}{p{3.6cm}p{3.8cm}p{6.0cm}}
+\toprule
+\tabhead{Fuente} & \tabhead{Ejercicios cubiertos} & \tabhead{Notas de captura} \\
+\midrule
+Grabaciones propias de personas sanas & \textit{Finger tapping}, temblor de mano, oscilación de brazos & Cámara fija, iluminación ambiente, tablero de calibración al inicio. \\
+Grabaciones reducidas de pacientes & \textit{Finger tapping}, dedo a nariz & Obtenidas bajo acuerdo de uso interno, almacenadas por fuera del repositorio. \\
+Material de muestra anonimizado & \textit{Finger tapping}, ejercicios de demostración & Incluido en el repositorio para pruebas de integración continua y para la incorporación de nuevos colaboradores. \\
+\bottomrule
+\end{tabular}
+\end{minipage}
+\end{center}
+\vspace{0.4em}
 
-\begin{figure}[ht]
-	\centering
-	\includegraphics[scale=.37]{./Figures/questionMark.png}
-	\caption{¿Por qué de pronto aparece esta figura?}
-	\label{fig:questionMark}
-\end{figure}
+El conjunto se administró bajo una clasificación de tres niveles definida en el repositorio del sistema: material de muestra anonimizado, grabaciones reales de pacientes y artefactos de salida del análisis, con políticas explícitas de almacenamiento y de exclusión del control de versiones para los dos últimos. Esa política se documentó internamente para evitar la difusión accidental de datos sensibles y se alinea con los requerimientos éticos enunciados en la planificación inicial.
 
-Nunca colocar una figura en el documento antes de hacer la primera referencia a ella, como se ilustra con la figura \ref{fig:questionMark}, porque sino el lector no comprenderá por qué de pronto aparece la figura en el documento, lo que distraerá su atención.
+\section{Modelos preentrenados}
+\label{sec:modelos-preentrenados}
 
-Otra posibilidad es utilizar el entorno \textit{subfigure} para incluir más de una figura, como se puede ver en la figura \ref{fig:three graphs}. Notar que se pueden referenciar también las figuras internas individualmente de esta manera: \ref{fig:1de3}, \ref{fig:2de3} y \ref{fig:3de3}.
- 
-\begin{figure}[!htpb]
-     \centering
-     \begin{subfigure}[b]{0.3\textwidth}
-         \centering
-         \includegraphics[width=.65\textwidth]{./Figures/questionMark}
-         \caption{Un caption.}
-         \label{fig:1de3}
-     \end{subfigure}
-     \hfill
-     \begin{subfigure}[b]{0.3\textwidth}
-         \centering
-         \includegraphics[width=.65\textwidth]{./Figures/questionMark}
-         \caption{Otro.}
-         \label{fig:2de3}
-     \end{subfigure}
-     \hfill
-     \begin{subfigure}[b]{0.3\textwidth}
-         \centering
-         \includegraphics[width=.65\textwidth]{./Figures/questionMark}
-         \caption{Y otro más.}
-         \label{fig:3de3}
-     \end{subfigure}
-        \caption{Tres gráficos simples.}
-        \label{fig:three graphs}
-\end{figure}
+Una de las decisiones de alcance establecidas al inicio del trabajo fue no entrenar redes neuronales desde cero, sino apoyarse en modelos preentrenados de uso difundido. Esa decisión se fundamentó en el equilibrio entre el costo de obtener un conjunto etiquetado de gran tamaño y la disponibilidad de soluciones maduras para la estimación de pose de mano y de cuerpo completo, ya validadas en aplicaciones de salud, deporte y realidad aumentada.
 
-El código para generar las imágenes se encuentra disponible para su reutilización en el archivo \file{Chapter2.tex}.
+Para la estimación de pose se utilizaron dos modelos del marco \texttt{MediaPipe} \citep{lugaresi2019mediapipe}, distribuidos a través de la API de tareas (\textit{Tasks API}) en su versión 0.10. El modelo \texttt{HandLandmarker} \citep{zhang2020mediapipehands} entrega 21 puntos por mano detectada, organizados en falanges y articulaciones, y se utilizó en todos los ejercicios centrados en la mano. El modelo \texttt{PoseLandmarker} en su variante \textit{lite} \citep{bazarevsky2020blazepose} entrega 33 puntos del cuerpo y se reservó para los ejercicios que requerían el contexto del torso y los brazos. Ambos modelos se descargaron desde el repositorio público de \texttt{MediaPipe} en formato \textit{float16} y se almacenaron localmente en una caché versionada de modelos.
 
-\subsection{Tablas}
+En la figura \ref{fig:mediapipe-hand-cap2} se muestra un ejemplo de los 21 puntos de referencia entregados por el modelo \texttt{HandLandmarker}, ubicados sobre la imagen de una mano en la postura típica del ejercicio de \textit{finger tapping}.
 
-Para las tablas utilizar el mismo formato que para las figuras, sólo que el epígrafe se debe colocar arriba de la tabla, como se ilustra en la tabla \ref{tab:peces}. Observar que sólo algunas filas van con líneas visibles y notar el uso de las negritas para los encabezados.  La referencia se logra utilizando el comando \verb|\ref{<label>}| donde label debe estar definida dentro del entorno de la tabla.
+\vspace{0.6em}
+\begin{center}
+\includegraphics[width=0.7\textwidth]{Figures/cap_2/placeholder_mediapipe_hand.png}
+\captionof{figure}{Ejemplo ilustrativo de los puntos de referencia entregados por el modelo \texttt{HandLandmarker} de \texttt{MediaPipe} sobre la imagen de una mano. Imagen pendiente de reemplazo por una visualización propia generada con el sistema.}
+\label{fig:mediapipe-hand-cap2}
+\end{center}
+\vspace{0.4em}
 
-\begin{verbatim}
-\begin{table}[h]
-	\centering
-	\caption[caption corto]{caption largo más descriptivo}
-	\begin{tabular}{l c c}    
-		\toprule
-		\textbf{Especie}     & \textbf{Tamaño} & \textbf{Valor}\\
-		\midrule
-		Amphiprion Ocellaris & 10 cm           & \$ 6.000 \\		
-		Hepatus Blue Tang    & 15 cm           & \$ 7.000 \\
-		Zebrasoma Xanthurus  & 12 cm           & \$ 6.800 \\
-		\bottomrule
-		\hline
-	\end{tabular}
-	\label{tab:peces}
-\end{table}
-\end{verbatim}
+En la imagen se observa la disposición regular de los puntos a lo largo de las falanges y las articulaciones, que permite reconstruir la geometría de la mano cuadro a cuadro y, a partir de ella, derivar las distancias y los ángulos sobre los que se calculan las métricas del sistema.
 
+Para la generación automática de resúmenes interpretativos sobre los resultados de cada sesión y sobre la evolución longitudinal de un paciente se incorporó un modelo de lenguaje de gran tamaño (\textit{large language model}, LLM), accedido a través de la API de OpenAI \citep{openai_api}. El modelo elegido fue \texttt{GPT-5.4-mini}, una variante orientada a tareas conversacionales con costo y latencia acotados. El componente del sistema responsable de esta funcionalidad envía únicamente las métricas cuantitativas y los metadatos no identificatorios de la sesión, junto con un conjunto acotado de instrucciones en formato \textit{prompt} estructurado, y recibe un texto en lenguaje natural que el profesional de salud puede inspeccionar como apoyo a la lectura del reporte. El modelo nunca recibe identificadores del paciente, en línea con la política de manejo de datos del proyecto.
 
-\begin{table}[h]
-	\centering
-	\caption[caption corto]{caption largo más descriptivo.}
-	\begin{tabular}{l c c}    
-		\toprule
-		\textbf{Especie} 	 & \textbf{Tamaño} 		& \textbf{Valor}  \\
-		\midrule
-		Amphiprion Ocellaris & 10 cm 				& \$ 6.000 \\		
-		Hepatus Blue Tang	 & 15 cm				& \$ 7.000 \\
-		Zebrasoma Xanthurus	 & 12 cm				& \$ 6.800 \\
-		\bottomrule
-		\hline
-	\end{tabular}
-	\label{tab:peces}
-\end{table}
+En la tabla \ref{tab:modelos-cap2} se sintetizan los modelos preentrenados utilizados, indicando su origen, la tarea sobre la que operan y las características relevantes para el sistema.
 
-En cada capítulo se debe reiniciar el número de conteo de las figuras y las tablas, por ejemplo, figura 2.1 o tabla 2.1, pero no se debe reiniciar el conteo en cada sección. Por suerte la plantilla se encarga de esto por nosotros.
+\vspace{0.6em}
+\begin{center}
+\begin{minipage}{\textwidth}
+\centering
+\captionof{table}{Modelos preentrenados de terceros incorporados al sistema.}
+\label{tab:modelos-cap2}
+\begin{tabular}{p{3cm}p{3cm}p{3.6cm}p{3.6cm}}
+\toprule
+\tabhead{Modelo} & \tabhead{Tarea} & \tabhead{Origen y datos de preentrenamiento} & \tabhead{Uso en el sistema} \\
+\midrule
+HandLandmarker (MediaPipe 0.10) & Detección de 21 puntos por mano & Imágenes anotadas de manos en distintas poses, entornos y condiciones de iluminación \citep{zhang2020mediapipehands} & Ejercicios de \textit{finger tapping} y temblor de mano \\
+PoseLandmarker Lite (MediaPipe 0.10) & Detección de 33 puntos corporales & Imágenes y video con anotaciones de pose corporal completa \citep{bazarevsky2020blazepose} & Ejercicios con contexto de tronco y brazos \\
+GPT-5.4-mini (OpenAI) & Modelo de lenguaje generativo & Conjunto general empleado por OpenAI para sus modelos de propósito general \citep{openai_api} & Resúmenes interpretativos por sesión y por evolución a partir de las métricas calculadas \\
+\bottomrule
+\end{tabular}
+\end{minipage}
+\end{center}
+\vspace{0.4em}
 
-\subsection{Ecuaciones}
-\label{sec:Ecuaciones}
+La integración de los modelos respetó los supuestos del proyecto sobre acceso a soluciones de código abierto y la decisión explícita de no entrenar desde cero. De ese modo se concentró el esfuerzo en el flujo de procesamiento, en la derivación de métricas y en la presentación clínica de los resultados, en lugar de en la construcción de un \textit{dataset} de entrenamiento y de un protocolo de ajuste de redes neuronales. Otro aporte significativo del trabajo fue la operación e integración de los servicios necesarios para conformar una solución completa, que articula la infraestructura de ejecución, la interfaz de usuario, el servicio de aplicación y la persistencia en una arquitectura coherente y reproducible, descripta en el capítulo de diseño e implementación.
 
-Al insertar ecuaciones en la memoria dentro de un entorno \textit{equation}, éstas se numeran en forma automática  y se pueden referir al igual que como se hace con las figuras y tablas, por ejemplo ver la ecuación \ref{eq:metric}.
+\section{Infraestructura}
+\label{sec:infraestructura}
 
-\begin{equation}
-	\label{eq:metric}
-	ds^2 = c^2 dt^2 \left( \frac{d\sigma^2}{1-k\sigma^2} + \sigma^2\left[ d\theta^2 + \sin^2\theta d\phi^2 \right] \right)
-\end{equation}
-                                                        
-Para generar la ecuación \ref{eq:metric} se utilizó el siguiente código:
+% NOTA: sección iniciada en una primera iteración. El detalle del despliegue
+% en GCP, la decisión sobre uso de GPU o solo CPU para la inferencia y la
+% caracterización del equipo local de desarrollo se completarán en una
+% iteración posterior.
 
-\begin{verbatim}
-\begin{equation}
-	\label{eq:metric}
-	ds^2 = c^2 dt^2 \left( \frac{d\sigma^2}{1-k\sigma^2} + 
-	\sigma^2\left[ d\theta^2 + 
-	\sin^2\theta d\phi^2 \right] \right)
-\end{equation}
-\end{verbatim}
+\textit{[Sección en elaboración. Se completará en una segunda iteración.]}
+
+El sistema se diseñó para ejecutarse de manera equivalente en una máquina de desarrollo local y en un entorno desplegado en la nube, condición incluida explícitamente como requerimiento de interoperabilidad en la planificación inicial. Para sostener esa equivalencia, todas las dependencias se empaquetaron en imágenes de contenedor reproducibles mediante \texttt{Docker} y se orquestaron a través de \texttt{Docker Compose}, que coordina el servicio de base de datos, el servicio HTTP y el sirviente de contenido estático en una topología única. La configuración sensible al entorno se externalizó en variables de entorno con prefijo \texttt{DAGO\_}, lo que evitó la dependencia de rutas o credenciales fijadas en el código fuente.
+
+Como destino de despliegue para el prototipo se contempló \textit{Google Cloud Platform} (GCP), seleccionado por su disponibilidad de servicios gestionados de cómputo y de almacenamiento compatibles con la topología de contenedores adoptada. La descripción precisa del servicio empleado, el dimensionamiento de las instancias y el manejo del almacenamiento de los videos cargados se desarrollarán en la segunda iteración de este capítulo, junto con la caracterización del equipo de desarrollo local sobre el que se realizó la implementación y la justificación de la inferencia exclusivamente en CPU para los modelos de pose.

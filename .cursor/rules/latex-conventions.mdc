@@ -21,7 +21,7 @@ alwaysApply: false
 
 - No usar negritas dentro de parrafos.
 - No usar texto subrayado dentro de parrafos.
-- Italicas solo para siglas extranjeras o terminos en otro idioma (ej: `\textit{RTOS}, del ingles Real Time Operating System`).
+- Italicas solo para siglas extranjeras (ej: `\textit{RTOS}, del ingles Real Time Operating System`).
 - Letra monoespaciada (`\texttt{}`) para funciones, bibliotecas, archivos, directorios y variables.
 - Consistencia en terminos tecnicos: no alternar entre ingles y español para un mismo concepto.
 
