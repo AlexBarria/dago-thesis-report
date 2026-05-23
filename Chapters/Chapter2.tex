@@ -11,7 +11,7 @@ En este capítulo se describen las herramientas, bibliotecas, modelos preentrena
 \section{Frameworks y bibliotecas}
 \label{sec:frameworks}
 
-El sistema se construyó sobre tecnologías de código abierto. El núcleo del trabajo es un flujo de procesamiento de video y señales escrito en \texttt{Python} 3.12, sobre el que se montan un servicio HTTP, una capa de persistencia y una interfaz web. Esta separación permitió que la misma lógica de procesamiento se pudiera invocar desde una línea de comandos, desde un servicio HTTP o desde un contenedor sin alterar el núcleo del cálculo.
+El sistema se construyó sobre tecnologías de código abierto. El núcleo del trabajo es un flujo de procesamiento de video y señales escrito en \texttt{Python} 3.12, sobre el que se montan un servicio HTTP, una capa de persistencia y una interfaz web. Esta separación permitió que la misma lógica de procesamiento se pudiera invocar desde una línea de comandos, un servicio HTTP o un contenedor sin alterar el núcleo del cálculo.
 
 Para la lectura y manipulación de imagen se utilizó \texttt{OpenCV} \citep{bradski2000opencv}, que cubrió la apertura de los archivos de video, la conversión entre espacios de color y las operaciones de redimensionado y muestreo cuadro a cuadro. La extracción del canal de audio asociado a las grabaciones se realizó con \texttt{moviepy}, y el análisis posterior de ese canal, en particular para la detección de los pulsos del metrónomo que estructuran los ejercicios, se apoyó en \texttt{librosa} \citep{mcfee2015librosa}, una biblioteca especializada en el procesamiento de señales de audio musicales y rítmicas.
 
@@ -19,7 +19,7 @@ El cálculo de las métricas se sostuvo en el conjunto de bibliotecas científic
 
 La capa de servicios se desarrolló con \texttt{FastAPI} \citep{fastapi}, un framework para servicios HTTP en \texttt{Python} con soporte nativo para validación de datos a través de \texttt{Pydantic}, generación automática de documentación interactiva y eventos enviados desde el servidor (server-sent events) que se utilizaron para informar el progreso de cada análisis en tiempo casi real. La persistencia de pacientes, sesiones y resultados quedó a cargo de \texttt{PostgreSQL} \citep{postgresql}, una base de datos relacional de uso amplio en aplicaciones de producción, accedida desde la aplicación mediante el object-relational mapper \texttt{SQLAlchemy} y administrada mediante \texttt{Alembic} para el versionado del esquema.
 
-La interfaz de usuario se construyó como una aplicación web de página única en \texttt{TypeScript}, con un conjunto estándar de bibliotecas para componentes visuales, ruteo y gráficos interactivos. El detalle de esa capa se desarrolla en el capítulo de diseño e implementación, donde resulta más pertinente describir la arquitectura del frontend.
+La interfaz de usuario se construyó como una aplicación web de página única en \texttt{TypeScript}, con un conjunto estándar de bibliotecas para componentes visuales, ruteo y gráficos interactivos. El detalle de esa capa se desarrolla en el capítulo de diseño e implementación.
 
 En el plano de operación y empaquetado se adoptaron \texttt{Docker} \citep{merkel2014docker} y \texttt{Docker Compose} para orquestar la base de datos, el servicio HTTP y un servidor web de archivos estáticos en una topología única reproducible en el entorno local y en el destino de despliegue. Las dependencias de \texttt{Python} se gestionaron con \texttt{uv}, mientras que la calidad del código se verificó mediante análisis estático y un conjunto de pruebas automatizadas con \texttt{pytest}.
 
@@ -36,31 +36,33 @@ En la tabla \ref{tab:bibliotecas-cap2} se listan las bibliotecas y herramientas 
 \toprule
 \tabhead{Capa} & \tabhead{Herramientas} & \tabhead{Motivo de elección} \\
 \midrule
-Visión y video. & MediaPipe, OpenCV. & Modelos preentrenados de pose listos para uso y manipulación robusta de archivos de video. \\
-Audio. & librosa, moviepy. & Extracción del canal de audio y detección de pulsos rítmicos para los ejercicios con metrónomo. \\
-Numérica y métricas. & NumPy, SciPy, pandas. & Operaciones vectoriales, estimadores espectrales y manipulación tabular ampliamente probadas. \\
-Servicios HTTP. & FastAPI, Pydantic. & Validación de datos integrada y soporte nativo para flujos de progreso por SSE. \\
-Persistencia. & PostgreSQL, SQLAlchemy, Alembic. & Base relacional madura, ORM y versionado declarativo del esquema. \\
-Modelo de lenguaje. & OpenAI Python SDK. & Acceso a un modelo de lenguaje generativo para resúmenes interpretativos de las sesiones. \\
-Operación. & Docker, Docker Compose, uv. & Despliegue equivalente en local y nube y dependencias reproducibles. \\
+Visión y video & MediaPipe, OpenCV & Modelos preentrenados de pose listos para uso y manipulación robusta de archivos de video. \\
+Audio & librosa, moviepy & Extracción del canal de audio y detección de pulsos rítmicos para los ejercicios con metrónomo. \\
+Numérica y métricas & NumPy, SciPy, pandas & Operaciones vectoriales, estimadores espectrales y manipulación tabular ampliamente probadas. \\
+Servicios HTTP & FastAPI, Pydantic & Validación de datos integrada y soporte nativo para flujos de progreso por SSE. \\
+Persistencia & PostgreSQL, SQLAlchemy, Alembic. & Base relacional madura, ORM y versionado declarativo del esquema. \\
+Modelo de lenguaje & OpenAI Python SDK & Acceso a un modelo de lenguaje generativo para resúmenes interpretativos de las sesiones. \\
+Operación & Docker, Docker Compose, uv & Despliegue equivalente en local y nube y dependencias reproducibles. \\
 \bottomrule
 \end{tabular}}
 \end{minipage}
 \end{center}
 \vspace{0.4em}
 
-La elección de tecnologías favoreció componentes de uso difundido y bien documentados, lo que se alineó con los supuestos del proyecto sobre disponibilidad de bibliotecas de código abierto y contribuyó a mitigar el riesgo identificado en la planificación inicial respecto a posibles incompatibilidades en la integración de modelos de visión por computadora.
+La elección de tecnologías favoreció componentes de uso difundido y bien documentados, lo que se alineó con los supuestos del trabajo sobre disponibilidad de bibliotecas de código abierto y contribuyó a mitigar el riesgo identificado en la planificación inicial respecto de posibles incompatibilidades en la integración de modelos de visión por computadora.
 
 \section{Datasets y datos}
 \label{sec:datasets}
 
 El trabajo no contempló el entrenamiento de modelos desde cero, por lo que las necesidades de datos se concentraron en disponer de una cantidad de video suficiente para verificar la integración del flujo de procesamiento, evaluar la coherencia de las métricas en escenarios reproducibles y exponer la herramienta a movimientos representativos de los ejercicios contemplados.
 
-No se incorporaron conjuntos de datos públicos. La conformación de un conjunto de grabaciones de pacientes con enfermedad de Parkinson exige un marco de consentimiento informado, anonimización y resguardo bajo regulaciones de protección de datos de salud, condiciones que se inscriben en una etapa posterior a la de un prototipo de investigación. Esa restricción se reflejó desde la planificación inicial, que excluyó explícitamente del alcance la validación clínica formal y la integración con sistemas hospitalarios y dejó la evaluación funcional con especialistas como actividad opcional. En el desarrollo se realizó además un análisis preliminar de los principales puntos de mejora y de criticidad para que el sistema pueda alinearse con normativas vigentes de protección de datos sanitarios, como la \textit{Health Insurance Portability and Accountability Act} (HIPAA) en su jurisdicción de origen. El resultado de ese análisis y las propuestas asociadas se desarrollan en los capítulos posteriores como trabajo futuro y propuestas de mejora.
+No se incorporaron conjuntos de datos públicos. La conformación de un conjunto de grabaciones de pacientes con enfermedad de Parkinson exige un marco de consentimiento informado, anonimización y resguardo bajo regulaciones de protección de datos de salud, condiciones que se inscriben en una etapa posterior a la de un prototipo de investigación. Esa restricción se reflejó desde la planificación inicial, que excluyó explícitamente del alcance la validación clínica formal y la integración con sistemas hospitalarios y dejó la evaluación funcional con especialistas como actividad opcional.
 
-Para sostener el avance del desarrollo dentro del alcance descripto, se trabajó con dos fuentes complementarias de video: grabaciones propias de personas sanas que reprodujeron los ejercicios estandarizados y un conjunto reducido de grabaciones de pacientes obtenidas en condiciones controladas y bajo acuerdo de uso interno, que se mantuvieron por fuera del repositorio de código.
+En el desarrollo se realizó además un análisis preliminar de los principales puntos de mejora y de criticidad para que el sistema pueda alinearse con normativas vigentes de protección de datos sanitarios, como la \textit{Health Insurance Portability and Accountability Act} (HIPAA) en su jurisdicción de origen. El resultado de ese análisis se desarrolla en los capítulos posteriores como trabajo futuro y propuestas de mejora.
 
-Esta estrategia resultó adecuada para los objetivos del trabajo porque el sistema se apoya en modelos preentrenados de estimación de pose, cuya capacidad de detectar puntos anatómicos no depende del diagnóstico de la persona registrada. Las grabaciones de personas sanas resultaron suficientes para verificar la robustez del seguimiento de keypoints bajo distintos encuadres y condiciones de iluminación, mientras que las grabaciones de pacientes permitieron observar el comportamiento del sistema en presencia de los patrones motores característicos. La ampliación posterior del conjunto con material clínico anotado se identificó como una línea natural de continuidad y se desarrolla en el capítulo de conclusiones.
+Para sostener el avance del desarrollo dentro del alcance descripto, se trabajó con dos fuentes complementarias de video: grabaciones propias de personas sin patologías motoras que reprodujeron los ejercicios estandarizados y un conjunto reducido de grabaciones de pacientes obtenidas en condiciones controladas y bajo acuerdo de uso interno, que se mantuvieron por fuera del repositorio de código.
+
+Esta estrategia resultó adecuada para los objetivos del trabajo porque el sistema se apoya en modelos preentrenados de estimación de pose, cuya capacidad de detectar puntos anatómicos no depende del diagnóstico de la persona registrada. Las grabaciones de personas sin patologías motoras resultaron suficientes para verificar la robustez del seguimiento de keypoints bajo distintos encuadres y condiciones de iluminación, mientras que las grabaciones de pacientes permitieron observar el comportamiento del sistema en presencia de los patrones motores característicos. La ampliación posterior del conjunto con material clínico anotado se identificó como una línea natural de continuidad y se desarrolla en el capítulo de conclusiones.
 
 Las grabaciones se obtuvieron con la cámara posterior de un teléfono iPhone 15 Pro a 30 cuadros por segundo, en disposición fija sobre una superficie plana y con la región de interés (mano dominante o tronco superior, según el ejercicio) centrada en el cuadro. Durante los primeros segundos de cada grabación se ubicó en el campo visual un tablero de calibración ChArUco \citep{garrido2014charuco}, que el sistema utiliza para estimar la conversión píxeles–milímetros sin requerir intervención manual del operador. En todas las fuentes del conjunto se registraron los mismos ejercicios: finger tapping, temblor de mano y oscilación de brazos. En la tabla \ref{tab:videos-cap2} se resumen las características de cada fuente de video y las condiciones de captura asociadas.
 
@@ -75,7 +77,7 @@ Las grabaciones se obtuvieron con la cámara posterior de un teléfono iPhone 15
 \toprule
 \tabhead{Fuente} & \tabhead{Notas de captura} \\
 \midrule
-Grabaciones propias de personas sanas. & Cámara fija, iluminación ambiente, tablero de calibración al inicio. \\
+Grabaciones propias de personas sin patologías motoras. & Cámara fija, iluminación ambiente, tablero de calibración al inicio. \\
 Grabaciones reducidas de pacientes. & Obtenidas bajo acuerdo de uso interno, almacenadas por fuera del repositorio. \\
 Material de muestra anonimizado. & Incluido en el repositorio para pruebas de integración continua y para la incorporación de nuevos colaboradores. \\
 \bottomrule
@@ -98,7 +100,7 @@ En la figura \ref{fig:mediapipe-hand-cap2} se muestra un ejemplo de los 21 punto
 \vspace{0.6em}
 \begin{center}
 \includegraphics[width=0.9\textwidth]{Figures/cap_2/mediapipe_hand.png}
-\captionof{figure}{Ejemplo ilustrativo de los puntos de referencia entregados por el modelo \texttt{HandLandmarker} de \texttt{MediaPipe} sobre la imagen de una mano.}
+\captionof{figure}{Ejemplo ilustrativo de los puntos de referencia entregados por el modelo \texttt{HandLandmarker} de \texttt{MediaPipe}.}
 \label{fig:mediapipe-hand-cap2}
 \end{center}
 \vspace{0.4em}
@@ -107,7 +109,7 @@ En la imagen se observa la disposición regular de los puntos a lo largo de las 
 
 Para la generación automática de resúmenes interpretativos sobre los resultados de cada sesión y sobre la evolución longitudinal de un paciente se incorporó un modelo de lenguaje de gran tamaño (\textit{large language model}, LLM), accedido a través de la API de OpenAI \citep{openai_api}.
 
-El modelo elegido fue \texttt{GPT-5.4-mini}, una variante orientada a tareas conversacionales con costo y latencia acotados. El componente del sistema responsable de esta funcionalidad envía únicamente las métricas cuantitativas y los metadatos no identificatorios de la sesión, junto con instrucciones en formato de prompt estructurado. Luego, el sistema recibe un texto en lenguaje natural que el profesional de salud puede inspeccionar como apoyo a la lectura del reporte. El modelo nunca recibe identificadores del paciente, en línea con la política de manejo de datos del proyecto.
+El modelo elegido fue \texttt{GPT-5.4-mini}, una variante orientada a tareas conversacionales con costo y latencia acotados. El componente del sistema responsable de esta funcionalidad envía únicamente las métricas cuantitativas y los metadatos no identificatorios de la sesión, junto con instrucciones en formato de prompt estructurado. Luego, el sistema recibe un texto en lenguaje natural que el profesional de salud puede inspeccionar como apoyo a la lectura del reporte. El modelo nunca recibe identificadores del paciente, en línea con la política de manejo de datos del trabajo.
 
 En la tabla \ref{tab:modelos-cap2} se listan los modelos preentrenados utilizados, indicando su origen, la tarea sobre la que operan y las características relevantes para el sistema.
 
@@ -122,9 +124,9 @@ En la tabla \ref{tab:modelos-cap2} se listan los modelos preentrenados utilizado
 \toprule
 \tabhead{Modelo} & \tabhead{Tarea} & \tabhead{Origen y datos de preentrenamiento} & \tabhead{Uso en el sistema} \\
 \midrule
-HandLandmarker (MediaPipe 0.10). & Detección de 21 puntos por mano. & Imágenes anotadas de manos en distintas poses, entornos y condiciones de iluminación \citep{zhang2020mediapipehands}. & Ejercicios de finger tapping y temblor de mano. \\
-PoseLandmarker Lite (MediaPipe 0.10). & Detección de 33 puntos corporales. & Imágenes y video con anotaciones de pose corporal completa \citep{bazarevsky2020blazepose}. & Ejercicios con contexto de tronco y brazos. \\
-GPT-5.4-mini (OpenAI). & Modelo de lenguaje generativo. & Conjunto general empleado por OpenAI para sus modelos de propósito general \citep{openai_api}. & Resúmenes interpretativos por sesión y por evolución a partir de las métricas calculadas. \\
+HandLandmarker (MediaPipe 0.10) & Detección de 21 puntos por mano. & Imágenes anotadas de manos en distintas poses, entornos y condiciones de iluminación \citep{zhang2020mediapipehands}. & Ejercicios de finger tapping y temblor de mano. \\
+PoseLandmarker Lite (MediaPipe 0.10) & Detección de 33 puntos corporales. & Imágenes y video con anotaciones de pose corporal completa \citep{bazarevsky2020blazepose}. & Ejercicios con contexto de tronco y brazos. \\
+GPT-5.4-mini (OpenAI) & Modelo de lenguaje generativo. & Conjunto general empleado por OpenAI para sus modelos de propósito general \citep{openai_api}. & Resúmenes interpretativos por sesión y por evolución a partir de las métricas calculadas. \\
 \bottomrule
 \end{tabular}}
 \end{minipage}
@@ -136,7 +138,7 @@ La integración de los modelos respetó los supuestos del proyecto sobre acceso 
 \section{Infraestructura}
 \label{sec:infraestructura}
 
-Además de las bibliotecas de aplicación, el proyecto contempló tecnologías de infraestructura de terceros para empaquetar el sistema, ejecutarlo en entorno local y desplegarlo en la nube. En esta sección se caracterizan esas plataformas. La topología adoptada y el procedimiento de despliegue se desarrollan en el capítulo de diseño e implementación.
+Además de las bibliotecas de aplicación, el trabajo contempló tecnologías de infraestructura de terceros para empaquetar el sistema, ejecutarlo en entorno local y desplegarlo en la nube. En esta sección se caracterizan esas plataformas. La topología adoptada y el procedimiento de despliegue se desarrollan en el capítulo de diseño e implementación.
 
 \texttt{Docker} \citep{merkel2014docker} es una plataforma de contenedores que empaqueta una aplicación y sus dependencias en una imagen inmutable, ejecutable de forma aislada en sistemas operativos compatibles. \texttt{Docker Compose} permite declarar varios servicios interconectados, sus redes y volúmenes persistentes, y levantar la pila completa de manera coordinada. Es un patrón habitual para reproducir entornos de desarrollo sin instalaciones manuales.
 
@@ -166,4 +168,4 @@ Para el despliegue en la nube se seleccionó \textit{Google Cloud Platform} (GCP
 \end{center}
 \vspace{0.3em}
 
-En conjunto, las herramientas para el despliegue local (\texttt{Docker}, \texttt{Docker Compose}, \texttt{nginx}) y los servicios de GCP (\texttt{Cloud Run}, \texttt{Cloud SQL}, \texttt{Cloud Storage}, \texttt{Secret Manager}, \texttt{Cloud Build}) cubren cómputo, persistencia, archivos y credenciales de forma portable y gestionada. Configuraciones de mayor exigencia operativa o normativa quedaron fuera del alcance de este trabajo.
+Las herramientas para el despliegue local (\texttt{Docker}, \texttt{Docker Compose}, \texttt{nginx}) y los servicios de GCP (\texttt{Cloud Run}, \texttt{Cloud SQL}, \texttt{Cloud Storage}, \texttt{Secret Manager}, \texttt{Cloud Build}) cubren cómputo, persistencia, archivos y credenciales de forma portable y gestionada. Configuraciones de mayor exigencia operativa o normativa quedaron fuera del alcance de este trabajo.

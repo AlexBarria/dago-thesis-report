@@ -205,6 +205,60 @@
     \field{year}{2019}
   \endentry
 
+  \entry{acevedo2025visionmd}{article}{}{}
+    \name{author}{6}{}{%
+      {{hash=AG}{%
+         family={Acevedo},
+         familyi={A\bibinitperiod},
+         given={Gabriela},
+         giveni={G\bibinitperiod},
+      }}%
+      {{hash=LF}{%
+         family={Lange},
+         familyi={L\bibinitperiod},
+         given={Florian},
+         giveni={F\bibinitperiod},
+      }}%
+      {{hash=CC}{%
+         family={Calonge},
+         familyi={C\bibinitperiod},
+         given={Carolina},
+         giveni={C\bibinitperiod},
+      }}%
+      {{hash=PR}{%
+         family={Peach},
+         familyi={P\bibinitperiod},
+         given={Robert},
+         giveni={R\bibinitperiod},
+      }}%
+      {{hash=WJK}{%
+         family={Wong},
+         familyi={W\bibinitperiod},
+         given={Joshua\bibnamedelima K.},
+         giveni={J\bibinitperiod\bibinitdelim K\bibinitperiod},
+      }}%
+      {{hash=GDL}{%
+         family={Guarin},
+         familyi={G\bibinitperiod},
+         given={Diego\bibnamedelima L.},
+         giveni={D\bibinitperiod\bibinitdelim L\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{AGLFCCPRWJKGDL1}
+    \strng{fullhash}{AGLFCCPRWJKGDL1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{doi}
+    \verb 10.1038/s41531-025-00876-6
+    \endverb
+    \field{number}{1}
+    \field{pages}{27}
+    \field{title}{VisionMD: An Open-Source Tool for Video-Based Analysis of Motor Function in Movement Disorders}
+    \field{volume}{11}
+    \field{journaltitle}{npj Parkinson's Disease}
+    \field{year}{2025}
+  \endentry
+
   \entry{bradski2000opencv}{article}{}{}
     \name{author}{1}{}{%
       {{hash=BG}{%

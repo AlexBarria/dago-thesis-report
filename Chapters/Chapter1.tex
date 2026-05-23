@@ -26,7 +26,7 @@ En la práctica neurológica se emplean escalas validadas que formalizan la expl
 
 En los últimos años creció el interés por registrar la exploración en video, ya sea en forma presencial o remota, y por apoyar la lectura clínica con algoritmos que midan trayectorias, ritmo y amplitud a partir de las imágenes \citep{sibley2021video,pecoraro2025computer}. Esa línea de trabajo apunta a obtener descriptores cuantitativos reproducibles a partir de grabaciones convencionales, sin reemplazar al médico pero ofreciéndole un respaldo objetivo para el seguimiento.
 
-Para situar visualmente el tipo de tareas que los profesionales solicitan durante la exploración motora, la figura \ref{fig:concepto-area-evaluacion-motora} muestra un ejemplo de finger tapping: toques rítmicos entre el pulgar y el índice, frecuentemente incluidos en protocolos como la parte motora de la escala MDS-UPDRS.
+Para situar visualmente el tipo de tareas que los profesionales solicitan durante la exploración motora, la figura \ref{fig:concepto-area-evaluacion-motora} muestra un ejemplo de finger tapping: toques rítmicos entre el pulgar y el índice, frecuentemente incluidos en protocolos como la parte motora de la escala MDS-UPDRS. En la imagen se observa la mano en la postura típica de la prueba, que permite al examinador valorar amplitud, regularidad y fatiga del movimiento. Esa misma secuencia puede registrarse en video para analizarla de forma cuantitativa con herramientas de visión por computadora, como se desarrolla en los capítulos posteriores.
 
 \vspace{0.6em}
 \begin{center}
@@ -35,8 +35,6 @@ Para situar visualmente el tipo de tareas que los profesionales solicitan durant
 	\label{fig:concepto-area-evaluacion-motora}
 \end{center}
 \vspace{0.4em}
-
-En la imagen se observa la mano en la postura típica de la prueba, que permite al examinador valorar amplitud, regularidad y fatiga del movimiento. Esa misma secuencia puede registrarse en video para analizarla de forma cuantitativa con herramientas de visión por computadora, como se desarrolla en los capítulos posteriores.
 
 \section{Contexto y motivación}
 
@@ -56,7 +54,9 @@ En paralelo, el trabajo de Sibley, Girges, Hoque y Foltynie analiza retos metodo
 
 Para la estimación de pose en tiempo casi real sobre hardware común, Google publicó el marco MediaPipe, que permite encadenar módulos de visión reutilizables y ajustar el consumo de recursos según el equipo disponible \citep{lugaresi2019mediapipe}. Dentro de ese ecosistema, el modelo de pose corporal ofrece coordenadas normalizadas de puntos anatómicos en dos y tres dimensiones y se utiliza en prototipos de salud y deporte por su equilibrio entre latencia y precisión aceptable para seguimiento de extremidades.
 
-El prototipo documentado en este trabajo se inscribe dentro del enfoque de visión markerless basado en MediaPipe Pose, orientado al cálculo de métricas de oscilación y al análisis de tareas motoras finas a partir de series de keypoints, en línea con la tendencia observada en la literatura y en las revisiones citadas.
+Entre las implementaciones recientes con fines clínicos y de investigación, VisionMD constituyó una plataforma de código abierto destinada al análisis automático de videos de tareas de la parte III de la escala MDS-UPDRS \citep{acevedo2025visionmd}. Mediante aprendizaje profundo localizó al sujeto, permitió marcar con precisión de fotograma el inicio y el fin de cada prueba y derivó variables cinemáticas como: amplitud, velocidad y variabilidad a partir del seguimiento markerless de mano y cuerpo con el marco MediaPipe \citep{acevedo2025visionmd,lugaresi2019mediapipe}. El procesamiento se ejecutó en equipos convencionales sin requerir hardware especializado ni envío obligatorio de los videos a servicios en la nube, en contraste con plataformas comerciales cerradas señaladas en la misma publicación.
+
+En estudios piloto con pacientes con enfermedad de Parkinson, los autores reportaron diferencias significativas en métricas de finger tapping y otras tareas frente a estados de estimulación cerebral profunda encendida o apagada y frente a niveles de medicación, junto con concordancia inter-evaluador elevada en el uso de la herramienta \citep{acevedo2025visionmd}. Ese trabajo ilustró la viabilidad de cuantificar de forma objetiva pruebas ya incorporadas a la exploración motora estandarizada. El prototipo documentado en esta memoria se inscribió en la misma línea de visión markerless basada en MediaPipe Pose y en el análisis de tareas motoras finas a partir de series de keypoints, pero priorizó métricas de oscilación, un pipeline orientado a servicios y despliegue mediante contenedores, como se describe en los capítulos siguientes.
 
 En la tabla \ref{tab:comparativa-enfoques} se contrastan enfoques representativos del estado del arte en cuanto a insumos, salida típica y forma habitual de evaluación reportada en la literatura de revisión. No constituye un inventario exhaustivo de productos comerciales sino una guía conceptual para situar el trabajo desarrollado.
 

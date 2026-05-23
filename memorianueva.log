@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.4.30)  16 MAY 2026 16:23
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.4.30)  23 MAY 2026 11:25
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -834,33 +834,33 @@ LaTeX Font Info:    Trying to load font information for T1+phv on input line 14.
 File: t1phv.fd 2020/03/25 scalable font definitions for T1/phv.
 )
 LaTeX Font Info:    Font shape `T1/phv/m/it' in size <10.95> not available
-(Font)              Font shape `T1/phv/m/sl' tried instead on input line 48.
+(Font)              Font shape `T1/phv/m/sl' tried instead on input line 53.
 LaTeX Font Info:    Font shape `T1/phv/m/it' in size <10> not available
-(Font)              Font shape `T1/phv/m/sl' tried instead on input line 48.
+(Font)              Font shape `T1/phv/m/sl' tried instead on input line 53.
 <Figures/fondo.pdf, id=88, 597.55246pt x 845.07718pt>
 File: Figures/fondo.pdf Graphic file (type pdf)
 <use Figures/fondo.pdf>
-Package pdftex.def Info: Figures/fondo.pdf  used on input line 50.
+Package pdftex.def Info: Figures/fondo.pdf  used on input line 56.
 (pdftex.def)             Requested size: 597.551pt x 845.04932pt.
  [1
 
 
 
-{/Users/alexbarria/Library/texlive/2026basic/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/local/texlive/2026basic/texmf-dist/fonts/enc/dvips/base/8r.enc} <./Figures/fondo.pdf>]
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <10.95> on input line 51.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 51.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 51.
- [2])
+{/Users/alexbarria/Library/texlive/2026basic/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/local/texlive/2026basic/texmf-dist/fonts/enc/dvips/base/8r.enc} <./Figures/fondo.pdf>]) [2
+
+
+
+]
 --------------------
  Resumen
 --------------------
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <10.95> on input line 93.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 93.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 93.
 [1
-
-
-
 
 ] [2
 
@@ -914,7 +914,7 @@ LaTeX Info: Redefining \% on input line 1.
 
  (./Chapters/Chapter1.tex
 Cap\'{\i }tulo 1.
-<Figures/cap_1/finger_tapping.png, id=215, 750.805pt x 634.37pt>
+<Figures/cap_1/finger_tapping.png, id=214, 750.805pt x 634.37pt>
 File: Figures/cap_1/finger_tapping.png Graphic file (type png)
 <use Figures/cap_1/finger_tapping.png>
 Package pdftex.def Info: Figures/cap_1/finger_tapping.png  used on input line 33.
@@ -933,16 +933,19 @@ l.34 ...clÃ­nica de movimientos finos de la mano.}
 
 
 ]
-LaTeX Info: Redefining \. on input line 48.
-LaTeX Info: Redefining \% on input line 48.
+LaTeX Info: Redefining \. on input line 50.
+LaTeX Info: Redefining \% on input line 50.
 Package babel Info: 'spanish' activates 'spanish' shorthands.
-(babel)             Reported on input line 48.
+(babel)             Reported on input line 50.
 
 pdfTeX warning (ext4): destination with the same identifier (name{page.2}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.48 
+l.50 
       [2 <./Figures/cap_1/finger_tapping.png>]
+LaTeX Info: Redefining \. on input line 62.
+LaTeX Info: Redefining \% on input line 62.
+ [3]
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
 (caption)                particular \caption on input line 67.
@@ -1047,12 +1050,9 @@ Underfull \hbox (badness 2027) in paragraph at lines 77--78
 \T1/ppl/m/n/10 a es-ti-ma-do-res más
  []
 
-LaTeX Info: Redefining \. on input line 81.
-LaTeX Info: Redefining \% on input line 81.
-[3]
-LaTeX Info: Redefining \. on input line 100.
-LaTeX Info: Redefining \% on input line 100.
- [4])
+LaTeX Info: Redefining \. on input line 98.
+LaTeX Info: Redefining \% on input line 98.
+[4])
 LaTeX Info: Redefining \. on input line 120.
 LaTeX Info: Redefining \% on input line 120.
  [5]
@@ -1086,127 +1086,126 @@ LaTeX Info: Redefining \% on input line 60.
 [8]
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 71.
+(caption)                particular \caption on input line 73.
 See the caption package documentation for explanation.
 
-LaTeX Info: Redefining \. on input line 88.
-LaTeX Info: Redefining \% on input line 88.
+LaTeX Info: Redefining \. on input line 86.
+LaTeX Info: Redefining \% on input line 86.
 [9]
-<Figures/cap_2/mediapipe_hand.png, id=289, 510.90875pt x 333.245pt>
+<Figures/cap_2/mediapipe_hand.png, id=293, 510.90875pt x 333.245pt>
 File: Figures/cap_2/mediapipe_hand.png Graphic file (type png)
 <use Figures/cap_2/mediapipe_hand.png>
-Package pdftex.def Info: Figures/cap_2/mediapipe_hand.png  used on input line 100.
+Package pdftex.def Info: Figures/cap_2/mediapipe_hand.png  used on input line 102.
 (pdftex.def)             Requested size: 350.82004pt x 228.82568pt.
 
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 101.
+(caption)                particular \caption on input line 103.
 See the caption package documentation for explanation.
 
-LaTeX Info: Redefining \. on input line 107.
-LaTeX Info: Redefining \% on input line 107.
-[10 <./Figures/cap_2/mediapipe_hand.png>]
+LaTeX Info: Redefining \. on input line 103.
+LaTeX Info: Redefining \% on input line 103.
+[10]
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 118.
+(caption)                particular \caption on input line 120.
 See the caption package documentation for explanation.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 125--125
+Underfull \hbox (badness 10000) in paragraph at lines 127--127
 []|\T1/ppl/m/n/10 HandLandmarker
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 125--125
+Underfull \hbox (badness 10000) in paragraph at lines 127--127
 []|\T1/ppl/m/n/10 Detección de 21
  []
 
 
-Underfull \hbox (badness 3471) in paragraph at lines 125--126
+Underfull \hbox (badness 3471) in paragraph at lines 127--128
 \T1/ppl/m/n/10 tap-ping y tem-blor
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 126--126
+Underfull \hbox (badness 10000) in paragraph at lines 128--128
 []|\T1/ppl/m/n/10 PoseLandmarker
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 126--126
+Underfull \hbox (badness 10000) in paragraph at lines 128--128
 \T1/ppl/m/n/10 Li-te (Me-dia-Pi-pe
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 126--126
+Underfull \hbox (badness 10000) in paragraph at lines 128--128
 []|\T1/ppl/m/n/10 Detección de 33
  []
 
 
-Underfull \hbox (badness 7667) in paragraph at lines 126--126
+Underfull \hbox (badness 7667) in paragraph at lines 128--128
 \T1/ppl/m/n/10 ano-ta-cio-nes de po-se
  []
 
 
-Underfull \hbox (badness 2245) in paragraph at lines 126--127
+Underfull \hbox (badness 2245) in paragraph at lines 128--129
 []|\T1/ppl/m/n/10 Ejercicios con con-
  []
 
 
-Underfull \hbox (badness 4120) in paragraph at lines 126--127
+Underfull \hbox (badness 4120) in paragraph at lines 128--129
 \T1/ppl/m/n/10 tex-to de tron-co y
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 127--127
+Underfull \hbox (badness 10000) in paragraph at lines 129--129
 []|\T1/ppl/m/n/10 GPT-5.4-mini
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 127--127
+Underfull \hbox (badness 10000) in paragraph at lines 129--129
 \T1/ppl/m/n/10 plea-do por Ope-nAI
  []
 
 
-Underfull \hbox (badness 1331) in paragraph at lines 127--127
+Underfull \hbox (badness 1331) in paragraph at lines 129--129
 \T1/ppl/m/n/10 pa-ra sus mo-de-los de
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 127--128
+Underfull \hbox (badness 10000) in paragraph at lines 129--130
 []|\T1/ppl/m/n/10 Resúmenes in-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 127--128
+Underfull \hbox (badness 10000) in paragraph at lines 129--130
 \T1/ppl/m/n/10 ter-pre-ta-ti-vos por
  []
 
-LaTeX Info: Redefining \. on input line 140.
-LaTeX Info: Redefining \% on input line 140.
-[11]
+LaTeX Info: Redefining \. on input line 133.
+LaTeX Info: Redefining \% on input line 133.
+[11 <./Figures/cap_2/mediapipe_hand.png>]
+LaTeX Info: Redefining \. on input line 148.
+LaTeX Info: Redefining \% on input line 148.
+ [12]
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 151.
+(caption)                particular \caption on input line 153.
 See the caption package documentation for explanation.
 
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <9> on input line 154.
+(Font)              <9> on input line 156.
 )
-Overfull \hbox (10.4396pt too wide) in paragraph at lines 169--121
-[]\T1/ppl/m/n/10.95 En con-jun-to, las he-rra-mien-tas pa-ra el des-plie-gue lo-cal (\T1/pcr/m/n/10.95 Docker\T1/ppl/m/n/10.95 , \T1/pcr/m/n/10.95 Docker Compose\T1/ppl/m/n/10.95 ,
- []
-
-
-Overfull \hbox (17.18584pt too wide) in paragraph at lines 169--121
-\T1/pcr/m/n/10.95 nginx\T1/ppl/m/n/10.95 ) y los ser-vi-cios de GCP (\T1/pcr/m/n/10.95 Cloud Run\T1/ppl/m/n/10.95 , \T1/pcr/m/n/10.95 Cloud SQL\T1/ppl/m/n/10.95 , \T1/pcr/m/n/10.95 Cloud Storage\T1/ppl/m/n/10.95 , \T1/pcr/m/n/10.95 Secret
- []
-
 LaTeX Info: Redefining \. on input line 121.
 LaTeX Info: Redefining \% on input line 121.
-[12]
+ [13]
 \openout2 = `Chapters/Chapter3.aux'.
 
- (./Chapters/Chapter3.tex
+ (./Chapters/Chapter3.tex [14
+
+
+
+
+]
 Cap\'{\i }tulo 3.
 (/Users/alexbarria/Library/texmf/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2025/11/14 1.11b listings language file
@@ -1214,20 +1213,15 @@ File: lstlang1.sty 2025/11/14 1.11b listings language file
 File: lstmisc.sty 2025/11/14 1.11b (Carsten Heinz)
 )
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 62.
- [13
-
-
-
-
-])
+ [15])
 LaTeX Info: Redefining \. on input line 122.
 LaTeX Info: Redefining \% on input line 122.
- [14]
+ [16]
 \openout2 = `Chapters/Chapter4.aux'.
 
  (./Chapters/Chapter4.tex
 Cap\'{\i }tulo 4.
-) [15
+) [17
 
 
 
@@ -1235,14 +1229,14 @@ Cap\'{\i }tulo 4.
 ]
 \openout2 = `Chapters/Chapter5.aux'.
 
- (./Chapters/Chapter5.tex [16
+ (./Chapters/Chapter5.tex [18
 
 
 
 
 ]
 Cap\'{\i }tulo 5.
-) [17] [18
+) [19] [20
 
 
 
@@ -1251,15 +1245,14 @@ Overfull \hbox (10.19678pt too wide) in paragraph at lines 142--142
 \T1/ppl/m/n/10.95 mar-kers un-der oc-clu-sion^^T. En: \T1/ppl/m/it/10.95 Pat-tern Re-cog-ni-tion \T1/ppl/m/n/10.95 47.6 (2014), págs. 2280[]2292.
  []
 
-
+[21]
 Overfull \hbox (4.74089pt too wide) in paragraph at lines 142--142
 []\T1/ppl/m/n/10.95 Fan Zhang, Va-len-tin Ba-za-revsky, An-drey Va-ku-nov, An-drei Tka-chen-ka, Geor-
  []
 
-[19]
 LaTeX Info: Redefining \. on input line 144.
 LaTeX Info: Redefining \% on input line 144.
- [20] (./memorianueva.aux (./portada.aux)
+[22] (./memorianueva.aux (./portada.aux)
 LaTeX Info: Redefining \sptext on input line 16.
 LaTeX Info: Redefining \. on input line 16.
 LaTeX Info: Redefining \% on input line 16.
@@ -1284,18 +1277,18 @@ Package logreq Info: Writing requests to 'memorianueva.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 31705 strings out of 469006
- 683857 string characters out of 5454813
- 1501298 words of memory out of 5000000
- 59911 multiletter control sequences out of 15000+600000
+ 31712 strings out of 469006
+ 684104 string characters out of 5454813
+ 1500971 words of memory out of 5000000
+ 59915 multiletter control sequences out of 15000+600000
  690245 words of font info for 115 fonts, out of 8000000 for 9000
  320 hyphenation exceptions out of 8191
- 96i,20n,95p,2039b,2155s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 96i,20n,97p,2039b,2155s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </Users/alexbarria/Library/texmf/fonts/type1/urw/courier/ucrr8a.pfb></Users/alexbarria/Library/texmf/fonts/type1/urw/helvetic/uhvb8a.pfb></Users/alexbarria/Library/texmf/fonts/type1/urw/helvetic/uhvr8a.pfb></Users/alexbarria/Library/texmf/fonts/type1/urw/helvetic/uhvro8a.pfb></Users/alexbarria/Library/texmf/fonts/type1/urw/palatino/uplb8a.pfb></Users/alexbarria/Library/texmf/fonts/type1/urw/palatino/uplb8a.pfb></Users/alexbarria/Library/texmf/fonts/type1/urw/palatino/uplr8a.pfb></Users/alexbarria/Library/texmf/fonts/type1/urw/palatino/uplr8a.pfb></Users/alexbarria/Library/texmf/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on memorianueva.pdf (34 pages, 2533997 bytes).
+Output written on memorianueva.pdf (36 pages, 2536243 bytes).
 PDF statistics:
- 459 PDF objects out of 1000 (max. 8388607)
- 393 compressed objects within 4 object streams
- 114 named destinations out of 1000 (max. 500000)
+ 474 PDF objects out of 1000 (max. 8388607)
+ 405 compressed objects within 5 object streams
+ 117 named destinations out of 1000 (max. 500000)
  184 words of extra memory for PDF output out of 10000 (max. 10000000)
 

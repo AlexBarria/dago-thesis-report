@@ -12,11 +12,11 @@
 \contentsline {section}{\numberline {2.2}Datasets y datos}{8}{section.2.2}%
 \contentsline {section}{\numberline {2.3}Modelos preentrenados}{10}{section.2.3}%
 \contentsline {section}{\numberline {2.4}Infraestructura}{12}{section.2.4}%
-\contentsline {chapter}{\numberline {3}Diseño e implementación}{13}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Análisis del software}{13}{section.3.1}%
-\contentsline {chapter}{\numberline {4}Ensayos y resultados}{15}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Pruebas funcionales del hardware}{15}{section.4.1}%
-\contentsline {chapter}{\numberline {5}Conclusiones}{17}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Conclusiones generales }{17}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Próximos pasos}{17}{section.5.2}%
-\contentsline {chapter}{Bibliografía}{19}{appendix*.8}%
+\contentsline {chapter}{\numberline {3}Diseño e implementación}{15}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Análisis del software}{15}{section.3.1}%
+\contentsline {chapter}{\numberline {4}Ensayos y resultados}{17}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Pruebas funcionales del hardware}{17}{section.4.1}%
+\contentsline {chapter}{\numberline {5}Conclusiones}{19}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Conclusiones generales }{19}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Próximos pasos}{19}{section.5.2}%
+\contentsline {chapter}{Bibliografía}{21}{appendix*.8}%
