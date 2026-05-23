@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.4.30)  16 MAY 2026 11:23
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.4.30)  16 MAY 2026 16:23
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -914,7 +914,7 @@ LaTeX Info: Redefining \% on input line 1.
 
  (./Chapters/Chapter1.tex
 Cap\'{\i }tulo 1.
-<Figures/cap_1/finger_tapping.png, id=213, 750.805pt x 634.37pt>
+<Figures/cap_1/finger_tapping.png, id=215, 750.805pt x 634.37pt>
 File: Figures/cap_1/finger_tapping.png Graphic file (type png)
 <use Figures/cap_1/finger_tapping.png>
 Package pdftex.def Info: Figures/cap_1/finger_tapping.png  used on input line 33.
@@ -1072,197 +1072,141 @@ Package caption Warning: The option `hypcap=true' will be ignored for this
 See the caption package documentation for explanation.
 
 
-Underfull \hbox (badness 1270) in paragraph at lines 40--41
-[]|\T1/ppl/m/n/10.95 Operaciones vec-to-ria-les, es-ti-ma-do-
+Underfull \hbox (badness 1377) in paragraph at lines 41--42
+\T1/ppl/m/n/10 pec-tra-les y ma-ni-pu-la-ción ta-bu-lar am-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 42--42
-[]|\T1/ppl/m/n/10.95 PostgreSQL, SQ-LAl-
+Underfull \hbox (badness 10000) in paragraph at lines 43--43
+[]|\T1/ppl/m/n/10 PostgreSQL, SQ-LAl-
  []
 
-
-Overfull \hbox (33.15451pt too wide) in paragraph at lines 34--47
- [][] 
- []
-
-LaTeX Info: Redefining \. on input line 57.
-LaTeX Info: Redefining \% on input line 57.
+LaTeX Info: Redefining \. on input line 60.
+LaTeX Info: Redefining \% on input line 60.
 [8]
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 70.
+(caption)                particular \caption on input line 71.
 See the caption package documentation for explanation.
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 76--76
-[]|\T1/ppl/m/it/10.95 Finger tap-ping\T1/ppl/m/n/10.95 , tem-
- []
-
-
-Underfull \hbox (badness 3471) in paragraph at lines 77--77
-[]|\T1/ppl/m/n/10.95 Grabaciones re-du-ci-
- []
-
-
-Underfull \hbox (badness 1308) in paragraph at lines 78--78
-[]|\T1/ppl/m/it/10.95 Finger tap-ping\T1/ppl/m/n/10.95 , ejer-ci-
- []
-
-
-Underfull \hbox (badness 5175) in paragraph at lines 78--79
-[]|\T1/ppl/m/n/10.95 Incluido en el re-po-si-to-rio pa-ra
- []
-
-
-Overfull \hbox (27.46446pt too wide) in paragraph at lines 72--81
- [][] 
- []
-
-LaTeX Info: Redefining \. on input line 82.
-LaTeX Info: Redefining \% on input line 82.
+LaTeX Info: Redefining \. on input line 88.
+LaTeX Info: Redefining \% on input line 88.
 [9]
-<Figures/cap_2/placeholder_mediapipe_hand.png, id=287, 225.84375pt x 225.84375pt>
-File: Figures/cap_2/placeholder_mediapipe_hand.png Graphic file (type png)
-<use Figures/cap_2/placeholder_mediapipe_hand.png>
-Package pdftex.def Info: Figures/cap_2/placeholder_mediapipe_hand.png  used on input line 98.
-(pdftex.def)             Requested size: 272.86069pt x 272.89613pt.
+<Figures/cap_2/mediapipe_hand.png, id=289, 510.90875pt x 333.245pt>
+File: Figures/cap_2/mediapipe_hand.png Graphic file (type png)
+<use Figures/cap_2/mediapipe_hand.png>
+Package pdftex.def Info: Figures/cap_2/mediapipe_hand.png  used on input line 100.
+(pdftex.def)             Requested size: 350.82004pt x 228.82568pt.
 
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 99.
+(caption)                particular \caption on input line 101.
 See the caption package documentation for explanation.
 
-LaTeX Info: Redefining \. on input line 99.
-LaTeX Info: Redefining \% on input line 99.
-[10]
+LaTeX Info: Redefining \. on input line 107.
+LaTeX Info: Redefining \% on input line 107.
+[10 <./Figures/cap_2/mediapipe_hand.png>]
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 114.
+(caption)                particular \caption on input line 118.
 See the caption package documentation for explanation.
 
 
-Underfull \hbox (badness 2253) in paragraph at lines 118--118
-[]|\T1/ppl/b/n/10.95 Origen y da-tos de
+Underfull \hbox (badness 10000) in paragraph at lines 125--125
+[]|\T1/ppl/m/n/10 HandLandmarker
  []
 
 
-Overfull \hbox (2.64624pt too wide) in paragraph at lines 120--120
-[]|\T1/ppl/m/n/10.95 HandLandmarker
+Underfull \hbox (badness 10000) in paragraph at lines 125--125
+[]|\T1/ppl/m/n/10 Detección de 21
  []
 
 
-Underfull \hbox (badness 2189) in paragraph at lines 120--120
-[]|\T1/ppl/m/n/10.95 Detección de 21
+Underfull \hbox (badness 3471) in paragraph at lines 125--126
+\T1/ppl/m/n/10 tap-ping y tem-blor
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 120--120
-[]|\T1/ppl/m/n/10.95 Imágenes ano-ta-das
+Underfull \hbox (badness 10000) in paragraph at lines 126--126
+[]|\T1/ppl/m/n/10 PoseLandmarker
  []
 
 
-Underfull \hbox (badness 3690) in paragraph at lines 120--120
-\T1/ppl/m/n/10.95 tas po-ses, en-tor-nos
+Underfull \hbox (badness 10000) in paragraph at lines 126--126
+\T1/ppl/m/n/10 Li-te (Me-dia-Pi-pe
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 120--120
-\T1/ppl/m/n/10.95 y con-di-cio-nes de
+Underfull \hbox (badness 10000) in paragraph at lines 126--126
+[]|\T1/ppl/m/n/10 Detección de 33
  []
 
 
-Underfull \hbox (badness 7415) in paragraph at lines 120--121
-[]|\T1/ppl/m/n/10.95 Ejercicios de \T1/ppl/m/it/10.95 fin-ger
+Underfull \hbox (badness 7667) in paragraph at lines 126--126
+\T1/ppl/m/n/10 ano-ta-cio-nes de po-se
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 121--121
-[]|\T1/ppl/m/n/10.95 PoseLandmarker
+Underfull \hbox (badness 2245) in paragraph at lines 126--127
+[]|\T1/ppl/m/n/10 Ejercicios con con-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 121--121
-\T1/ppl/m/n/10.95 Li-te (Me-dia-Pi-pe
+Underfull \hbox (badness 4120) in paragraph at lines 126--127
+\T1/ppl/m/n/10 tex-to de tron-co y
  []
 
 
-Underfull \hbox (badness 2189) in paragraph at lines 121--121
-[]|\T1/ppl/m/n/10.95 Detección de 33
+Underfull \hbox (badness 10000) in paragraph at lines 127--127
+[]|\T1/ppl/m/n/10 GPT-5.4-mini
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 121--121
-\T1/ppl/m/n/10.95 pun-tos cor-po-ra-
+Underfull \hbox (badness 10000) in paragraph at lines 127--127
+\T1/ppl/m/n/10 plea-do por Ope-nAI
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 121--121
-[]|\T1/ppl/m/n/10.95 Imágenes y vi-deo
+Underfull \hbox (badness 1331) in paragraph at lines 127--127
+\T1/ppl/m/n/10 pa-ra sus mo-de-los de
  []
 
 
-Underfull \hbox (badness 3396) in paragraph at lines 121--121
-\T1/ppl/m/n/10.95 con ano-ta-cio-nes de
+Underfull \hbox (badness 10000) in paragraph at lines 127--128
+[]|\T1/ppl/m/n/10 Resúmenes in-
  []
 
 
-Underfull \hbox (badness 2521) in paragraph at lines 121--121
-\T1/ppl/m/n/10.95 po-se cor-po-ral com-
+Underfull \hbox (badness 10000) in paragraph at lines 127--128
+\T1/ppl/m/n/10 ter-pre-ta-ti-vos por
+ []
+
+LaTeX Info: Redefining \. on input line 140.
+LaTeX Info: Redefining \% on input line 140.
+[11]
+
+Package caption Warning: The option `hypcap=true' will be ignored for this
+(caption)                particular \caption on input line 151.
+See the caption package documentation for explanation.
+
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <9> on input line 154.
+)
+Overfull \hbox (10.4396pt too wide) in paragraph at lines 169--121
+[]\T1/ppl/m/n/10.95 En con-jun-to, las he-rra-mien-tas pa-ra el des-plie-gue lo-cal (\T1/pcr/m/n/10.95 Docker\T1/ppl/m/n/10.95 , \T1/pcr/m/n/10.95 Docker Compose\T1/ppl/m/n/10.95 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 122--122
-[]|\T1/ppl/m/n/10.95 GPT-5.4-mini
+Overfull \hbox (17.18584pt too wide) in paragraph at lines 169--121
+\T1/pcr/m/n/10.95 nginx\T1/ppl/m/n/10.95 ) y los ser-vi-cios de GCP (\T1/pcr/m/n/10.95 Cloud Run\T1/ppl/m/n/10.95 , \T1/pcr/m/n/10.95 Cloud SQL\T1/ppl/m/n/10.95 , \T1/pcr/m/n/10.95 Cloud Storage\T1/ppl/m/n/10.95 , \T1/pcr/m/n/10.95 Secret
  []
 
-
-Underfull \hbox (badness 4940) in paragraph at lines 122--122
-[]|\T1/ppl/m/n/10.95 Modelo de len-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 122--122
-[]|\T1/ppl/m/n/10.95 Conjunto ge-ne-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 122--122
-\T1/ppl/m/n/10.95 ral em-plea-do por
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 122--122
-\T1/ppl/m/n/10.95 Ope-nAI pa-ra sus
- []
-
-
-Underfull \hbox (badness 4048) in paragraph at lines 122--123
-\T1/ppl/m/n/10.95 tir de las mé-tri-cas
- []
-
-
-Overfull \hbox (33.774pt too wide) in paragraph at lines 116--125
- [][] 
- []
-
-LaTeX Info: Redefining \. on input line 126.
-LaTeX Info: Redefining \% on input line 126.
-[11 <./Figures/cap_2/placeholder_mediapipe_hand.png>])
 LaTeX Info: Redefining \. on input line 121.
 LaTeX Info: Redefining \% on input line 121.
- [12]
-LaTeX Info: Redefining \. on input line 121.
-LaTeX Info: Redefining \% on input line 121.
- [13]
+[12]
 \openout2 = `Chapters/Chapter3.aux'.
 
- (./Chapters/Chapter3.tex [14
-
-
-
-
-]
+ (./Chapters/Chapter3.tex
 Cap\'{\i }tulo 3.
 (/Users/alexbarria/Library/texmf/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2025/11/14 1.11b listings language file
@@ -1270,15 +1214,20 @@ File: lstlang1.sty 2025/11/14 1.11b listings language file
 File: lstmisc.sty 2025/11/14 1.11b (Carsten Heinz)
 )
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 62.
- [15])
+ [13
+
+
+
+
+])
 LaTeX Info: Redefining \. on input line 122.
 LaTeX Info: Redefining \% on input line 122.
- [16]
+ [14]
 \openout2 = `Chapters/Chapter4.aux'.
 
  (./Chapters/Chapter4.tex
 Cap\'{\i }tulo 4.
-) [17
+) [15
 
 
 
@@ -1286,14 +1235,14 @@ Cap\'{\i }tulo 4.
 ]
 \openout2 = `Chapters/Chapter5.aux'.
 
- (./Chapters/Chapter5.tex [18
+ (./Chapters/Chapter5.tex [16
 
 
 
 
 ]
 Cap\'{\i }tulo 5.
-) [19] [20
+) [17] [18
 
 
 
@@ -1307,10 +1256,10 @@ Overfull \hbox (4.74089pt too wide) in paragraph at lines 142--142
 []\T1/ppl/m/n/10.95 Fan Zhang, Va-len-tin Ba-za-revsky, An-drey Va-ku-nov, An-drei Tka-chen-ka, Geor-
  []
 
-[21]
+[19]
 LaTeX Info: Redefining \. on input line 144.
 LaTeX Info: Redefining \% on input line 144.
- [22] (./memorianueva.aux (./portada.aux)
+ [20] (./memorianueva.aux (./portada.aux)
 LaTeX Info: Redefining \sptext on input line 16.
 LaTeX Info: Redefining \. on input line 16.
 LaTeX Info: Redefining \% on input line 16.
@@ -1335,18 +1284,18 @@ Package logreq Info: Writing requests to 'memorianueva.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 31694 strings out of 469006
- 683821 string characters out of 5454813
- 1501096 words of memory out of 5000000
- 59904 multiletter control sequences out of 15000+600000
- 687263 words of font info for 108 fonts, out of 8000000 for 9000
+ 31705 strings out of 469006
+ 683857 string characters out of 5454813
+ 1501298 words of memory out of 5000000
+ 59911 multiletter control sequences out of 15000+600000
+ 690245 words of font info for 115 fonts, out of 8000000 for 9000
  320 hyphenation exceptions out of 8191
- 96i,20n,97p,2039b,2155s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 96i,20n,95p,2039b,2155s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </Users/alexbarria/Library/texmf/fonts/type1/urw/courier/ucrr8a.pfb></Users/alexbarria/Library/texmf/fonts/type1/urw/helvetic/uhvb8a.pfb></Users/alexbarria/Library/texmf/fonts/type1/urw/helvetic/uhvr8a.pfb></Users/alexbarria/Library/texmf/fonts/type1/urw/helvetic/uhvro8a.pfb></Users/alexbarria/Library/texmf/fonts/type1/urw/palatino/uplb8a.pfb></Users/alexbarria/Library/texmf/fonts/type1/urw/palatino/uplb8a.pfb></Users/alexbarria/Library/texmf/fonts/type1/urw/palatino/uplr8a.pfb></Users/alexbarria/Library/texmf/fonts/type1/urw/palatino/uplr8a.pfb></Users/alexbarria/Library/texmf/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on memorianueva.pdf (36 pages, 1482395 bytes).
+Output written on memorianueva.pdf (34 pages, 2533997 bytes).
 PDF statistics:
- 464 PDF objects out of 1000 (max. 8388607)
- 396 compressed objects within 4 object streams
- 115 named destinations out of 1000 (max. 500000)
+ 459 PDF objects out of 1000 (max. 8388607)
+ 393 compressed objects within 4 object streams
+ 114 named destinations out of 1000 (max. 500000)
  184 words of extra memory for PDF output out of 10000 (max. 10000000)
 

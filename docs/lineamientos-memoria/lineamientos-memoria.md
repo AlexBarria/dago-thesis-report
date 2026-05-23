@@ -114,7 +114,6 @@ Formato general
 * Usar itálicas para definir siglas o expresiones originadas en otro idioma.
 * Al introducir una sigla extranjera, explicar su origen, por ejemplo: RTOS, del inglés Real Time Operating System.
 * No abusar de itálicas para énfasis informal.
-* Usar itálicas para palabras en inglés. Usando \textit{palabra_en_ingles}
 * Usar letra monoespaciada para nombres propios de implementación.
 * Aplicar letra monoespaciada a funciones, bibliotecas, archivos, directorios y variables.
 * En LaTeX, usar comandos como \texttt{}, \verb|| o entornos verbatim cuando corresponda.
