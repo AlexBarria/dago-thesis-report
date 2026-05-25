@@ -44,6 +44,39 @@ Desarrollar una herramienta basada en IA que permita realizar seguimiento cuanti
   - `frontend/`: React app (pages: Upload, Results, Patients, Compare, Export; components, utils)
   - `tests/`: unit (charuco, static_phase, derived_angle, finger_tapping, batch_ingestion, audio_impulse) e integration (cli_smoke)
 
+## Metricas por tipo de ejercicio (no confundir)
+
+**Error frecuente al redactar:** afirmar que las metricas automaticas del pipeline se calculan de forma uniforme sobre la distancia pulgar--indice en los cuatro tipos de ejercicio. Eso es incorrecto.
+
+Cada ejercicio clinico tiene objetivos de evaluacion y magnitudes derivadas distintas:
+
+| Ejercicio (`ExerciseType`) | Modelo de pose | Senales / metricas (enfoque) |
+|---|---|---|
+| `finger_tapping` | `HandLandmarker` (HANDS) | Distancia pulgar--indice, tapping (tap rate, ITI, decremento de amplitud, fatiga, velocidades de apertura/cierre), angulo en muneca, sincronia con metronomo |
+| `hand_tremor` | `HandLandmarker` (HANDS) | Temblor de mano: amplitud de oscilacion, frecuencia en banda de temblor, regularidad sobre la mano (no biomarcadores de tapping) |
+| `nose_finger` | `PoseLandmarker` lite (HOLISTIC) | Prueba nariz-dedo: trayectoria y precision del alcance (landmarks de mano y contexto corporal), no metricas de tapping |
+| `arm_oscillation` | `PoseLandmarker` lite (HOLISTIC) | Oscilacion de brazo / abduccion de hombros: angulos y amplitudes de brazo (hombro, codo, muneca), no distancia entre dedos |
+
+- La distancia pulgar--indice (`hand0_thumb_index_dist`) y los biomarcadores de `compute_finger_tapping_metrics` corresponden al **finger tapping**, con segmentacion de fase estatica y recorte opcional de taps.
+- `KeypointTracker` puede registrar varias columnas (mano y, en modo holístico, hombros/codos/munecas), pero **el conjunto de metricas exportadas depende del tipo de ejercicio**, no es el mismo en los cuatro casos.
+- Al describir seguimiento vs metricas: el seguimiento multi-señal es infraestructura común; las **metricas clinicas** son especificas por ejercicio.
+
+Codigo de referencia: `src/pipeline/config/settings.py` (`pose_model_for_exercise`), `src/pipeline/cli/run_session.py` (rama de metricas), `src/pipeline/metrics/finger_tapping.py`, `api/worker.py`.
+
+## Pendiente de implementacion en codigo (memoria ya lo documenta como hecho)
+
+**Implementado hoy en produccion (worker/CLI):** solo rama completa de `finger_tapping` sobre `hand0_thumb_index_dist` + `compute_finger_tapping_metrics`. Los demas `exercise_type` no deben describirse como si compartieran metricas de tapping.
+
+**Funciones existentes sin cablear en `run_session.py` / `api/worker.py`:**
+- `compute_arm_angle_variability` (`pipeline/metrics/stability.py`)
+- `compute_postural_stability` (`pipeline/metrics/stability.py`)
+
+**Crear e integrar (nombres alineados con tabla cap. 3):**
+- `nose_finger`: `compute_nose_finger_metrics` → `nose_finger_min_distance`, `nose_finger_mean_distance`, `nose_finger_path_length`, `nose_finger_accuracy` (serie indice–nariz en mm desde `pose_nose_*` + `hand0_lm8_*`)
+- `hand_tremor`: rama que aplique `oscillation_amplitude`, `tremor_frequency`, `movement_regularity` sobre desplazamiento de muneca o $d_t$ **sin** `compute_finger_tapping_metrics`
+- `arm_oscillation`: `arm_angle_mean`, cablear `arm_angle_variability`, metricas espectrales sobre `pose_*_arm_angle`, `postural_stability`
+- Refactor recomendado: `metrics_for_exercise(exercise_type, df, fps) -> list[MetricResult]` llamado desde CLI y worker
+
 ## Documentacion de contexto
 
 - Planificacion completa: `docs/contexto-proyecto/planificacion-inicial.md`

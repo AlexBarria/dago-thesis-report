@@ -13,9 +13,14 @@ alwaysApply: false
 - Usar expresiones de navegacion academica: "En este capitulo se presenta...", "En la figura X se puede observar...".
 - Usar "el objetivo del trabajo" en lugar de "el objetivo del proyecto".
 - Evitar conectores genericos repetitivos ("En resumen", "En conclusion") si no agregan valor.
-- Evitar abuso del gerundio; preferir verbos conjugados y oraciones directas.
+- Evitar gerundios en -ndo/-iendo (por ejemplo: incluyendo, conservando, empleando, siguiendo, preservando). Preferir verbos conjugados u otra construcción (conforme a, entre ellas, cuando, de modo que).
+- Distinguir tiempos verbales: pasado para decisiones e implementación del trabajo (se implementó, se definió); presente para describir el comportamiento funcional del sistema (procesa, recibe, calcula).
 - Dividir oraciones extensas en unidades mas claras.
 - Cada capitulo inicia con un parrafo introductorio de 2-3 lineas debajo del titulo, sin titulo propio ni subseccion "Introduccion".
+- Evitar el uso de la palabra "proyecto", usar "trabajo" en su lugar.
+- En caso de usar números, usar el número y no el texto cuando corresponda. Ej: preferir "5 módulos" en vez de "cinco módulos".
+- Evitar dejar espacios en blanco al hacer un salto de página dentro de un mismo capitulo.
+
 
 ## Formato de texto
 
@@ -33,6 +38,7 @@ alwaysApply: false
 - Texto interno de figuras debe ser legible a tamaño de pagina.
 - Traducir al español el texto de imagenes cuando sea posible.
 - Indicar fuente original con nota al pie si la imagen es de terceros.
+- El epígrafe de la imagen no debe superar dos líneas.
 
 ## Tablas
 

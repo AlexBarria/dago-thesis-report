@@ -58,6 +58,7 @@ dago/
 - **Solo editar** el contenido textual dentro de secciones existentes o agregar nuevas `\section`/`\subsection` si la estructura del capitulo lo requiere.
 - **Respetar** los comandos de formato de la plantilla: `\keyword{}`, `\code{}`, `\file{}`, `\option{}`, `\grados`.
 - **No inventar** datos tecnicos, metricas ni resultados. Extraerlos del codigo o de los documentos del proyecto.
+- **Metricas por ejercicio:** no afirmar que los cuatro tipos de ejercicio calculan las mismas metricas sobre distancia pulgar--indice. Ver tabla en `.cursor/rules/dago-project-context.mdc` (seccion «Metricas por tipo de ejercicio»).
 - **No inventar** referencias bibliograficas. Usar `\citep{CLAVE}` solo cuando la entrada exista en `memorianueva-blx.bib` o indicar al usuario que debe agregarla.
 
 ## Estilo de redaccion

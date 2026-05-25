@@ -1,15 +1,22 @@
 % Chapter Template
 
-\chapter{Ensayos y resultados} % Main chapter title
+\chapter{Ensayos y resultados}
 
-\label{Chapter4} % Change X to a consecutive number; for referencing this chapter elsewhere, use \ref{ChapterX}
-Todos los capítulos deben comenzar con un breve párrafo introductorio que indique cuál es el contenido que se encontrará al leerlo.  La redacción sobre el contenido de la memoria debe hacerse en presente y todo lo referido al proyecto en pasado, siempre de modo impersonal.
+\label{Chapter4}
+
+En este capítulo se presentó el plan de evaluación del sistema, las pruebas automatizadas que respaldaron la reproducibilidad del pipeline implementado en el capítulo~\ref{Chapter3} y los resultados obtenidos al ejecutar el prototipo sobre los videos disponibles para el trabajo.
 
 %----------------------------------------------------------------------------------------
 %	SECTION 1
 %----------------------------------------------------------------------------------------
 
-\section{Pruebas funcionales del hardware}
-\label{sec:pruebasHW}
+\section{Pruebas automatizadas del pipeline}
+\label{sec:pruebas-automatizadas}
 
-La idea de esta sección es explicar cómo se hicieron los ensayos, qué resultados se obtuvieron y analizarlos.
+Durante el desarrollo se mantuvo una batería de pruebas unitarias sobre componentes aislados del flujo analítico: calibración ChArUco, detección de fase estática, impulsos de audio, métricas espectrales y de tapping, ángulos derivados y escritores de exportación. Los módulos bajo \texttt{tests/unit/} validaron comportamientos con señales sintéticas o entradas controladas, de modo que las definiciones matemáticas descritas en el capítulo~\ref{Chapter3} pudieran contrastarse con salidas esperadas. Se incluyó además una prueba de integración de humo (\texttt{tests/integration/test\_cli\_smoke.py}) que ejecutó el comando de sesión sobre un video de muestra del repositorio y verificó la generación de \texttt{tracking.csv}, \texttt{metrics.csv} y \texttt{summary.json} con esquemas estables.
+
+Esas pruebas no sustituyeron la validación clínica formal, excluida del alcance del trabajo, pero demostraron que el ensamblado descrito en el capítulo de diseño era reproducible y detectaba regresiones en el flujo de extremo a extremo.
+
+%----------------------------------------------------------------------------------------
+%	SECTION 2 — plan de evaluación, resultados y análisis (por completar)
+%----------------------------------------------------------------------------------------
