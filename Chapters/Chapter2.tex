@@ -64,7 +64,7 @@ Para sostener el avance del desarrollo dentro del alcance descripto, se trabajó
 
 Esta estrategia resultó adecuada para los objetivos del trabajo porque el sistema se apoya en modelos preentrenados de estimación de pose, cuya capacidad de detectar puntos anatómicos no depende del diagnóstico de la persona registrada. Las grabaciones de personas sin patologías motoras resultaron suficientes para verificar la robustez del seguimiento de keypoints bajo distintos encuadres y condiciones de iluminación, mientras que las grabaciones de pacientes permitieron observar el comportamiento del sistema en presencia de los patrones motores característicos. La ampliación posterior del conjunto con material clínico anotado se identificó como una línea natural de continuidad y se desarrolla en el capítulo de conclusiones.
 
-Las grabaciones se obtuvieron con la cámara posterior de un teléfono iPhone 15 Pro a 30 cuadros por segundo, en disposición fija sobre una superficie plana y con la región de interés (mano dominante o tronco superior, según el ejercicio) centrada en el cuadro. Durante los primeros segundos de cada grabación se ubicó en el campo visual un tablero de calibración ChArUco \citep{garrido2014charuco}, que el sistema utiliza para estimar la conversión píxeles–milímetros sin requerir intervención manual del operador. En todas las fuentes del conjunto se registraron los mismos ejercicios: finger tapping, temblor de mano y oscilación de brazos. En la tabla \ref{tab:videos-cap2} se resumen las características de cada fuente de video y las condiciones de captura asociadas.
+Las grabaciones se obtuvieron con la cámara posterior de un teléfono iPhone 15 Pro a 30 cuadros por segundo, en disposición fija sobre una superficie plana y con la región de interés (mano dominante o tronco superior, según el ejercicio) centrada en el cuadro. Durante los primeros segundos de cada grabación se ubicó en el campo visual un tablero de calibración ChArUco \citep{garrido2014charuco}, que el sistema utiliza para estimar la conversión píxeles–milímetros sin requerir intervención manual del operador. En todas las fuentes del conjunto se registraron los mismos ejercicios: finger tapping, temblor de mano, prueba nariz--dedo y apertura y cierre de manos. En la tabla \ref{tab:videos-cap2} se resumen las características de cada fuente de video y las condiciones de captura asociadas.
 
 \vspace{0.6em}
 \begin{center}
@@ -124,8 +124,8 @@ En la tabla \ref{tab:modelos-cap2} se listan los modelos preentrenados utilizado
 \toprule
 \tabhead{Modelo} & \tabhead{Tarea} & \tabhead{Origen y datos de preentrenamiento} & \tabhead{Uso en el sistema} \\
 \midrule
-HandLandmarker (MediaPipe 0.10) & Detección de 21 puntos por mano. & Imágenes anotadas de manos en distintas poses, entornos y condiciones de iluminación \citep{zhang2020mediapipehands}. & Ejercicios de finger tapping y temblor de mano. \\
-PoseLandmarker Lite (MediaPipe 0.10) & Detección de 33 puntos corporales. & Imágenes y video con anotaciones de pose corporal completa \citep{bazarevsky2020blazepose}. & Ejercicios con contexto de tronco y brazos. \\
+HandLandmarker (MediaPipe 0.10) & Detección de 21 puntos por mano. & Imágenes anotadas de manos en distintas poses, entornos y condiciones de iluminación \citep{zhang2020mediapipehands}. & Ejercicios de finger tapping, temblor de mano y apertura y cierre de manos. \\
+PoseLandmarker Lite (MediaPipe 0.10) & Detección de 33 puntos corporales. & Imágenes y video con anotaciones de pose corporal completa \citep{bazarevsky2020blazepose}. & Prueba nariz--dedo (contexto de tronco y brazos). \\
 GPT-5.4-mini (OpenAI) & Modelo de lenguaje generativo. & Conjunto general empleado por OpenAI para sus modelos de propósito general \citep{openai_api}. & Resúmenes interpretativos por sesión y por evolución a partir de las métricas calculadas. \\
 \bottomrule
 \end{tabular}}

@@ -21,11 +21,11 @@ Sobre esa señal se aplica \texttt{detect\_impulses}, que enfatiza el rango de f
 
 \subsection{Preprocesamiento de imagen}
 
-Cada fotograma leído pasa por \texttt{FrameProcessor}, que convierte el espacio de color de BGR a RGB, redimensiona el ancho a un máximo de 640 píxeles cuando el video supera esa resolución y registra indicadores de calidad por cuadro. En el servicio HTTP el procesamiento se ejecuta en modo streaming: se lee un fotograma, se redimensiona, se estima la pose y se descarta el buffer, de modo que no se acumula en memoria la secuencia completa. Para controlar el costo computacional en videos de 30 o más cuadros por segundo, el worker subsamplea la secuencia a un máximo efectivo de 15 cuadros analizados por segundo y calcula el paso entre fotogramas como el cociente entero entre la tasa nominal y ese tope. La tasa efectiva resultante se utiliza en todas las métricas que dependen de la frecuencia de muestreo, en particular el análisis espectral del temblor.
+Cada fotograma leído pasa por \texttt{FrameProcessor}, que convierte el espacio de color de BGR a RGB, redimensiona el ancho a un máximo de 640 píxeles cuando el video supera esa resolución y registra indicadores de calidad por cuadro. En el servicio HTTP el procesamiento se ejecuta en modo streaming: se lee un fotograma, se redimensiona, se estima la pose y se descarta el buffer, de modo que no se acumula en memoria la secuencia completa. Para controlar el costo computacional en videos de 30 o más cuadros por segundo, el algoritmo de la solución subsamplea la secuencia a un máximo efectivo de 15 cuadros analizados por segundo y calcula el paso entre fotogramas como el cociente entero entre la tasa nominal y ese tope. La tasa efectiva resultante se utiliza en todas las métricas que dependen de la frecuencia de muestreo, en particular el análisis espectral del temblor.
 
 \subsection{Calibración espacial}
 
-Las distancias articulares se expresan preferentemente en milímetros. Para ello se estima el factor de conversión píxeles a milímetros a partir de detecciones del tablero ChArUco en una muestra de fotogramas del inicio del video (\texttt{estimate\_scale\_from\_video\_sample}). La geometría del tablero impreso (cuadrícula 5$\times$7, lado de cuadrado 25~mm, marcadores ArUco \texttt{DICT\_4X4\_50}) coincide con la documentación interna del repositorio y con las condiciones de captura descritas en la sección \ref{sec:datasets}. Cuando la tasa de detección de esquinas es insuficiente, el sistema recurre a una escala de respaldo definida en configuración o permite forzar la calibración manual heredada (\texttt{Calibration.from\_pixel\_distance}) mediante parámetros de distancia en píxeles y longitud real en milímetros. El muestreo de fotogramas para ChArUco se concentra en los primeros 12~s del video y en índices de cuadro acotados, con paso configurable entre muestras, de forma de privilegiar el intervalo en el que el tablero permanece visible antes del inicio del ejercicio dinámico. Cuando la detección de esquinas internas del tablero falla pero los marcadores ArUco individuales son visibles, se aplica un estimador alternativo basado en la longitud conocida del lado del marcador impreso, lo que incrementa la robustez en grabaciones con oclusión parcial del patrón.
+Las distancias articulares se expresan preferentemente en milímetros. Para ello se estima el factor de conversión píxeles a milímetros a partir de detecciones del tablero ChArUco en una muestra de fotogramas del inicio del video. La geometría del tablero impreso (cuadrícula 5$\times$7, lado de cuadrado 25~mm, marcadores ArUco \texttt{DICT\_4X4\_50}) coincide con la documentación interna del repositorio y con las condiciones de captura descritas en la sección \ref{sec:datasets}. Cuando la tasa de detección de esquinas es insuficiente, el sistema recurre a una escala de respaldo definida en configuración o permite forzar la calibración manual heredada (\texttt{Calibration.from\_pixel\_distance}) mediante parámetros de distancia en píxeles y longitud real en milímetros. El muestreo de fotogramas para ChArUco se concentra en los primeros 12~s del video y en índices de cuadro acotados, con paso configurable entre muestras, de forma de privilegiar el intervalo en el que el tablero permanece visible antes del inicio del ejercicio dinámico. Cuando la detección de esquinas internas del tablero falla pero los marcadores ArUco individuales son visibles, se aplica un estimador alternativo basado en la longitud conocida del lado del marcador impreso, lo que incrementa la robustez en grabaciones con oclusión parcial del patrón.
 
 El resultado de la calibración se propaga al seguimiento y queda registrado en el resumen de sesión: método empleado (\texttt{charuco} o \texttt{legacy}), milímetros por píxel, tasa de detección, uso de respaldo y parámetros geométricos del tablero. Esa trazabilidad permite al operador de la interfaz interpretar si las distancias en milímetros deben tomarse con reserva y habilita la superposición posterior de marcadores sobre el video almacenado para auditoría visual del procedimiento.
 
@@ -48,7 +48,7 @@ En la figura \ref{fig:static-phase} se observa una gráfica de la distancia pulg
 \vspace{0.6em}
 \begin{center}
 \includegraphics[width=0.95\textwidth]{Figures/cap_3/fase_estatica_dist.png}
-\captionof{figure}{Serie temporal de la distancia pulgar-índice en una sesión de finger tapping.}
+\captionof{figure}{Fase estática de la distancia pulgar-índice en una sesión de finger tapping.}
 \label{fig:static-phase}
 \end{center}
 \vspace{0.4em}
@@ -73,14 +73,14 @@ Estimación de pose & Fotograma procesado. & \texttt{PoseResult} por cuadro. & \
 Seguimiento & Secuencia de \texttt{PoseResult}. & \texttt{DataFrame} por fotograma. & \texttt{KeypointTracker}. \\
 Segmentación & Serie temporal completa. & Subserie para métricas (tapping). & \texttt{static\_phase}; recorte opcional. \\
 Métricas & Serie de distancia pulgar--índice. & Lista de \texttt{MetricResult}. & \texttt{pipeline.metrics}. \\
-Agregación y\\exportación & Tracking y métricas. & CSV, JSON, resumen de sesión. & \texttt{SessionAggregator};\\escritores. \\
+Agregación y\\exportación & Tracking y métricas. & CSV, JSON, resumen de sesión. & \texttt{SessionAggregator} \\
 \bottomrule
 \end{tabular}}
 \end{minipage}
 \end{center}
 \vspace{0.4em}
 
-Las etapas de estimación de pose, seguimiento y segmentación se detallan en la sección~\ref{sec:arquitectura}, mientras que ingestión, preprocesamiento y calibración corresponden al flujo documentado en esta sección.
+Las etapas de ingestión, preprocesamiento y calibración corresponden al flujo documentado en esta sección. Mientras que las etapas: estimación de pose, seguimiento y segmentación se detallan en la sección~\ref{sec:arquitectura}.
 
 %----------------------------------------------------------------------------------------
 
@@ -99,7 +99,7 @@ Durante la implementación se evaluaron varias variantes de prompt para acotar t
 
 \subsection{Criterios de diseño y configuración}
 
-La configuración global se centralizó en la clase \texttt{Settings}, que se carga con prefijo de variables de entorno \texttt{DAGO\_} y valores por defecto versionados en el repositorio. De ese modo se evitó codificar rutas, umbrales de audio o geometría del tablero ChArUco dentro de la lógica. El tipo de ejercicio clínico (\texttt{finger\_tapping}, \texttt{hand\_tremor}, \texttt{nose\_finger}, \texttt{arm\_oscillation}) se propagó a lo largo del pipeline para etiquetar métricas y seleccionar el modelo de pose adecuado.
+La configuración global se centralizó en la clase \texttt{Settings}, que se carga con prefijo de variables de entorno \texttt{DAGO\_} y valores por defecto versionados en el repositorio. De ese modo se evitó codificar rutas, umbrales de audio o geometría del tablero ChArUco dentro de la lógica. El tipo de ejercicio clínico (\texttt{finger\_tapping}, \texttt{hand\_tremor}, \texttt{nose\_finger}, \texttt{open\_close\_hands}) se propagó a lo largo del pipeline para etiquetar métricas y seleccionar el modelo de pose adecuado.
 
 Se adoptó además una política de clasificación de datos en tres niveles en el repositorio: material de muestra anonimizado apto para integración continua, grabaciones reales de pacientes excluidas del control de versiones y directorios de salida de análisis ignorados por el sistema de seguimiento de cambios. Esa separación se mantuvo coherente con los requerimientos éticos de la planificación inicial y condicionó que las pruebas automatizadas y los ejemplos de documentación apuntaran únicamente al nivel público, mientras las sesiones clínicas reales se procesaron en entornos locales o en la nube con almacenamiento privado.
 
@@ -122,7 +122,7 @@ La figura \ref{fig:pipeline-dago} muestra el recorrido completo desde el video c
 
 \subsection{Orquestación de la inferencia}
 
-La función \texttt{pose\_model\_for\_exercise} selecciona el landmarker de MediaPipe según el tipo de ejercicio: modo \texttt{HANDS} para \texttt{finger\_tapping} y \texttt{hand\_tremor}, y modo \texttt{HOLISTIC} para \texttt{nose\_finger} y \texttt{arm\_oscillation}. La clase \texttt{PoseEstimator} instancia el modelo correspondiente mediante la API de tareas, con archivos \texttt{.task} en caché local gestionados por \texttt{ModelManager}. En el servicio web se activa el modo de video del landmarker para explotar la continuidad temporal entre cuadros consecutivos.
+La función \texttt{pose\_model\_for\_exercise} selecciona el landmarker de MediaPipe según el tipo de ejercicio: modo \texttt{HANDS} para \texttt{finger\_tapping}, \texttt{hand\_tremor} y \texttt{open\_close\_hands}, y modo \texttt{HOLISTIC} para \texttt{nose\_finger}. La clase \texttt{PoseEstimator} instancia el modelo correspondiente mediante la API de tareas, con archivos \texttt{.task} en caché local gestionados por \texttt{ModelManager}. En el servicio web se activa el modo de video del landmarker para explotar la continuidad temporal entre cuadros consecutivos.
 
 Las coordenadas de profundidad (\texttt{z}) se almacenan en los esquemas internos pero no intervienen en distancias ni ángulos métricos: la cuantificación operativa permanece en dos dimensiones con escala inferida por ChArUco o calibración manual. En modo \texttt{HANDS} se retiene una sola mano dominante por fotograma; en modo \texttt{HOLISTIC} se registran además hombros, codos y muñecas para visualización.
 
@@ -130,14 +130,14 @@ Las coordenadas de profundidad (\texttt{z}) se almacenan en los esquemas interno
 
 \texttt{KeypointTracker} acumula, por cada fotograma analizado, un registro tabular común con índice temporal, coordenadas normalizadas de los 21 puntos de la mano dominante, distancias derivadas en milímetros cuando existe calibración y, en modo holístico, posiciones de nariz, hombros, codos y muñecas junto con los ángulos de abducción de brazo izquierdo y derecho (\texttt{pose\_left\_arm\_angle}, \texttt{pose\_right\_arm\_angle}). Las detecciones ausentes se registran como valores faltantes y se rellenan hacia adelante hasta un máximo de 5 fotogramas consecutivos para atenuar oclusiones breves. Esa capa de seguimiento es compartida por los cuatro tipos de ejercicio, pero la señal que alimenta las métricas clínicas se elige en función del movimiento evaluado.
 
-En \texttt{finger\_tapping} y \texttt{hand\_tremor} la señal operativa principal es la distancia pulgar--índice \texttt{hand0\_thumb\_index\_dist}. Con factor de escala $s$ milímetros por píxel y coordenadas normalizadas de pulgar e índice $\mathbf{p}_t$ y $\mathbf{q}_t$ en un fotograma de ancho $W$ y alto $H$ píxeles, se define
+En \texttt{finger\_tapping} la señal operativa principal es la distancia pulgar--índice \texttt{hand0\_thumb\_index\_dist}. Con factor de escala $s$ milímetros por píxel y coordenadas normalizadas de pulgar e índice $\mathbf{p}_t$ y $\mathbf{q}_t$ en un fotograma de ancho $W$ y alto $H$ píxeles, se define
 \begin{equation}
 d_t = s \,\sqrt{W^2(p_{t,x}-q_{t,x})^2 + H^2(p_{t,y}-q_{t,y})^2}\,.
 \label{eq:thumb-index-dist}
 \end{equation}
-En \texttt{finger\_tapping}, $d_t$ sustenta los biomarcadores de tapping y la sincronía con el metrónomo. En \texttt{hand\_tremor}, la misma serie (o el desplazamiento de la muñeca derivado de \texttt{hand0\_wrist\_px\_*}) cuantifica la oscilación involuntaria de la mano en reposo, sin detección de ciclos de apertura y cierre.
+En \texttt{finger\_tapping}, $d_t$ sustenta los biomarcadores de tapping y la sincronía con el metrónomo. En \texttt{hand\_tremor}, la misma serie (o el desplazamiento de la muñeca derivado de \texttt{hand0\_wrist\_px\_*}) cuantifica la oscilación involuntaria de la mano en reposo. En \texttt{open\_close\_hands}, $d_t$ se utiliza para evaluar la amplitud, frecuencia y regularidad de los ciclos voluntarios de apertura y cierre de la mano.
 
-En \texttt{nose\_finger} se construye la distancia entre la yema del índice y la nariz a partir de los landmarks holísticos (\texttt{pose\_nose\_*} y \texttt{hand0\_lm8\_*}), con la misma conversión métrica $s$. El mínimo de esa distancia durante el alcance resume la precisión del contacto nariz--dedo. En \texttt{arm\_oscillation} la magnitud central es el ángulo de abducción del brazo en el plano de la imagen, calculado en cada fotograma entre el vector hombro--codo y la línea de hombros. Las columnas de muñeca y mano quedan disponibles para supervisión visual, pero las métricas automáticas de ese ejercicio se expresan en grados sobre la serie angular.
+En \texttt{nose\_finger} se construye la distancia entre la yema del índice y la nariz a partir de los landmarks holísticos (\texttt{pose\_nose\_*} y \texttt{hand0\_lm8\_*}), con la misma conversión métrica $s$. El mínimo de esa distancia durante el alcance resume la precisión del contacto nariz--dedo. Además, en este ejercicio se registran como métricas secundarias el ángulo de abducción del brazo en el plano de la imagen (calculado en cada fotograma entre el vector hombro--codo y la línea de hombros) y la estabilidad postural del tronco, lo que permite detectar caídas del brazo o balanceos compensatorios durante la prueba.
 
 \subsection{Métricas de movimiento implementadas}
 
@@ -150,11 +150,11 @@ coherente con el rango de interés clínico para temblor y oscilaciones de extre
 
 En \texttt{finger\_tapping}, tras recortar la fase estática y, de forma opcional, la ventana entre el primer y el último tap, se aplican sobre $\{d_t\}$ los biomarcadores de \texttt{compute\_finger\_tapping\_metrics}: tasa de taps, intervalo inter-tap medio y su coeficiente de variación, decremento de amplitud entre picos, índice de fatiga, velocidades medias de apertura y cierre, y el promedio del ángulo en la muñeca (\texttt{thumb\_index\_wrist\_angle\_mean}). La detección de picos usa \texttt{scipy.signal.find\_peaks} con prominencia proporcional al rango de la señal \citep{sibley2021video,acevedo2025visionmd}. \texttt{SessionAggregator} calcula además retardos entre impulsos del metrónomo y mínimos locales de $d_t$ dentro de $\pm 0{,}35$~s (\texttt{delays.csv}).
 
-En \texttt{hand\_tremor}, sobre la serie de la mano en reposo se reportan amplitud de oscilación, frecuencia en la banda \ref{eq:tremor-band} y regularidad del movimiento. No se calculan métricas de tapping ni retardos con metrónomo.
+En \texttt{hand\_tremor}, sobre la serie de la mano en reposo se reportan amplitud de oscilación, frecuencia en la banda definida según \ref{eq:tremor-band} y regularidad del movimiento. No se calculan métricas de tapping ni retardos con metrónomo.
 
-En \texttt{nose\_finger}, se cuantifican la distancia mínima y media índice--nariz, la longitud de la trayectoria de la yema del índice y un índice de precisión del alcance (cociente entre distancia mínima y longitud de trayectoria). Opcionalmente se resume la dispersión de la muñeca durante el gesto.
+En \texttt{nose\_finger}, para cada brazo, se cuantifican la distancia mínima y media índice--nariz, la longitud de la trayectoria de la yema del índice y un índice de precisión del alcance (cociente entre distancia mínima y longitud de trayectoria). Como métricas secundarias, se promedian y resumen los ángulos de abducción del brazo (\texttt{arm\_angle\_mean}, \texttt{arm\_angle\_variability}) y se estima la estabilidad postural del tronco (\texttt{postural\_stability}) a partir del desplazamiento del centro de masa definido por hombros y caderas.
 
-En \texttt{arm\_oscillation}, se promedian y resumen los ángulos de abducción (\texttt{arm\_angle\_mean}, \texttt{arm\_angle\_variability}), se aplican amplitud, frecuencia y regularidad sobre la serie angular del brazo dominante y se estima la estabilidad postural del tronco (\texttt{postural\_stability}) a partir del desplazamiento del centro de masa definido por hombros y caderas.
+En \texttt{open\_close\_hands}, se evalúa la amplitud de apertura máxima, la frecuencia de los ciclos y la regularidad del movimiento, junto con las velocidades medias de apertura y cierre de cada mano. Luego, estas mediciones son usadas para calcular métricas de simetría entre los movimientos de ambas extremidades.
 
 Cada magnitud se encapsula en un \texttt{MetricResult} con unidad, validez y nota cuando los datos son insuficientes. En el listado siguiente se resume el catálogo por tipo de ejercicio.\label{sec:metricas-implementadas}
 
@@ -181,20 +181,24 @@ Cada magnitud se encapsula en un \texttt{MetricResult} con unidad, validez y not
 
     \item \textbf{Prueba nariz--dedo:}
     \begin{itemize}
-        \item \textbf{Distancia mínima nariz--dedo} (\texttt{nose\_finger\_min\_distance}, mm): mínima distancia entre la yema del índice y la nariz.
+        \item \textbf{Distancia mínima nariz--dedo} (\texttt{nose\_finger\_min\_distance}, mm): mínima distancia entre la yema del índice de cada mano y la nariz.
         \item \textbf{Distancia media nariz--dedo} (\texttt{nose\_finger\_mean\_distance}, mm): distancia media durante el alcance.
-        \item \textbf{Longitud de trayectoria} (\texttt{nose\_finger\_path\_length}, mm): recorrido de la yema del índice.
+        \item \textbf{Longitud de trayectoria} (\texttt{nose\_finger\_path\_length}, mm): recorrido de la yema del índice de cada mano.
         \item \textbf{Precisión del alcance} (\texttt{nose\_finger\_accuracy}, adim.): cociente entre distancia mínima y longitud de trayectoria.
+        \item \textbf{Ángulo medio de abducción} (\texttt{arm\_angle\_mean}, $^{\circ}$): abducción media de cada brazo (métrica secundaria).
+        \item \textbf{Variabilidad del ángulo} (\texttt{arm\_angle\_variability}, $^{\circ}$): rango pico a pico del ángulo de abducción (métrica secundaria).
+        \item \textbf{Estabilidad postural} (\texttt{postural\_stability}, adim.): balanceo del tronco, estimado como proxy hombro--cadera (métrica secundaria).
     \end{itemize}
 
-    \item \textbf{Oscilación de brazo:}
+    \item \textbf{Apertura y cierre de manos:}
     \begin{itemize}
-        \item \textbf{Ángulo medio de abducción} (\texttt{arm\_angle\_mean}, $^{\circ}$): abducción media del brazo analizado.
-        \item \textbf{Variabilidad del ángulo} (\texttt{arm\_angle\_variability}, $^{\circ}$): rango pico a pico del ángulo de abducción.
-        \item \textbf{Amplitud de oscilación} (\texttt{oscillation\_amplitude}, $^{\circ}$): oscilación de la serie angular del brazo.
-        \item \textbf{Frecuencia de temblor} (\texttt{tremor\_frequency}, Hz): frecuencia dominante del ángulo en banda definida según \ref{eq:tremor-band}.
-        \item \textbf{Regularidad del movimiento} (\texttt{movement\_regularity}, adim.): regularidad de la oscilación del brazo.
-        \item \textbf{Estabilidad postural} (\texttt{postural\_stability}, adim.): balanceo del tronco, estimado como proxy hombro--cadera.
+        \item \textbf{Amplitud de apertura} (\texttt{oscillation\_amplitude}, mm): rango de apertura máxima de cada mano.
+        \item \textbf{Frecuencia de ciclos} (\texttt{open\_close\_rate}, 1/s): ritmo de los ciclos voluntarios de apertura y cierre.
+        \item \textbf{Regularidad del movimiento} (\texttt{movement\_regularity}, adim.): variabilidad y entropía de los ciclos.
+        \item \textbf{Velocidad de apertura en picos} (\texttt{peak\_opening\_velocity}, mm/s): velocidad media al abrir cada mano.
+        \item \textbf{Velocidad de cierre en valles} (\texttt{peak\_closing\_velocity}, mm/s): velocidad media al cerrar cada mano.
+        \item \textbf{Índice de simetría entre manos} (\texttt{hand\_movement\_symmetry}, adim.): comparación relativa de la amplitud, velocidad y frecuencia de apertura/cierre entre ambas manos para cuantificar la coordinación bilateral.
+   
     \end{itemize}
 \end{itemize}
 
@@ -212,102 +216,102 @@ En la ejecución por línea de comandos se generan además gráficos \texttt{tim
 
 \subsection{Agregación, exportación y trazabilidad}
 
-\texttt{SessionAggregator} recibe el \texttt{DataFrame} completo de seguimiento (incluida la fase estática cuando corresponde), la lista de métricas calculadas, los impulsos de audio y los metadatos de calibración. Produce un resumen con identificador de video, tipo de ejercicio, tasa de fotogramas nominal, conteo de fotogramas analizados, tabla de métricas y colección de retardos audio--movimiento. Los escritores \texttt{CsvWriter} y \texttt{JsonWriter} materializan ese contenido en disco con convenciones de nombres de columna estables, de modo que las pruebas de integración puedan verificar la existencia y el esquema de \texttt{tracking.csv}, \texttt{metrics.csv} y \texttt{summary.json} tras una ejecución de humo del comando de sesión.
+\texttt{SessionAggregator} recibe el \texttt{DataFrame} completo de seguimiento (incluida la fase estática cuando corresponde), la lista de métricas calculadas, los impulsos de audio y los metadatos de calibración. Produce un resumen con identificador de video, tipo de ejercicio, tasa de fotogramas nominal, conteo de fotogramas analizados, tabla de métricas y colección de retardos audio--movimiento. Los componentes \texttt{CsvWriter} y \texttt{JsonWriter} materializan ese contenido en disco con convenciones de nombres de columna estables, de modo que las pruebas de integración puedan verificar la existencia y el esquema de \texttt{tracking.csv}, \texttt{metrics.csv} y \texttt{summary.json} tras una ejecución de prueba del comando de sesión.
 
-La métrica de amplitud de oscilación combina rango pico a pico, media y desviación estándar de la señal centrada; la regularidad cuantifica tanto la variabilidad relativa como la entropía muestral de incrementos, conforme a la literatura de análisis de complejidad del movimiento en trastornos del movimiento \citep{pecoraro2025computer}. La coherencia entre definiciones matemáticas en código y descripción en la memoria se verificó en el capítulo~\ref{Chapter4} mediante pruebas unitarias sobre señales sintéticas con espectro y picos conocidos.
+La coherencia entre definiciones matemáticas en código y descripción en la memoria se verificó en el capítulo~\ref{Chapter4} mediante pruebas unitarias sobre señales sintéticas con espectro y picos conocidos.
 
 Cada objeto \texttt{MetricResult} incluye, además del valor escalar, un indicador de validez y un campo de nota textual cuando el algoritmo no puede estimar la magnitud (señal demasiado corta, menos de 3 taps, espectro plano en la banda de temblor, entre otros casos). Esa decisión evitó presentar números engañosos en la interfaz y facilitó el diagnóstico de fallos de grabación (mano fuera de cuadro, oclusión prolongada, metrónomo inaudible). La versión del pipeline se registra en cada sesión para detectar incompatibilidades si en el futuro se modifican definiciones de métricas de forma no retrocompatible.
 
 %----------------------------------------------------------------------------------------
 
-\section{Integración e implementación del sistema}
-\label{sec:integracion}
+% \section{Integración e implementación del sistema}
+% \label{sec:integracion}
 
-El prototipo operativo se estructuró en tres capas: el paquete \texttt{pipeline} como motor analítico, un servicio HTTP construido con \texttt{FastAPI} y una aplicación de página única en \texttt{React} servida mediante \texttt{nginx}. La persistencia de usuarios, pacientes y sesiones reside en \texttt{PostgreSQL}, con migraciones versionadas mediante \texttt{Alembic}, en línea con las herramientas citadas en la sección \ref{sec:frameworks}.
+% El prototipo operativo se estructuró en tres capas: el paquete \texttt{pipeline} como motor analítico, un servicio HTTP construido con \texttt{FastAPI} y una aplicación de página única en \texttt{React} servida mediante \texttt{nginx}. La persistencia de usuarios, pacientes y sesiones reside en \texttt{PostgreSQL}, con migraciones versionadas mediante \texttt{Alembic}, en línea con las herramientas citadas en la sección \ref{sec:frameworks}.
 
-\subsection{Diferencias entre ejecución por CLI y por API}
+% \subsection{Diferencias entre ejecución por CLI y por API}
 
-Aunque ambos caminos comparten la lógica analítica, existieron diferencias operativas deliberadas en su diseño. La CLI procesa el video a la tasa de muestreo definida por el argumento \texttt{--step} o, por defecto, todos los fotogramas, mientras que el worker de la API impone el tope de 15 cuadros analizados por segundo y escribe el progreso en la cola SSE. La CLI genera figuras estáticas de control de calidad; la API prioriza la latencia y el pico de memoria del contenedor. La CLI acepta rutas de archivo locales; la API recibe bytes en memoria, los persiste en un archivo temporal y los elimina al finalizar; conserva únicamente la copia en el directorio de salida de la sesión. Esas variantes respondieron a usos distintos: experimentación offline e integración continua frente a carga interactiva desde el navegador.
+% Aunque ambos caminos comparten la lógica analítica, existieron diferencias operativas deliberadas en su diseño. La CLI procesa el video a la tasa de muestreo definida por el argumento \texttt{--step} o, por defecto, todos los fotogramas, mientras que el worker de la API impone el tope de 15 cuadros analizados por segundo y escribe el progreso en la cola SSE. La CLI genera figuras estáticas de control de calidad; la API prioriza la latencia y el pico de memoria del contenedor. La CLI acepta rutas de archivo locales; la API recibe bytes en memoria, los persiste en un archivo temporal y los elimina al finalizar; conserva únicamente la copia en el directorio de salida de la sesión. Esas variantes respondieron a usos distintos: experimentación offline e integración continua frente a carga interactiva desde el navegador.
 
-\subsection{Servicio HTTP y procesamiento en segundo plano}
+% \subsection{Servicio HTTP y procesamiento en segundo plano}
 
-La aplicación \texttt{api.main} registra routers para autenticación (\texttt{/api/auth}), pacientes (\texttt{/api/patients}), sesiones de análisis (\texttt{/api/sessions}), comparación entre sesiones (\texttt{/api/compare}), generación de informes (\texttt{/api/sessions/.../report}) e interpretación asistida por modelo de lenguaje (\texttt{/api/insights}). Los esquemas de entrada y salida se validan con modelos \texttt{Pydantic}, lo que homogeneiza los tipos entre el cliente web y el servidor y reduce errores de formato en la carga multipart de videos.
+% La aplicación \texttt{api.main} registra routers para autenticación (\texttt{/api/auth}), pacientes (\texttt{/api/patients}), sesiones de análisis (\texttt{/api/sessions}), comparación entre sesiones (\texttt{/api/compare}), generación de informes (\texttt{/api/sessions/.../report}) e interpretación asistida por modelo de lenguaje (\texttt{/api/insights}). Los esquemas de entrada y salida se validan con modelos \texttt{Pydantic}, lo que homogeneiza los tipos entre el cliente web y el servidor y reduce errores de formato en la carga multipart de videos.
 
-El registro de usuarios y el inicio de sesión emiten tokens JWT que deben acompañar las peticiones subsiguientes. Los roles distinguen al menos cuentas de personal de salud y cuentas de portal de paciente con acceso de solo lectura a su propia evolución, de modo de separar la carga de nuevas sesiones de la consulta longitudinal sin exponer datos de terceros.
+% El registro de usuarios y el inicio de sesión emiten tokens JWT que deben acompañar las peticiones subsiguientes. Los roles distinguen al menos cuentas de personal de salud y cuentas de portal de paciente con acceso de solo lectura a su propia evolución, de modo de separar la carga de nuevas sesiones de la consulta longitudinal sin exponer datos de terceros.
 
-La carga de un video se realiza mediante \texttt{POST /api/sessions/analyse}, que crea un registro de sesión en estado pendiente y encola un trabajo en un \texttt{ThreadPoolExecutor} con capacidad limitada (2 hilos concurrentes y cola acotada) para evitar saturar la memoria del host. Si la cola supera el máximo configurado, el servicio responde con código HTTP 503 e informa al cliente que debe reintentar más tarde. Existe además un endpoint de análisis por lotes que procesa varios archivos en secuencia y mantiene el orden de envío; resulta útil para sesiones de laboratorio con múltiples repeticiones del mismo ejercicio.
+% La carga de un video se realiza mediante \texttt{POST /api/sessions/analyse}, que crea un registro de sesión en estado pendiente y encola un trabajo en un \texttt{ThreadPoolExecutor} con capacidad limitada (2 hilos concurrentes y cola acotada) para evitar saturar la memoria del host. Si la cola supera el máximo configurado, el servicio responde con código HTTP 503 e informa al cliente que debe reintentar más tarde. Existe además un endpoint de análisis por lotes que procesa varios archivos en secuencia y mantiene el orden de envío; resulta útil para sesiones de laboratorio con múltiples repeticiones del mismo ejercicio.
 
-Cada trabajo ejecuta \texttt{run\_pipeline} en un hilo separado. Durante el procesamiento, los eventos de progreso (\texttt{ingestion}, \texttt{preprocessing}, \texttt{pose\_estimation}, \texttt{metrics}, \texttt{aggregation}, \texttt{done} o \texttt{error}) se publican en una cola thread-safe asociada al identificador de sesión. El endpoint \texttt{GET /api/sessions/\{id\}/status} transmite esos eventos al navegador mediante eventos enviados desde el servidor (SSE), con autenticación por token en la cadena de consulta para compatibilidad con \texttt{EventSource}. Al finalizar, un coroutine asíncrono actualiza el campo \texttt{summary\_json} y la ruta de salida en la tabla \texttt{AnalysisSession}.
+% Cada trabajo ejecuta \texttt{run\_pipeline} en un hilo separado. Durante el procesamiento, los eventos de progreso (\texttt{ingestion}, \texttt{preprocessing}, \texttt{pose\_estimation}, \texttt{metrics}, \texttt{aggregation}, \texttt{done} o \texttt{error}) se publican en una cola thread-safe asociada al identificador de sesión. El endpoint \texttt{GET /api/sessions/\{id\}/status} transmite esos eventos al navegador mediante eventos enviados desde el servidor (SSE), con autenticación por token en la cadena de consulta para compatibilidad con \texttt{EventSource}. Al finalizar, un coroutine asíncrono actualiza el campo \texttt{summary\_json} y la ruta de salida en la tabla \texttt{AnalysisSession}.
 
-\subsection{Manejo de errores y recuperación de sesión}
+% \subsection{Manejo de errores y recuperación de sesión}
 
-Si una excepción interrumpe el pipeline en el hilo de trabajo, el estado de la sesión pasa a \texttt{error}, se registra el mensaje en la base de datos y se emite un evento SSE de error al cliente. Los archivos temporales del video subido se eliminan en un bloque \texttt{finally} para no agotar el espacio en disco del contenedor. Cuando el proceso del servidor se reinicia y pierde la cola en memoria, el endpoint de estado puede consultar el registro persistido y devolver el estado terminal (\texttt{done} o \texttt{error}) tras un tiempo de espera acotado, de modo que el operador no quede indefinidamente suscrito a un análisis ya finalizado.
+% Si una excepción interrumpe el pipeline en el hilo de trabajo, el estado de la sesión pasa a \texttt{error}, se registra el mensaje en la base de datos y se emite un evento SSE de error al cliente. Los archivos temporales del video subido se eliminan en un bloque \texttt{finally} para no agotar el espacio en disco del contenedor. Cuando el proceso del servidor se reinicia y pierde la cola en memoria, el endpoint de estado puede consultar el registro persistido y devolver el estado terminal (\texttt{done} o \texttt{error}) tras un tiempo de espera acotado, de modo que el operador no quede indefinidamente suscrito a un análisis ya finalizado.
 
-\subsection{Artefactos y consulta de resultados}
+% \subsection{Artefactos y consulta de resultados}
 
-Por cada análisis exitoso se escriben en un directorio temporal (luego referenciado desde la base de datos) los archivos \texttt{tracking.csv} (serie temporal por fotograma), \texttt{metrics.csv} (tabla de métricas con validez y notas), \texttt{delays.csv} (retardos respecto del metrónomo), \texttt{summary.json} (resumen agregado con metadatos de calibración y metrónomo) y una copia \texttt{input.mp4} del video original para reproducción y superposición de marcadores ChArUco. El frontend recupera el resumen y el tracking mediante peticiones REST autenticadas y ofrece descarga de los artefactos y generación de informe en PDF mediante \texttt{ReportLab} en el servidor.
+% Por cada análisis exitoso se escriben en un directorio temporal (luego referenciado desde la base de datos) los archivos \texttt{tracking.csv} (serie temporal por fotograma), \texttt{metrics.csv} (tabla de métricas con validez y notas), \texttt{delays.csv} (retardos respecto del metrónomo), \texttt{summary.json} (resumen agregado con metadatos de calibración y metrónomo) y una copia \texttt{input.mp4} del video original para reproducción y superposición de marcadores ChArUco. El frontend recupera el resumen y el tracking mediante peticiones REST autenticadas y ofrece descarga de los artefactos y generación de informe en PDF mediante \texttt{ReportLab} en el servidor.
 
-En la tabla \ref{tab:api-artefactos} se relacionan esos productos con su uso en la interfaz y en los informes.
+% En la tabla \ref{tab:api-artefactos} se relacionan esos productos con su uso en la interfaz y en los informes.
 
-\vspace{0.6em}
-\begin{center}
-\begin{minipage}{\textwidth}
-\centering
-\captionof{table}{Artefactos generados por sesión y su consumo en la aplicación.}
-\label{tab:api-artefactos}
-{\setlength{\tabcolsep}{3.5pt}\small
-\begin{tabular}{@{}p{0.22\textwidth}p{0.14\textwidth}p{0.58\textwidth}@{}}
-\toprule
-\tabhead{Artefacto} & \tabhead{Formato} & \tabhead{Uso} \\
-\midrule
-\texttt{summary.json} & JSON & Resumen en pantalla de resultados, evolución longitudinal y prompts al LLM. \\
-\texttt{tracking.csv} & CSV & Gráficos interactivos de series temporales y ángulos. \\
-\texttt{metrics.csv} & CSV & Tabla de métricas exportable e informe PDF. \\
-\texttt{delays.csv} & CSV & Análisis de sincronización con metrónomo (cuando aplica). \\
-\texttt{input.mp4} & Video & Reproducción con superposición de landmarks y marcadores ChArUco. \\
-Informe PDF & PDF & Exportación para revisión offline por el profesional. \\
-\bottomrule
-\end{tabular}}
-\end{minipage}
-\end{center}
-\vspace{0.4em}
+% \vspace{0.6em}
+% \begin{center}
+% \begin{minipage}{\textwidth}
+% \centering
+% \captionof{table}{Artefactos generados por sesión y su consumo en la aplicación.}
+% \label{tab:api-artefactos}
+% {\setlength{\tabcolsep}{3.5pt}\small
+% \begin{tabular}{@{}p{0.22\textwidth}p{0.14\textwidth}p{0.58\textwidth}@{}}
+% \toprule
+% \tabhead{Artefacto} & \tabhead{Formato} & \tabhead{Uso} \\
+% \midrule
+% \texttt{summary.json} & JSON & Resumen en pantalla de resultados, evolución longitudinal y prompts al LLM. \\
+% \texttt{tracking.csv} & CSV & Gráficos interactivos de series temporales y ángulos. \\
+% \texttt{metrics.csv} & CSV & Tabla de métricas exportable e informe PDF. \\
+% \texttt{delays.csv} & CSV & Análisis de sincronización con metrónomo (cuando aplica). \\
+% \texttt{input.mp4} & Video & Reproducción con superposición de landmarks y marcadores ChArUco. \\
+% Informe PDF & PDF & Exportación para revisión offline por el profesional. \\
+% \bottomrule
+% \end{tabular}}
+% \end{minipage}
+% \end{center}
+% \vspace{0.4em}
 
-\subsection{Interfaz web}
+% \subsection{Interfaz web}
 
-La aplicación React define rutas para inicio de sesión y registro, carga de videos (\texttt{UploadPage}) con selección de ejercicio y parámetros de calibración, listado y detalle de pacientes, visualización de resultados por sesión (\texttt{ResultsPage}), exportación, comparación entre dos sesiones y un panel de progreso del paciente. El cliente HTTP centraliza las llamadas en \texttt{api/client.ts}, entre ellas la suscripción SSE que mapea las etapas del pipeline a mensajes legibles en la barra de progreso.
+% La aplicación React define rutas para inicio de sesión y registro, carga de videos (\texttt{UploadPage}) con selección de ejercicio y parámetros de calibración, listado y detalle de pacientes, visualización de resultados por sesión (\texttt{ResultsPage}), exportación, comparación entre dos sesiones y un panel de progreso del paciente. El cliente HTTP centraliza las llamadas en \texttt{api/client.ts}, entre ellas la suscripción SSE que mapea las etapas del pipeline a mensajes legibles en la barra de progreso.
 
-En la pantalla de resultados se combinan tablas de métricas con gráficos de series temporales construidos con una biblioteca de gráficos declarativos, superposición opcional de landmarks sobre el video y solicitud de resúmenes interpretativos bajo demanda. La vista de detalle de paciente integra un componente de evolución que filtra sesiones previas por tipo de ejercicio y representa la tendencia de biomarcadores seleccionados a lo largo del tiempo, en apoyo del seguimiento longitudinal previsto en los objetivos del trabajo. La página de comparación envía las métricas de dos sesiones al servicio de insights para obtener un texto contrastivo, sin transmitir imágenes ni identificadores del paciente al proveedor del modelo de lenguaje.
+% En la pantalla de resultados se combinan tablas de métricas con gráficos de series temporales construidos con una biblioteca de gráficos declarativos, superposición opcional de landmarks sobre el video y solicitud de resúmenes interpretativos bajo demanda. La vista de detalle de paciente integra un componente de evolución que filtra sesiones previas por tipo de ejercicio y representa la tendencia de biomarcadores seleccionados a lo largo del tiempo, en apoyo del seguimiento longitudinal previsto en los objetivos del trabajo. La página de comparación envía las métricas de dos sesiones al servicio de insights para obtener un texto contrastivo, sin transmitir imágenes ni identificadores del paciente al proveedor del modelo de lenguaje.
 
-En la figura \ref{fig:ui-upload-results} se espera una composición con dos capturas de pantalla: la vista de carga con progreso en tiempo real y la vista de resultados con gráficos de métricas, sin datos identificables del paciente.
+% En la figura \ref{fig:ui-upload-results} se espera una composición con dos capturas de pantalla: la vista de carga con progreso en tiempo real y la vista de resultados con gráficos de métricas, sin datos identificables del paciente.
 
-% TODO figura: reemplazar por Figures/cap_3/ui_upload_results.png cuando esté disponible
-\vspace{0.6em}
-\begin{center}
-\fbox{\parbox{0.85\textwidth}{\centering\vspace{2.5cm}
-\textit{[Placeholder: capturas de Upload con barra SSE y Results con gráficos.]}\vspace{2.5cm}}}
-\captionof{figure}{Interfaz de carga de sesión y de visualización de resultados (imagen pendiente de incorporar).}
-\label{fig:ui-upload-results}
-\end{center}
-\vspace{0.4em}
+% % TODO figura: reemplazar por Figures/cap_3/ui_upload_results.png cuando esté disponible
+% \vspace{0.6em}
+% \begin{center}
+% \fbox{\parbox{0.85\textwidth}{\centering\vspace{2.5cm}
+% \textit{[Placeholder: capturas de Upload con barra SSE y Results con gráficos.]}\vspace{2.5cm}}}
+% \captionof{figure}{Interfaz de carga de sesión y de visualización de resultados (imagen pendiente de incorporar).}
+% \label{fig:ui-upload-results}
+% \end{center}
+% \vspace{0.4em}
 
-Los endpoints de interpretación envían al modelo de lenguaje únicamente métricas agregadas y metadatos no identificatorios, conforme a la política descrita en la sección \ref{sec:modelos-preentrenados}, y devuelven texto en lenguaje natural como apoyo a la lectura del informe.
+% Los endpoints de interpretación envían al modelo de lenguaje únicamente métricas agregadas y metadatos no identificatorios, conforme a la política descrita en la sección \ref{sec:modelos-preentrenados}, y devuelven texto en lenguaje natural como apoyo a la lectura del informe.
 
-\subsection{Despliegue local y en la nube}
+% \subsection{Despliegue local y en la nube}
 
-En entorno local, \texttt{docker-compose} levanta los servicios \texttt{db} (\texttt{postgres:16-alpine}), \texttt{api} (imagen multi-etapa con \texttt{Python} 3.12, dependencias instaladas con \texttt{uv} y límite de memoria de 8~GB) y \texttt{frontend} (\texttt{nginx} sirve el build estático y proxifica la API). Un perfil opcional \texttt{cli} permite ejecutar el mismo contenedor en modo batch con el módulo \texttt{pipeline.cli.run\_session}. Los modelos MediaPipe y los videos de muestra se montan como volúmenes para no incluirlos en la imagen y facilitar la actualización.
+% En entorno local, \texttt{docker-compose} levanta los servicios \texttt{db} (\texttt{postgres:16-alpine}), \texttt{api} (imagen multi-etapa con \texttt{Python} 3.12, dependencias instaladas con \texttt{uv} y límite de memoria de 8~GB) y \texttt{frontend} (\texttt{nginx} sirve el build estático y proxifica la API). Un perfil opcional \texttt{cli} permite ejecutar el mismo contenedor en modo batch con el módulo \texttt{pipeline.cli.run\_session}. Los modelos MediaPipe y los videos de muestra se montan como volúmenes para no incluirlos en la imagen y facilitar la actualización.
 
-El punto de entrada del contenedor de API ejecuta migraciones de esquema con \texttt{Alembic} antes de levantar el servidor \texttt{uvicorn}, de modo que un despliegue nuevo aplique automáticamente las revisiones pendientes sobre \texttt{PostgreSQL}. El frontend se construyó en una etapa previa de la imagen multi-etapa (\texttt{Node.js} para compilar TypeScript y \texttt{nginx} para servir archivos estáticos) y el runtime de inferencia se fijó en \texttt{linux/amd64} por compatibilidad con las ruedas binarias de MediaPipe en arquitecturas sin soporte oficial para brazo.
+% El punto de entrada del contenedor de API ejecuta migraciones de esquema con \texttt{Alembic} antes de levantar el servidor \texttt{uvicorn}, de modo que un despliegue nuevo aplique automáticamente las revisiones pendientes sobre \texttt{PostgreSQL}. El frontend se construyó en una etapa previa de la imagen multi-etapa (\texttt{Node.js} para compilar TypeScript y \texttt{nginx} para servir archivos estáticos) y el runtime de inferencia se fijó en \texttt{linux/amd64} por compatibilidad con las ruedas binarias de MediaPipe en arquitecturas sin soporte oficial para brazo.
 
-Para la prueba de concepto en la nube se replicó esa topología sobre los servicios gestionados de GCP enumerados en la tabla \ref{tab:infra-gcp-cap2}: \texttt{Cloud Run} aloja el contenedor HTTP con API y pipeline, \texttt{Cloud SQL} aloja \texttt{PostgreSQL}, \texttt{Cloud Storage} almacena videos y resultados, \texttt{Secret Manager} guarda credenciales y \texttt{Cloud Build} ejecuta la cadena de construcción y despliegue. La figura \ref{fig:infra-gcp-dago} resume las relaciones entre el usuario, el cómputo serverless y los servicios de datos y secretos.
+% Para la prueba de concepto en la nube se replicó esa topología sobre los servicios gestionados de GCP enumerados en la tabla \ref{tab:infra-gcp-cap2}: \texttt{Cloud Run} aloja el contenedor HTTP con API y pipeline, \texttt{Cloud SQL} aloja \texttt{PostgreSQL}, \texttt{Cloud Storage} almacena videos y resultados, \texttt{Secret Manager} guarda credenciales y \texttt{Cloud Build} ejecuta la cadena de construcción y despliegue. La figura \ref{fig:infra-gcp-dago} resume las relaciones entre el usuario, el cómputo serverless y los servicios de datos y secretos.
 
-\vspace{0.6em}
-\begin{center}
-\includegraphics[width=0.88\textwidth]{Figures/cap_3/diagrama_bloques_infraestructura_dago.png}
-\captionof{figure}{Arquitectura de despliegue del prototipo en Google Cloud Platform.}
-\label{fig:infra-gcp-dago}
-\end{center}
-\vspace{0.4em}
+% \vspace{0.6em}
+% \begin{center}
+% \includegraphics[width=0.88\textwidth]{Figures/cap_3/diagrama_bloques_infraestructura_dago.png}
+% \captionof{figure}{Arquitectura de despliegue del prototipo en Google Cloud Platform.}
+% \label{fig:infra-gcp-dago}
+% \end{center}
+% \vspace{0.4em}
 
-En el diagrama se aprecia que el procesamiento de video y la inferencia con MediaPipe residen en el mismo servicio de cómputo que expone la API REST, mientras que la persistencia estructurada y los objetos de gran tamaño se externalizan a servicios administrados. Esa separación facilitó escalar horizontalmente el acceso HTTP sin duplicar el almacenamiento de videos en cada instancia, aunque el estado de progreso SSE permanece en memoria de proceso en la versión desplegada, lo que constituye una limitación conocida para despliegues multi-réplica que se abordará en el capítulo de conclusiones.
+% En el diagrama se aprecia que el procesamiento de video y la inferencia con MediaPipe residen en el mismo servicio de cómputo que expone la API REST, mientras que la persistencia estructurada y los objetos de gran tamaño se externalizan a servicios administrados. Esa separación facilitó escalar horizontalmente el acceso HTTP sin duplicar el almacenamiento de videos en cada instancia, aunque el estado de progreso SSE permanece en memoria de proceso en la versión desplegada, lo que constituye una limitación conocida para despliegues multi-réplica que se abordará en el capítulo de conclusiones.
 
-Con la arquitectura descrita quedó cerrado el ciclo de diseño e implementación: desde la captura estandarizada descrita en el capítulo anterior hasta la consulta web de métricas y exportación de informes. La verificación automatizada del desarrollo, pruebas unitarias del pipeline e integración de humo de extremo a extremo, se documentó en el capítulo~\ref{Chapter4}. El capítulo siguiente presentará el plan de evaluación y los resultados obtenidos al ejecutar este sistema sobre el conjunto de videos disponible para el trabajo.
+% Con la arquitectura descrita quedó cerrado el ciclo de diseño e implementación: desde la captura estandarizada descrita en el capítulo anterior hasta la consulta web de métricas y exportación de informes. La verificación automatizada del desarrollo, pruebas unitarias del pipeline e integración de humo de extremo a extremo, se documentó en el capítulo~\ref{Chapter4}. El capítulo siguiente presentará el plan de evaluación y los resultados obtenidos al ejecutar este sistema sobre el conjunto de videos disponible para el trabajo.

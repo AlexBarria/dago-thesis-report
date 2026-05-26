@@ -5,10 +5,8 @@
 \contentsline {figure}{\numberline {2.1}{\ignorespaces Ejemplo ilustrativo de los puntos de referencia entregados por el modelo \texttt {HandLandmarker} de \texttt {MediaPipe}.}}{11}{figure.2.1}%
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {3.1}{\ignorespaces Detección del tablero ChArUco para estimación de relación milímetros por píxel.}}{17}{figure.3.1}%
-\contentsline {figure}{\numberline {3.2}{\ignorespaces Serie temporal de la distancia pulgar-índice en una sesión de finger tapping.}}{18}{figure.3.2}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Fase estática de la distancia pulgar-índice en una sesión de finger tapping.}}{18}{figure.3.2}%
 \contentsline {figure}{\numberline {3.3}{\ignorespaces Flujo funcional del sistema desde la entrada de video hasta reportes y visualizaciones.}}{21}{figure.3.3}%
-\contentsline {figure}{\numberline {3.4}{\ignorespaces Serie temporal de la distancia pulgar--índice durante una sesión completa.}}{24}{figure.3.4}%
-\contentsline {figure}{\numberline {3.5}{\ignorespaces Interfaz de carga de sesión y de visualización de resultados (imagen pendiente de incorporar).}}{28}{figure.3.5}%
-\contentsline {figure}{\numberline {3.6}{\ignorespaces Arquitectura de despliegue del prototipo en Google Cloud Platform.}}{29}{figure.3.6}%
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Serie temporal de la distancia pulgar--índice durante una sesión completa.}}{25}{figure.3.4}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
