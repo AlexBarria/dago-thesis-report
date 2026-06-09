@@ -5,11 +5,11 @@
 \contentsline {figure}{\numberline {1.3}{\ignorespaces Secuencia de la prueba nariz-dedo, desde la postura de brazos extendidos alternando el contacto con la nariz.}}{3}{figure.1.3}%
 \contentsline {figure}{\numberline {1.4}{\ignorespaces Ejercicio de apertura y cierre de manos, evaluado frecuentemente con los brazos estirados hacia el frente.}}{3}{figure.1.4}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {2.1}{\ignorespaces Ejemplo ilustrativo de los puntos de referencia entregados por el modelo \texttt {HandLandmarker} de \texttt {MediaPipe}.}}{11}{figure.2.1}%
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Ejemplo ilustrativo de los puntos de referencia entregados por el modelo \texttt {HandLandmarker} de \texttt {MediaPipe}.}}{10}{figure.2.1}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Detección del tablero ChArUco para estimación de relación milímetros por píxel.}}{17}{figure.3.1}%
-\contentsline {figure}{\numberline {3.2}{\ignorespaces Fase estática de la distancia pulgar-índice en una sesión de finger tapping.}}{18}{figure.3.2}%
-\contentsline {figure}{\numberline {3.3}{\ignorespaces Flujo funcional del sistema desde la entrada de video hasta reportes y visualizaciones.}}{21}{figure.3.3}%
-\contentsline {figure}{\numberline {3.4}{\ignorespaces Serie temporal de la distancia pulgar--índice durante una sesión completa.}}{25}{figure.3.4}%
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Detección del tablero ChArUco para estimación de relación milímetros por píxel.}}{15}{figure.3.1}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Fase estática de la distancia pulgar-índice en una sesión de finger tapping.}}{16}{figure.3.2}%
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Flujo funcional del sistema desde la entrada de video hasta reportes y visualizaciones.}}{19}{figure.3.3}%
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Serie temporal de la distancia pulgar--índice durante una sesión completa.}}{23}{figure.3.4}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }

@@ -54,7 +54,7 @@ La elección de tecnologías favoreció componentes de uso difundido y bien docu
 \section{Datasets y datos}
 \label{sec:datasets}
 
-El trabajo no contempló el entrenamiento de modelos desde cero, por lo que las necesidades de datos se concentraron en disponer de una cantidad de video suficiente para verificar la integración del flujo de procesamiento, evaluar la coherencia de las métricas en escenarios reproducibles y exponer la herramienta a movimientos representativos de los ejercicios contemplados.
+Las necesidades de datos del trabajo se concentraron en disponer de una cantidad de video suficiente para verificar la integración del flujo de procesamiento, evaluar la coherencia de las métricas en escenarios reproducibles y exponer la herramienta a movimientos representativos de los ejercicios contemplados.
 
 No se incorporaron conjuntos de datos públicos. La conformación de un conjunto de grabaciones de pacientes con enfermedad de Parkinson exige un marco de consentimiento informado, anonimización y resguardo bajo regulaciones de protección de datos de salud, condiciones que se inscriben en una etapa posterior a la de un prototipo de investigación. Esa restricción se reflejó desde la planificación inicial, que excluyó explícitamente del alcance la validación clínica formal y la integración con sistemas hospitalarios y dejó la evaluación funcional con especialistas como actividad opcional.
 
@@ -91,7 +91,7 @@ El conjunto se administró bajo una clasificación de tres niveles definida en e
 \section{Modelos preentrenados}
 \label{sec:modelos-preentrenados}
 
-Una de las decisiones de alcance establecidas al inicio del trabajo fue no entrenar redes neuronales desde cero, sino apoyarse en modelos preentrenados de uso difundido. Esa decisión se fundamentó en el equilibrio entre el costo de obtener un conjunto etiquetado de gran tamaño y la disponibilidad de soluciones maduras para la estimación de pose de mano y de cuerpo completo, ya validadas en aplicaciones de salud, deporte y realidad aumentada.
+Una de las decisiones de alcance establecidas al inicio del trabajo fue utilizar modelos preentrenados de uso difundido en lugar de desarrollar arquitecturas propias. Esta elección se fundamentó en el equilibrio entre el costo de obtener un conjunto etiquetado de gran tamaño y la disponibilidad de soluciones maduras para la estimación de pose de mano y de cuerpo completo, ya validadas en aplicaciones de salud, deporte y realidad aumentada.
 
 Para la estimación de pose se utilizaron dos modelos del marco \texttt{MediaPipe} \citep{lugaresi2019mediapipe}, distribuidos a través de la API de tareas (Tasks API) en su versión 0.10. El modelo \texttt{HandLandmarker} \citep{zhang2020mediapipehands} entrega 21 puntos por mano detectada, organizados en falanges y articulaciones, y se utilizó en todos los ejercicios centrados en la mano. El modelo \texttt{PoseLandmarker} en su variante lite \citep{bazarevsky2020blazepose} entrega 33 puntos del cuerpo y se reservó para los ejercicios que requerían el contexto del torso y los brazos. Ambos modelos se descargaron desde el repositorio público de \texttt{MediaPipe} en formato float16 y se almacenaron localmente en una caché versionada de modelos.
 
@@ -133,7 +133,7 @@ GPT-5.4-mini (OpenAI) & Modelo de lenguaje generativo. & Conjunto general emplea
 \end{center}
 \vspace{0.4em}
 
-La integración de los modelos respetó los supuestos del trabajo sobre acceso a soluciones de código abierto y la decisión explícita de no entrenar desde cero. De ese modo se concentró el esfuerzo en el flujo de procesamiento, en la derivación de métricas y en la presentación clínica de los resultados, en lugar de en la construcción de un dataset de entrenamiento y de un protocolo de ajuste de redes neuronales. Otro aporte significativo del trabajo fue la operación e integración de los servicios necesarios para conformar una solución completa, que articula la infraestructura de ejecución, la interfaz de usuario, el servicio de aplicación y la persistencia en una arquitectura coherente y reproducible, descripta en el capítulo de diseño e implementación.
+La integración de los modelos respetó los supuestos del trabajo sobre acceso a soluciones de código abierto y la decisión explícita de reutilizar modelos de visión ya consolidados. De ese modo se concentró el esfuerzo en el flujo de procesamiento, en la derivación de métricas y en la presentación clínica de los resultados, en lugar de en la construcción de un dataset de entrenamiento y de un protocolo de ajuste de redes neuronales. Otro aporte significativo del trabajo fue la operación e integración de los servicios necesarios para conformar una solución completa, que articula la infraestructura de ejecución, la interfaz de usuario, el servicio de aplicación y la persistencia en una arquitectura coherente y reproducible, descripta en el capítulo de diseño e implementación.
 
 \section{Infraestructura}
 \label{sec:infraestructura}

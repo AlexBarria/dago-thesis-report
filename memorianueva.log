@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.4.30)  8 JUN 2026 23:30
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.4.30)  9 JUN 2026 00:31
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1124,8 +1124,8 @@ Package caption Warning: The option `hypcap=true' will be ignored for this
 (caption)                particular \caption on input line 73.
 See the caption package documentation for explanation.
 
-LaTeX Info: Redefining \. on input line 86.
-LaTeX Info: Redefining \% on input line 86.
+LaTeX Info: Redefining \. on input line 90.
+LaTeX Info: Redefining \% on input line 90.
 [9]
 <Figures/cap_2/mediapipe_hand.png, id=422, 510.90875pt x 333.245pt>
 File: Figures/cap_2/mediapipe_hand.png Graphic file (type png)
@@ -1138,9 +1138,9 @@ Package caption Warning: The option `hypcap=true' will be ignored for this
 (caption)                particular \caption on input line 103.
 See the caption package documentation for explanation.
 
-LaTeX Info: Redefining \. on input line 103.
-LaTeX Info: Redefining \% on input line 103.
-[10]
+LaTeX Info: Redefining \. on input line 109.
+LaTeX Info: Redefining \% on input line 109.
+[10 <./Figures/cap_2/mediapipe_hand.png>]
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
 (caption)                particular \caption on input line 120.
@@ -1206,12 +1206,9 @@ Underfull \hbox (badness 10000) in paragraph at lines 129--130
 \T1/ppl/m/n/10 ter-pre-ta-ti-vos por
  []
 
-LaTeX Info: Redefining \. on input line 133.
-LaTeX Info: Redefining \% on input line 133.
-[11 <./Figures/cap_2/mediapipe_hand.png>]
-LaTeX Info: Redefining \. on input line 148.
-LaTeX Info: Redefining \% on input line 148.
- [12]
+LaTeX Info: Redefining \. on input line 142.
+LaTeX Info: Redefining \% on input line 142.
+[11]
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
 (caption)                particular \caption on input line 153.
@@ -1222,21 +1219,21 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 )
 LaTeX Info: Redefining \. on input line 121.
 LaTeX Info: Redefining \% on input line 121.
- [13]
+ [12]
 \openout2 = `Chapters/Chapter3.aux'.
 
- (./Chapters/Chapter3.tex [14
+ (./Chapters/Chapter3.tex
+Cap\'{\i }tulo 3.
+[13
 
 
 
 
 ]
-Cap\'{\i }tulo 3.
-[15]
 LaTeX Info: Redefining \. on input line 37.
 LaTeX Info: Redefining \% on input line 37.
- [16]
-<Figures/cap_3/deteccion_charuco.png, id=469, 1266.7325pt x 938.50626pt>
+ [14]
+<Figures/cap_3/deteccion_charuco.png, id=461, 1266.7325pt x 938.50626pt>
 File: Figures/cap_3/deteccion_charuco.png Graphic file (type png)
 <use Figures/cap_3/deteccion_charuco.png>
 Package pdftex.def Info: Figures/cap_3/deteccion_charuco.png  used on input line 40.
@@ -1252,7 +1249,7 @@ Overfull \hbox (82.59874pt too wide) in paragraph at lines 48--49
 \T1/ppl/m/n/10.95 tra-mo del cálcu-lo de mé-tri-cas di-ná-mi-cas se im-ple-men-tó \T1/pcr/m/n/10.95 detect_static_calibration_phase\T1/ppl/m/n/10.95 ,
  []
 
-<Figures/cap_3/fase_estatica_dist.png, id=471, 1023.825pt x 448.67625pt>
+<Figures/cap_3/fase_estatica_dist.png, id=463, 1023.825pt x 448.67625pt>
 File: Figures/cap_3/fase_estatica_dist.png Graphic file (type png)
 <use Figures/cap_3/fase_estatica_dist.png>
 Package pdftex.def Info: Figures/cap_3/fase_estatica_dist.png  used on input line 54.
@@ -1264,7 +1261,7 @@ See the caption package documentation for explanation.
 
 LaTeX Info: Redefining \. on input line 55.
 LaTeX Info: Redefining \% on input line 55.
-[17 <./Figures/cap_3/deteccion_charuco.png>]
+[15 <./Figures/cap_3/deteccion_charuco.png>]
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
 (caption)                particular \caption on input line 66.
@@ -1277,7 +1274,7 @@ Overfull \hbox (2.14696pt too wide) in paragraph at lines 80--81
 
 LaTeX Info: Redefining \. on input line 99.
 LaTeX Info: Redefining \% on input line 99.
-[18 <./Figures/cap_3/fase_estatica_dist.png>]
+[16 <./Figures/cap_3/fase_estatica_dist.png>]
 Overfull \hbox (37.14621pt too wide) in paragraph at lines 100--101
 \T1/ppl/m/n/10.95 ron en plan-ti-llas YAML [[][]20[][]] (\T1/pcr/m/n/10.95 session_summary.yaml \T1/ppl/m/n/10.95 y \T1/pcr/m/n/10.95 evolution_summary.yaml\T1/ppl/m/n/10.95 )
  []
@@ -1289,8 +1286,8 @@ Overfull \hbox (19.84608pt too wide) in paragraph at lines 112--113
 
 LaTeX Info: Redefining \. on input line 113.
 LaTeX Info: Redefining \% on input line 113.
-[19]
-<Figures/cap_3/diagrama_flujo_dago.png, id=496, 449.68pt x 544.0325pt>
+[17]
+<Figures/cap_3/diagrama_flujo_dago.png, id=488, 449.68pt x 544.0325pt>
 File: Figures/cap_3/diagrama_flujo_dago.png Graphic file (type png)
 <use Figures/cap_3/diagrama_flujo_dago.png>
 Package pdftex.def Info: Figures/cap_3/diagrama_flujo_dago.png  used on input line 120.
@@ -1303,10 +1300,10 @@ See the caption package documentation for explanation.
 
 LaTeX Info: Redefining \. on input line 121.
 LaTeX Info: Redefining \% on input line 121.
-[20]
+[18]
 LaTeX Info: Redefining \. on input line 136.
 LaTeX Info: Redefining \% on input line 136.
- [21 <./Figures/cap_3/diagrama_flujo_dago.png>]
+ [19 <./Figures/cap_3/diagrama_flujo_dago.png>]
 Overfull \hbox (31.59735pt too wide) in paragraph at lines 148--149
 \T1/ppl/m/n/10.95 con-jun-to de al-go-rit-mos apli-ca-bles. Las fun-cio-nes ge-né-ri-cas \T1/pcr/m/n/10.95 oscillation_amplitude\T1/ppl/m/n/10.95 ,
  []
@@ -1318,19 +1315,19 @@ Overfull \hbox (3.72568pt too wide) in paragraph at lines 152--154
 
 LaTeX Info: Redefining \. on input line 156.
 LaTeX Info: Redefining \% on input line 156.
-[22]
+[20]
 LaTeX Font Info:    Trying to load font information for TS1+ppl on input line 168.
  (/usr/local/texlive/2026basic/texmf-dist/tex/latex/psnfss/ts1ppl.fd
 File: ts1ppl.fd 2001/06/04 font definitions for TS1/ppl.
 )
 LaTeX Info: Redefining \. on input line 183.
 LaTeX Info: Redefining \% on input line 183.
- [23]
+ [21]
 Overfull \hbox (9.6094pt too wide) in paragraph at lines 194--195
 []\T1/ppl/m/n/10.95 Estabilidad pos-tu-ral (\T1/pcr/m/n/10.95 postural_stability\T1/ppl/m/n/10.95 , adim.): ba-lan-ceo del tron-
  []
 
-<Figures/cap_3/sesion_completa_dist.png, id=531, 1023.825pt x 447.6725pt>
+<Figures/cap_3/sesion_completa_dist.png, id=522, 1023.825pt x 447.6725pt>
 File: Figures/cap_3/sesion_completa_dist.png Graphic file (type png)
 <use Figures/cap_3/sesion_completa_dist.png>
 Package pdftex.def Info: Figures/cap_3/sesion_completa_dist.png  used on input line 213.
@@ -1342,14 +1339,14 @@ See the caption package documentation for explanation.
 
 LaTeX Info: Redefining \. on input line 214.
 LaTeX Info: Redefining \% on input line 214.
-[24]
+[22]
 Overfull \hbox (20.55632pt too wide) in paragraph at lines 219--220
 []\T1/ppl/m/n/10.95 En la eje-cu-ción por lí-nea de co-man-dos se ge-ne-ran ade-más grá-fi-cos \T1/pcr/m/n/10.95 timeseries.png\T1/ppl/m/n/10.95 ,
  []
 
 LaTeX Info: Redefining \. on input line 235.
 LaTeX Info: Redefining \% on input line 235.
-[25 <./Figures/cap_3/sesion_completa_dist.png>]
+[23 <./Figures/cap_3/sesion_completa_dist.png>]
 Overfull \hbox (49.19177pt too wide) in paragraph at lines 242--243
 \T1/ppl/m/n/10.95 en-tre se-sio-nes (\T1/pcr/m/n/10.95 /api/compare\T1/ppl/m/n/10.95 ), ge-ne-ra-ción de in-for-mes (\T1/pcr/m/n/10.95 /api/sessions/.../report\T1/ppl/m/n/10.95 )
  []
@@ -1366,7 +1363,7 @@ Overfull \hbox (26.56126pt too wide) in paragraph at lines 248--249
 
 LaTeX Info: Redefining \. on input line 253.
 LaTeX Info: Redefining \% on input line 253.
-[26]
+[24]
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
 (caption)                particular \caption on input line 264.
@@ -1375,10 +1372,10 @@ See the caption package documentation for explanation.
 )
 LaTeX Info: Redefining \. on input line 122.
 LaTeX Info: Redefining \% on input line 122.
- [27]
+ [25]
 \openout2 = `Chapters/Chapter4.aux'.
 
- (./Chapters/Chapter4.tex [28
+ (./Chapters/Chapter4.tex [26
 
 
 
@@ -1390,17 +1387,17 @@ Overfull \hbox (141.8641pt too wide) in paragraph at lines 16--17
 \T1/ppl/m/n/10.95 ra-das. Se in-clu-yó ade-más una prue-ba de in-te-gra-ción de hu-mo (\T1/pcr/m/n/10.95 tests/integration/test_cli_smoke.py\T1/ppl/m/n/10.95 )
  []
 
-) [29]
+) [27]
 \openout2 = `Chapters/Chapter5.aux'.
 
- (./Chapters/Chapter5.tex [30
+ (./Chapters/Chapter5.tex [28
 
 
 
 
 ]
 Cap\'{\i }tulo 5.
-) [31] [32
+) [29] [30
 
 
 
@@ -1414,7 +1411,7 @@ Overfull \hbox (14.8971pt too wide) in paragraph at lines 142--142
 \T1/ppl/m/n/10.95 ex-ter-nal re-fe-ren-ces. In-te-gra-ting pos-tu-ral tre-mor quan-ti-fi-ca-tion in-to vi-sionMD^^T.
  []
 
-[33]
+[31]
 Overfull \hbox (10.19678pt too wide) in paragraph at lines 142--142
 \T1/ppl/m/n/10.95 mar-kers un-der oc-clu-sion^^T. En: \T1/ppl/m/it/10.95 Pat-tern Re-cog-ni-tion \T1/ppl/m/n/10.95 47.6 (2014), págs. 2280[]2292.
  []
@@ -1426,7 +1423,7 @@ Overfull \hbox (4.74089pt too wide) in paragraph at lines 142--142
 
 LaTeX Info: Redefining \. on input line 144.
 LaTeX Info: Redefining \% on input line 144.
-[34] (./memorianueva.aux (./portada.aux)
+[32] (./memorianueva.aux (./portada.aux)
 LaTeX Info: Redefining \sptext on input line 16.
 LaTeX Info: Redefining \. on input line 16.
 LaTeX Info: Redefining \% on input line 16.
@@ -1451,18 +1448,18 @@ Package logreq Info: Writing requests to 'memorianueva.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 31480 strings out of 469006
- 684496 string characters out of 5454813
- 1292153 words of memory out of 5000000
+ 31478 strings out of 469006
+ 684482 string characters out of 5454813
+ 1292152 words of memory out of 5000000
  59662 multiletter control sequences out of 15000+600000
  692911 words of font info for 123 fonts, out of 8000000 for 9000
  320 hyphenation exceptions out of 8191
  96i,20n,97p,2039b,2985s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></Users/alexbarria/Library/texmf/fonts/type1/urw/courier/ucrr8a.pfb></Users/alexbarria/Library/texmf/fonts/type1/urw/helvetic/uhvb8a.pfb></Users/alexbarria/Library/texmf/fonts/type1/urw/helvetic/uhvr8a.pfb></Users/alexbarria/Library/texmf/fonts/type1/urw/helvetic/uhvro8a.pfb></Users/alexbarria/Library/texmf/fonts/type1/urw/palatino/uplb8a.pfb></Users/alexbarria/Library/texmf/fonts/type1/urw/palatino/uplb8a.pfb></Users/alexbarria/Library/texmf/fonts/type1/urw/palatino/uplr8a.pfb></Users/alexbarria/Library/texmf/fonts/type1/urw/palatino/uplr8a.pfb></Users/alexbarria/Library/texmf/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on memorianueva.pdf (48 pages, 10502100 bytes).
+Output written on memorianueva.pdf (46 pages, 10500956 bytes).
 PDF statistics:
- 709 PDF objects out of 1000 (max. 8388607)
- 599 compressed objects within 6 object streams
- 134 named destinations out of 1000 (max. 500000)
+ 700 PDF objects out of 1000 (max. 8388607)
+ 592 compressed objects within 6 object streams
+ 132 named destinations out of 1000 (max. 500000)
  355 words of extra memory for PDF output out of 10000 (max. 10000000)
 
