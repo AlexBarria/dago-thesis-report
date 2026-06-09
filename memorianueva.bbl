@@ -109,6 +109,71 @@
     \field{year}{2025}
   \endentry
 
+  \entry{gcp}{misc}{}{}
+    \name{author}{1}{}{%
+      {{hash=G}{%
+         family={{Google LLC}},
+         familyi={G\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{G1}
+    \strng{fullhash}{G1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{howpublished}{\url{https://cloud.google.com/}}
+    \field{note}{Accedido: 2026-05-31}
+    \field{title}{{Google Cloud Platform}}
+    \field{year}{2026}
+  \endentry
+
+  \entry{cao2019openpose}{article}{}{}
+    \name{author}{5}{}{%
+      {{hash=CZ}{%
+         family={Cao},
+         familyi={C\bibinitperiod},
+         given={Zhe},
+         giveni={Z\bibinitperiod},
+      }}%
+      {{hash=HG}{%
+         family={Hidalgo},
+         familyi={H\bibinitperiod},
+         given={Gines},
+         giveni={G\bibinitperiod},
+      }}%
+      {{hash=ST}{%
+         family={Simon},
+         familyi={S\bibinitperiod},
+         given={Tomas},
+         giveni={T\bibinitperiod},
+      }}%
+      {{hash=WSE}{%
+         family={Wei},
+         familyi={W\bibinitperiod},
+         given={Shih-En},
+         giveni={S\bibinithyphendelim E\bibinitperiod},
+      }}%
+      {{hash=SY}{%
+         family={Sheikh},
+         familyi={S\bibinitperiod},
+         given={Yaser},
+         giveni={Y\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {IEEE}%
+    }
+    \strng{namehash}{CZHGSTWSESY1}
+    \strng{fullhash}{CZHGSTWSESY1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{number}{1}
+    \field{pages}{172\bibrangedash 186}
+    \field{title}{OpenPose: realtime multi-person 2D pose estimation using Part Affinity Fields}
+    \field{volume}{43}
+    \field{journaltitle}{IEEE transactions on pattern analysis and machine intelligence}
+    \field{year}{2019}
+  \endentry
+
   \entry{lugaresi2019mediapipe}{article}{}{}
     \name{author}{14}{}{%
       {{hash=LC}{%
@@ -257,6 +322,58 @@
     \field{volume}{11}
     \field{journaltitle}{npj Parkinson's Disease}
     \field{year}{2025}
+  \endentry
+
+  \entry{guarin2025postural}{article}{}{}
+    \name{author}{1}{}{%
+      {{hash=GDL}{%
+         family={Guarín},
+         familyi={G\bibinitperiod},
+         given={Diego\bibnamedelima L.},
+         giveni={D\bibinitperiod\bibinitdelim L\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{GDL1}
+    \strng{fullhash}{GDL1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{doi}
+    \verb 10.1038/s41531-025-01196-5
+    \endverb
+    \field{pages}{351}
+    \field{title}{Video-based quantification of hand postural tremor without external references. Integrating postural tremor quantification into visionMD}
+    \field{volume}{11}
+    \field{journaltitle}{npj Parkinson's Disease}
+    \field{year}{2025}
+  \endentry
+
+  \entry{python3}{manual}{}{}
+    \name{author}{2}{}{%
+      {{hash=VRG}{%
+         family={Van\bibnamedelima Rossum},
+         familyi={V\bibinitperiod\bibinitdelim R\bibinitperiod},
+         given={Guido},
+         giveni={G\bibinitperiod},
+      }}%
+      {{hash=DFL}{%
+         family={Drake},
+         familyi={D\bibinitperiod},
+         given={Fred\bibnamedelima L.},
+         giveni={F\bibinitperiod\bibinitdelim L\bibinitperiod},
+      }}%
+    }
+    \list{organization}{1}{%
+      {CreateSpace}%
+    }
+    \strng{namehash}{VRGDFL1}
+    \strng{fullhash}{VRGDFL1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{title}{{Python 3 Reference Manual}}
+    \list{location}{1}{%
+      {Scotts Valley, CA}%
+    }
+    \field{year}{2009}
   \endentry
 
   \entry{bradski2000opencv}{article}{}{}
@@ -612,6 +729,22 @@
     \field{year}{2014}
   \endentry
 
+  \entry{hipaa1996}{misc}{}{}
+    \name{author}{1}{}{%
+      {{hash=U}{%
+         family={{U.S. Department of Health and Human Services}},
+         familyi={U\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{U1}
+    \strng{fullhash}{U1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{howpublished}{Pub. L. 104-191, 110 Stat. 1936}
+    \field{title}{{Health Insurance Portability and Accountability Act of 1996 (HIPAA)}}
+    \field{year}{1996}
+  \endentry
+
   \entry{garrido2014charuco}{article}{}{}
     \name{author}{4}{}{%
       {{hash=GJS}{%
@@ -777,6 +910,36 @@
     \field{note}{Disponible: 2026-04-15}
     \field{title}{{OpenAI API Reference}}
     \field{year}{2026}
+  \endentry
+
+  \entry{yaml_spec}{misc}{}{}
+    \name{author}{3}{}{%
+      {{hash=BKO}{%
+         family={Ben-Kiki},
+         familyi={B\bibinithyphendelim K\bibinitperiod},
+         given={Oren},
+         giveni={O\bibinitperiod},
+      }}%
+      {{hash=EC}{%
+         family={Evans},
+         familyi={E\bibinitperiod},
+         given={Clark},
+         giveni={C\bibinitperiod},
+      }}%
+      {{hash=dI}{%
+         family={d'Netto},
+         familyi={d\bibinitperiod},
+         given={Ingy},
+         giveni={I\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{BKOECdI1}
+    \strng{fullhash}{BKOECdI1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{howpublished}{\url{https://yaml.org/spec/1.2.2/}}
+    \field{title}{{YAML Ain’t Markup Language (YAML) Version 1.2}}
+    \field{year}{2021}
   \endentry
 \enddatalist
 \endinput

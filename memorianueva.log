@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.4.30)  25 MAY 2026 20:50
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.4.30)  8 JUN 2026 23:30
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -837,7 +837,7 @@ LaTeX Font Info:    Font shape `T1/phv/m/it' in size <10.95> not available
 (Font)              Font shape `T1/phv/m/sl' tried instead on input line 53.
 LaTeX Font Info:    Font shape `T1/phv/m/it' in size <10> not available
 (Font)              Font shape `T1/phv/m/sl' tried instead on input line 53.
-<Figures/fondo.pdf, id=136, 597.55246pt x 845.07718pt>
+<Figures/fondo.pdf, id=156, 597.55246pt x 845.07718pt>
 File: Figures/fondo.pdf Graphic file (type pdf)
 <use Figures/fondo.pdf>
 Package pdftex.def Info: Figures/fondo.pdf  used on input line 56.
@@ -874,24 +874,24 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 LaTeX Info: Redefining \sptext on input line 1.
 LaTeX Info: Redefining \. on input line 1.
 LaTeX Info: Redefining \% on input line 1.
-)
+ [5])
 \tf@toc=\write5
 \openout5 = `memorianueva.toc'.
 
- [5] [6
-
-] (./memorianueva.lof
+ [6] (./memorianueva.lof
 LaTeX Info: Redefining \sptext on input line 1.
 LaTeX Info: Redefining \. on input line 1.
 LaTeX Info: Redefining \% on input line 1.
-LaTeX Font Info:    Trying to load font information for T1+pcr on input line 5.
+LaTeX Font Info:    Trying to load font information for T1+pcr on input line 8.
  (/usr/local/texlive/2026basic/texmf-dist/tex/latex/psnfss/t1pcr.fd
 File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
 ))
 \tf@lof=\write6
 \openout6 = `memorianueva.lof'.
 
- [7] [8
+ [7
+
+] [8
 
 ] (./memorianueva.lot
 LaTeX Info: Redefining \sptext on input line 1.
@@ -914,158 +914,193 @@ LaTeX Info: Redefining \% on input line 1.
 
  (./Chapters/Chapter1.tex
 Cap\'{\i }tulo 1.
-<Figures/cap_1/finger_tapping.png, id=289, 750.805pt x 634.37pt>
+<Figures/cap_1/finger_tapping.png, id=325, 808.01875pt x 514.92375pt>
 File: Figures/cap_1/finger_tapping.png Graphic file (type png)
 <use Figures/cap_1/finger_tapping.png>
-Package pdftex.def Info: Figures/cap_1/finger_tapping.png  used on input line 33.
-(pdftex.def)             Requested size: 343.02826pt x 289.83908pt.
+Package pdftex.def Info: Figures/cap_1/finger_tapping.png  used on input line 35.
+(pdftex.def)             Requested size: 343.02826pt x 218.60005pt.
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 34.
+(caption)                particular \caption on input line 36.
 See the caption package documentation for explanation.
 
 
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.34 ...clÃ­nica de movimientos finos de la mano.}
+l.36 ...clÃ­nica de movimientos finos de la mano.}
                                                    [1
 
 
 ]
-LaTeX Info: Redefining \. on input line 50.
-LaTeX Info: Redefining \% on input line 50.
+<Figures/cap_1/hand_tremor.jpeg, id=334, 722.7pt x 1284.8pt>
+File: Figures/cap_1/hand_tremor.jpeg Graphic file (type jpg)
+<use Figures/cap_1/hand_tremor.jpeg>
+Package pdftex.def Info: Figures/cap_1/hand_tremor.jpeg  used on input line 45.
+(pdftex.def)             Requested size: 132.53148pt x 235.6062pt.
+
+
+Package caption Warning: The option `hypcap=true' will be ignored for this
+(caption)                particular \caption on input line 46.
+See the caption package documentation for explanation.
+
+<Figures/cap_1/nose_finger.jpeg, id=336, 1284.8pt x 365.365pt>
+File: Figures/cap_1/nose_finger.jpeg Graphic file (type jpg)
+<use Figures/cap_1/nose_finger.jpeg>
+Package pdftex.def Info: Figures/cap_1/nose_finger.jpeg  used on input line 55.
+(pdftex.def)             Requested size: 389.80269pt x 110.84799pt.
+
+Package caption Warning: The option `hypcap=true' will be ignored for this
+(caption)                particular \caption on input line 56.
+See the caption package documentation for explanation.
+
+LaTeX Info: Redefining \. on input line 56.
+LaTeX Info: Redefining \% on input line 56.
 Package babel Info: 'spanish' activates 'spanish' shorthands.
-(babel)             Reported on input line 50.
+(babel)             Reported on input line 56.
 
 pdfTeX warning (ext4): destination with the same identifier (name{page.2}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.50 
-      [2 <./Figures/cap_1/finger_tapping.png>]
-LaTeX Info: Redefining \. on input line 62.
-LaTeX Info: Redefining \% on input line 62.
- [3]
+l.56 ...idos alternando el contacto con la nariz.}
+                                                   [2 <./Figures/cap_1/finger_tapping.png> <./Figures/cap_1/hand_tremor.jpeg>]
+<Figures/cap_1/open_close.png, id=343, 642.4pt x 728.7225pt>
+File: Figures/cap_1/open_close.png Graphic file (type png)
+<use Figures/cap_1/open_close.png>
+Package pdftex.def Info: Figures/cap_1/open_close.png  used on input line 65.
+(pdftex.def)             Requested size: 210.49083pt x 238.7779pt.
+
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 67.
+(caption)                particular \caption on input line 66.
+See the caption package documentation for explanation.
+
+LaTeX Info: Redefining \. on input line 78.
+LaTeX Info: Redefining \% on input line 78.
+[3 <./Figures/cap_1/nose_finger.jpeg> <./Figures/cap_1/open_close.png>]
+LaTeX Info: Redefining \. on input line 92.
+LaTeX Info: Redefining \% on input line 92.
+ [4]
+
+Package caption Warning: The option `hypcap=true' will be ignored for this
+(caption)                particular \caption on input line 105.
 See the caption package documentation for explanation.
 
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 70.
+(Font)              <7> on input line 108.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 70.
+(Font)              <5> on input line 108.
 
-Underfull \hbox (badness 10000) in paragraph at lines 72--73
+Underfull \hbox (badness 10000) in paragraph at lines 110--111
 []|\T1/ppl/b/n/10 Evaluación ha-bi-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 74--74
+Underfull \hbox (badness 10000) in paragraph at lines 112--112
 []|\T1/ppl/m/n/10 Escalas clí-ni-cas
  []
 
 
-Underfull \hbox (badness 1014) in paragraph at lines 74--74
+Underfull \hbox (badness 1014) in paragraph at lines 112--112
 []|\T1/ppl/m/n/10 Observación en vi-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 74--74
+Underfull \hbox (badness 10000) in paragraph at lines 112--112
 []|\T1/ppl/m/n/10 Puntuaciones or-di-na-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 74--75
+Underfull \hbox (badness 10000) in paragraph at lines 112--113
 []|\T1/ppl/m/n/10 Consistencia inter-
  []
 
 
-Underfull \hbox (badness 1199) in paragraph at lines 74--75
+Underfull \hbox (badness 1199) in paragraph at lines 112--113
 \T1/ppl/m/n/10 fren-te a es-tán-da-res
  []
 
 
-Underfull \hbox (badness 2080) in paragraph at lines 75--75
+Underfull \hbox (badness 2080) in paragraph at lines 113--113
 []|\T1/ppl/m/n/10 Sensores iner-cia-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 75--75
+Underfull \hbox (badness 10000) in paragraph at lines 113--113
 []|\T1/ppl/m/n/10 Aceleración o ve-
  []
 
 
-Underfull \hbox (badness 1178) in paragraph at lines 75--75
+Underfull \hbox (badness 1178) in paragraph at lines 113--113
 \T1/ppl/m/n/10 lo-ci-dad an-gu-lar en
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 75--76
+Underfull \hbox (badness 10000) in paragraph at lines 113--114
 []|\T1/ppl/m/n/10 Concordancia con
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 76--76
+Underfull \hbox (badness 10000) in paragraph at lines 114--114
 \T1/ppl/m/n/10 re-des de po-se
  []
 
 
-Underfull \hbox (badness 1237) in paragraph at lines 77--77
+Underfull \hbox (badness 1237) in paragraph at lines 115--115
 \T1/ppl/m/n/10 en-tre-na-dos in-te-gra-
  []
 
 
-Underfull \hbox (badness 2980) in paragraph at lines 77--77
+Underfull \hbox (badness 2980) in paragraph at lines 115--115
 \T1/ppl/m/n/10 dad tem-po-ral en un
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 77--78
+Underfull \hbox (badness 10000) in paragraph at lines 115--116
 []|\T1/ppl/m/n/10 Idoneidad pa-ra
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 77--78
+Underfull \hbox (badness 10000) in paragraph at lines 115--116
 \T1/ppl/m/n/10 tiem-po ca-si real
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 77--78
+Underfull \hbox (badness 10000) in paragraph at lines 115--116
 \T1/ppl/m/n/10 y ba-jo con-su-mo
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 77--78
+Underfull \hbox (badness 10000) in paragraph at lines 115--116
 \T1/ppl/m/n/10 en dis-po-si-ti-vos
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 77--78
+Underfull \hbox (badness 10000) in paragraph at lines 115--116
 \T1/ppl/m/n/10 ha-bi-tua-les, fren-te
  []
 
 
-Underfull \hbox (badness 2027) in paragraph at lines 77--78
+Underfull \hbox (badness 2027) in paragraph at lines 115--116
 \T1/ppl/m/n/10 a es-ti-ma-do-res más
  []
 
-LaTeX Info: Redefining \. on input line 98.
-LaTeX Info: Redefining \% on input line 98.
-[4])
+LaTeX Info: Redefining \. on input line 122.
+LaTeX Info: Redefining \% on input line 122.
+[5])
 LaTeX Info: Redefining \. on input line 120.
 LaTeX Info: Redefining \% on input line 120.
- [5]
+ [6]
 \openout2 = `Chapters/Chapter2.aux'.
 
- (./Chapters/Chapter2.tex [6
+ (./Chapters/Chapter2.tex
+Cap\'{\i }tulo 2.
+[7
 
 
 
 
 ]
-Cap\'{\i }tulo 2.
-[7]
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
 (caption)                particular \caption on input line 32.
@@ -1092,7 +1127,7 @@ See the caption package documentation for explanation.
 LaTeX Info: Redefining \. on input line 86.
 LaTeX Info: Redefining \% on input line 86.
 [9]
-<Figures/cap_2/mediapipe_hand.png, id=369, 510.90875pt x 333.245pt>
+<Figures/cap_2/mediapipe_hand.png, id=422, 510.90875pt x 333.245pt>
 File: Figures/cap_2/mediapipe_hand.png Graphic file (type png)
 <use Figures/cap_2/mediapipe_hand.png>
 Package pdftex.def Info: Figures/cap_2/mediapipe_hand.png  used on input line 102.
@@ -1198,156 +1233,152 @@ LaTeX Info: Redefining \% on input line 121.
 ]
 Cap\'{\i }tulo 3.
 [15]
-<Figures/cap_3/deteccion_charuco.png, id=409, 1266.7325pt x 938.50626pt>
+LaTeX Info: Redefining \. on input line 37.
+LaTeX Info: Redefining \% on input line 37.
+ [16]
+<Figures/cap_3/deteccion_charuco.png, id=469, 1266.7325pt x 938.50626pt>
 File: Figures/cap_3/deteccion_charuco.png Graphic file (type png)
 <use Figures/cap_3/deteccion_charuco.png>
-Package pdftex.def Info: Figures/cap_3/deteccion_charuco.png  used on input line 36.
+Package pdftex.def Info: Figures/cap_3/deteccion_charuco.png  used on input line 40.
 (pdftex.def)             Requested size: 370.31136pt x 274.35088pt.
 
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 37.
+(caption)                particular \caption on input line 41.
 See the caption package documentation for explanation.
 
-LaTeX Info: Redefining \. on input line 37.
-LaTeX Info: Redefining \% on input line 37.
-[16]
-Overfull \hbox (82.59874pt too wide) in paragraph at lines 44--45
+
+Overfull \hbox (82.59874pt too wide) in paragraph at lines 48--49
 \T1/ppl/m/n/10.95 tra-mo del cálcu-lo de mé-tri-cas di-ná-mi-cas se im-ple-men-tó \T1/pcr/m/n/10.95 detect_static_calibration_phase\T1/ppl/m/n/10.95 ,
  []
 
-<Figures/cap_3/fase_estatica_dist.png, id=416, 1023.825pt x 448.67625pt>
+<Figures/cap_3/fase_estatica_dist.png, id=471, 1023.825pt x 448.67625pt>
 File: Figures/cap_3/fase_estatica_dist.png Graphic file (type png)
 <use Figures/cap_3/fase_estatica_dist.png>
-Package pdftex.def Info: Figures/cap_3/fase_estatica_dist.png  used on input line 50.
+Package pdftex.def Info: Figures/cap_3/fase_estatica_dist.png  used on input line 54.
 (pdftex.def)             Requested size: 370.31136pt x 162.28325pt.
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 51.
+(caption)                particular \caption on input line 55.
 See the caption package documentation for explanation.
 
-LaTeX Info: Redefining \. on input line 51.
-LaTeX Info: Redefining \% on input line 51.
+LaTeX Info: Redefining \. on input line 55.
+LaTeX Info: Redefining \% on input line 55.
 [17 <./Figures/cap_3/deteccion_charuco.png>]
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 62.
+(caption)                particular \caption on input line 66.
 See the caption package documentation for explanation.
 
 
-Overfull \hbox (2.14696pt too wide) in paragraph at lines 76--77
+Overfull \hbox (2.14696pt too wide) in paragraph at lines 80--81
 []|\T1/pcr/m/n/9 SessionAggregator|  
  []
 
-LaTeX Info: Redefining \. on input line 95.
-LaTeX Info: Redefining \% on input line 95.
+LaTeX Info: Redefining \. on input line 99.
+LaTeX Info: Redefining \% on input line 99.
 [18 <./Figures/cap_3/fase_estatica_dist.png>]
-Overfull \hbox (16.82312pt too wide) in paragraph at lines 96--97
-\T1/ppl/m/n/10.95 ron en plan-ti-llas YAML (\T1/pcr/m/n/10.95 session_summary.yaml \T1/ppl/m/n/10.95 y \T1/pcr/m/n/10.95 evolution_summary.yaml\T1/ppl/m/n/10.95 )
+Overfull \hbox (37.14621pt too wide) in paragraph at lines 100--101
+\T1/ppl/m/n/10.95 ron en plan-ti-llas YAML [[][]20[][]] (\T1/pcr/m/n/10.95 session_summary.yaml \T1/ppl/m/n/10.95 y \T1/pcr/m/n/10.95 evolution_summary.yaml\T1/ppl/m/n/10.95 )
  []
 
 
-Overfull \hbox (19.84608pt too wide) in paragraph at lines 108--109
+Overfull \hbox (19.84608pt too wide) in paragraph at lines 112--113
 \T1/pcr/m/n/10.95 PoseResult \T1/ppl/m/n/10.95 agru-pa las de-tec-cio-nes de mano y cuer-po por cua-dro; y \T1/pcr/m/n/10.95 MetricResult
  []
 
-LaTeX Info: Redefining \. on input line 109.
-LaTeX Info: Redefining \% on input line 109.
+LaTeX Info: Redefining \. on input line 113.
+LaTeX Info: Redefining \% on input line 113.
 [19]
-
-LaTeX Warning: Reference `sec:integracion' on page 20 undefined on input line 112.
-
-<Figures/cap_3/diagrama_flujo_dago.png, id=439, 449.68pt x 544.0325pt>
+<Figures/cap_3/diagrama_flujo_dago.png, id=496, 449.68pt x 544.0325pt>
 File: Figures/cap_3/diagrama_flujo_dago.png Graphic file (type png)
 <use Figures/cap_3/diagrama_flujo_dago.png>
-Package pdftex.def Info: Figures/cap_3/diagrama_flujo_dago.png  used on input line 116.
+Package pdftex.def Info: Figures/cap_3/diagrama_flujo_dago.png  used on input line 120.
 (pdftex.def)             Requested size: 319.64105pt x 386.72235pt.
 
+
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 117.
+(caption)                particular \caption on input line 121.
 See the caption package documentation for explanation.
 
-LaTeX Info: Redefining \. on input line 117.
-LaTeX Info: Redefining \% on input line 117.
+LaTeX Info: Redefining \. on input line 121.
+LaTeX Info: Redefining \% on input line 121.
 [20]
-Overfull \hbox (3.46596pt too wide) in paragraph at lines 125--126
-\T1/ppl/m/n/10.95 pe se-gún el ti-po de ejer-ci-cio: mo-do \T1/pcr/m/n/10.95 HANDS \T1/ppl/m/n/10.95 pa-ra \T1/pcr/m/n/10.95 finger_tapping\T1/ppl/m/n/10.95 , \T1/pcr/m/n/10.95 hand_tremor
- []
-
-
-Overfull \hbox (47.68533pt too wide) in paragraph at lines 125--126
-\T1/ppl/m/n/10.95 y \T1/pcr/m/n/10.95 open_close_hands\T1/ppl/m/n/10.95 , y mo-do \T1/pcr/m/n/10.95 HOLISTIC \T1/ppl/m/n/10.95 pa-ra \T1/pcr/m/n/10.95 nose_finger\T1/ppl/m/n/10.95 . La cla-se \T1/pcr/m/n/10.95 PoseEstimator
- []
-
-
-Overfull \hbox (6.8678pt too wide) in paragraph at lines 125--126
-\T1/ppl/m/n/10.95 ins-tan-cia el mo-de-lo co-rres-pon-dien-te me-dian-te la API de ta-reas, con ar-chi-vos \T1/pcr/m/n/10.95 .task
- []
-
-LaTeX Info: Redefining \. on input line 132.
-LaTeX Info: Redefining \% on input line 132.
-[21 <./Figures/cap_3/diagrama_flujo_dago.png>]
-Overfull \hbox (31.59735pt too wide) in paragraph at lines 144--145
+LaTeX Info: Redefining \. on input line 136.
+LaTeX Info: Redefining \% on input line 136.
+ [21 <./Figures/cap_3/diagrama_flujo_dago.png>]
+Overfull \hbox (31.59735pt too wide) in paragraph at lines 148--149
 \T1/ppl/m/n/10.95 con-jun-to de al-go-rit-mos apli-ca-bles. Las fun-cio-nes ge-né-ri-cas \T1/pcr/m/n/10.95 oscillation_amplitude\T1/ppl/m/n/10.95 ,
  []
 
 
-Overfull \hbox (3.72568pt too wide) in paragraph at lines 148--150
+Overfull \hbox (3.72568pt too wide) in paragraph at lines 152--154
 \T1/ppl/m/n/10.95 dad su-pe-rior [[][]2[][]], em-plean-do la ta-sa efec-ti-va tras el sub-sam-pleo ($\OML/cmm/m/it/10.95 f[] \OT1/cmr/m/n/10.95 = [][]\OML/cmm/m/it/10.95 =[]$\T1/ppl/m/n/10.95 ). 
  []
 
-LaTeX Info: Redefining \. on input line 152.
-LaTeX Info: Redefining \% on input line 152.
+LaTeX Info: Redefining \. on input line 156.
+LaTeX Info: Redefining \% on input line 156.
 [22]
-LaTeX Font Info:    Trying to load font information for TS1+ppl on input line 164.
+LaTeX Font Info:    Trying to load font information for TS1+ppl on input line 168.
  (/usr/local/texlive/2026basic/texmf-dist/tex/latex/psnfss/ts1ppl.fd
 File: ts1ppl.fd 2001/06/04 font definitions for TS1/ppl.
 )
-Overfull \hbox (2.83223pt too wide) in paragraph at lines 174--175
-[]\T1/ppl/b/n/10.95 Decremento de am-pli-tud \T1/ppl/m/n/10.95 (\T1/pcr/m/n/10.95 amplitude_decrement\T1/ppl/m/n/10.95 , mm/s): pen-dien-
+LaTeX Info: Redefining \. on input line 183.
+LaTeX Info: Redefining \% on input line 183.
+ [23]
+Overfull \hbox (9.6094pt too wide) in paragraph at lines 194--195
+[]\T1/ppl/m/n/10.95 Estabilidad pos-tu-ral (\T1/pcr/m/n/10.95 postural_stability\T1/ppl/m/n/10.95 , adim.): ba-lan-ceo del tron-
  []
 
-LaTeX Info: Redefining \. on input line 179.
-LaTeX Info: Redefining \% on input line 179.
-[23]
-Overfull \hbox (2.08614pt too wide) in paragraph at lines 184--185
-[]\T1/ppl/b/n/10.95 Distancia mí-ni-ma nariz--dedo \T1/ppl/m/n/10.95 (\T1/pcr/m/n/10.95 nose_finger_min_distance\T1/ppl/m/n/10.95 , mm):
- []
-
-
-Overfull \hbox (0.75038pt too wide) in paragraph at lines 185--186
-[]\T1/ppl/b/n/10.95 Distancia me-dia nariz--dedo \T1/ppl/m/n/10.95 (\T1/pcr/m/n/10.95 nose_finger_mean_distance\T1/ppl/m/n/10.95 , mm):
- []
-
-
-Overfull \hbox (2.1406pt too wide) in paragraph at lines 200--201
-[]\T1/ppl/b/n/10.95 Índice de si-me-tría en-tre ma-nos \T1/ppl/m/n/10.95 (\T1/pcr/m/n/10.95 hand_movement_symmetry\T1/ppl/m/n/10.95 , adim.):
- []
-
-<Figures/cap_3/sesion_completa_dist.png, id=472, 1023.825pt x 447.6725pt>
+<Figures/cap_3/sesion_completa_dist.png, id=531, 1023.825pt x 447.6725pt>
 File: Figures/cap_3/sesion_completa_dist.png Graphic file (type png)
 <use Figures/cap_3/sesion_completa_dist.png>
-Package pdftex.def Info: Figures/cap_3/sesion_completa_dist.png  used on input line 209.
+Package pdftex.def Info: Figures/cap_3/sesion_completa_dist.png  used on input line 213.
 (pdftex.def)             Requested size: 370.31136pt x 161.9202pt.
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 210.
+(caption)                particular \caption on input line 214.
 See the caption package documentation for explanation.
 
-LaTeX Info: Redefining \. on input line 210.
-LaTeX Info: Redefining \% on input line 210.
+LaTeX Info: Redefining \. on input line 214.
+LaTeX Info: Redefining \% on input line 214.
 [24]
-Overfull \hbox (20.55632pt too wide) in paragraph at lines 215--216
+Overfull \hbox (20.55632pt too wide) in paragraph at lines 219--220
 []\T1/ppl/m/n/10.95 En la eje-cu-ción por lí-nea de co-man-dos se ge-ne-ran ade-más grá-fi-cos \T1/pcr/m/n/10.95 timeseries.png\T1/ppl/m/n/10.95 ,
  []
+
+LaTeX Info: Redefining \. on input line 235.
+LaTeX Info: Redefining \% on input line 235.
+[25 <./Figures/cap_3/sesion_completa_dist.png>]
+Overfull \hbox (49.19177pt too wide) in paragraph at lines 242--243
+\T1/ppl/m/n/10.95 en-tre se-sio-nes (\T1/pcr/m/n/10.95 /api/compare\T1/ppl/m/n/10.95 ), ge-ne-ra-ción de in-for-mes (\T1/pcr/m/n/10.95 /api/sessions/.../report\T1/ppl/m/n/10.95 )
+ []
+
+
+Overfull \hbox (22.22372pt too wide) in paragraph at lines 248--249
+\T1/ppl/m/n/10.95 mien-to, los even-tos de pro-gre-so (\T1/pcr/m/n/10.95 ingestion\T1/ppl/m/n/10.95 , \T1/pcr/m/n/10.95 preprocessing\T1/ppl/m/n/10.95 , \T1/pcr/m/n/10.95 pose_estimation\T1/ppl/m/n/10.95 ,
+ []
+
+
+Overfull \hbox (26.56126pt too wide) in paragraph at lines 248--249
+\T1/ppl/m/n/10.95 aso-cia-da al iden-ti-fi-ca-dor de se-sión. El end-point \T1/pcr/m/n/10.95 GET /api/sessions/{id}/status
+ []
+
+LaTeX Info: Redefining \. on input line 253.
+LaTeX Info: Redefining \% on input line 253.
+[26]
+
+Package caption Warning: The option `hypcap=true' will be ignored for this
+(caption)                particular \caption on input line 264.
+See the caption package documentation for explanation.
 
 )
 LaTeX Info: Redefining \. on input line 122.
 LaTeX Info: Redefining \% on input line 122.
- [25 <./Figures/cap_3/sesion_completa_dist.png>]
+ [27]
 \openout2 = `Chapters/Chapter4.aux'.
 
- (./Chapters/Chapter4.tex [26
+ (./Chapters/Chapter4.tex [28
 
 
 
@@ -1359,33 +1390,43 @@ Overfull \hbox (141.8641pt too wide) in paragraph at lines 16--17
 \T1/ppl/m/n/10.95 ra-das. Se in-clu-yó ade-más una prue-ba de in-te-gra-ción de hu-mo (\T1/pcr/m/n/10.95 tests/integration/test_cli_smoke.py\T1/ppl/m/n/10.95 )
  []
 
-) [27]
+) [29]
 \openout2 = `Chapters/Chapter5.aux'.
 
- (./Chapters/Chapter5.tex [28
+ (./Chapters/Chapter5.tex [30
 
 
 
 
 ]
 Cap\'{\i }tulo 5.
-) [29] [30
+) [31] [32
 
 
 
 ]
+Overfull \hbox (12.79675pt too wide) in paragraph at lines 142--142
+[]\T1/ppl/m/n/10.95 Diego L. Gua-rín. ^^S  Video-based quan-ti-fi-ca-tion of hand pos-tu-ral tre-mor without
+ []
+
+
+Overfull \hbox (14.8971pt too wide) in paragraph at lines 142--142
+\T1/ppl/m/n/10.95 ex-ter-nal re-fe-ren-ces. In-te-gra-ting pos-tu-ral tre-mor quan-ti-fi-ca-tion in-to vi-sionMD^^T.
+ []
+
+[33]
 Overfull \hbox (10.19678pt too wide) in paragraph at lines 142--142
 \T1/ppl/m/n/10.95 mar-kers un-der oc-clu-sion^^T. En: \T1/ppl/m/it/10.95 Pat-tern Re-cog-ni-tion \T1/ppl/m/n/10.95 47.6 (2014), págs. 2280[]2292.
  []
 
-[31]
+
 Overfull \hbox (4.74089pt too wide) in paragraph at lines 142--142
 []\T1/ppl/m/n/10.95 Fan Zhang, Va-len-tin Ba-za-revsky, An-drey Va-ku-nov, An-drei Tka-chen-ka, Geor-
  []
 
 LaTeX Info: Redefining \. on input line 144.
 LaTeX Info: Redefining \% on input line 144.
-[32] (./memorianueva.aux (./portada.aux)
+[34] (./memorianueva.aux (./portada.aux)
 LaTeX Info: Redefining \sptext on input line 16.
 LaTeX Info: Redefining \. on input line 16.
 LaTeX Info: Redefining \% on input line 16.
@@ -1399,7 +1440,7 @@ L3 programming layer <2026-01-19>
 LaTeX Warning: There were undefined references.
 
 Package rerunfilecheck Info: File `memorianueva.out' has not changed.
-(rerunfilecheck)             Checksum: 00A3C44756038C6F857D41F2D470AC2A;6085.
+(rerunfilecheck)             Checksum: C72981AD101134790BACDC0E656F7978;7524.
 
 Package biblatex Warning: Please (re)run BibTeX on the file(s):
 (biblatex)                memorianueva
@@ -1410,18 +1451,18 @@ Package logreq Info: Writing requests to 'memorianueva.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 31396 strings out of 469006
- 681993 string characters out of 5454813
- 1291263 words of memory out of 5000000
- 59597 multiletter control sequences out of 15000+600000
- 691984 words of font info for 120 fonts, out of 8000000 for 9000
+ 31480 strings out of 469006
+ 684496 string characters out of 5454813
+ 1292153 words of memory out of 5000000
+ 59662 multiletter control sequences out of 15000+600000
+ 692911 words of font info for 123 fonts, out of 8000000 for 9000
  320 hyphenation exceptions out of 8191
- 96i,20n,97p,2039b,2155s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 96i,20n,97p,2039b,2985s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></Users/alexbarria/Library/texmf/fonts/type1/urw/courier/ucrr8a.pfb></Users/alexbarria/Library/texmf/fonts/type1/urw/helvetic/uhvb8a.pfb></Users/alexbarria/Library/texmf/fonts/type1/urw/helvetic/uhvr8a.pfb></Users/alexbarria/Library/texmf/fonts/type1/urw/helvetic/uhvro8a.pfb></Users/alexbarria/Library/texmf/fonts/type1/urw/palatino/uplb8a.pfb></Users/alexbarria/Library/texmf/fonts/type1/urw/palatino/uplb8a.pfb></Users/alexbarria/Library/texmf/fonts/type1/urw/palatino/uplr8a.pfb></Users/alexbarria/Library/texmf/fonts/type1/urw/palatino/uplr8a.pfb></Users/alexbarria/Library/texmf/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on memorianueva.pdf (46 pages, 9469306 bytes).
+Output written on memorianueva.pdf (48 pages, 10502100 bytes).
 PDF statistics:
- 633 PDF objects out of 1000 (max. 8388607)
- 529 compressed objects within 6 object streams
- 117 named destinations out of 1000 (max. 500000)
- 300 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 709 PDF objects out of 1000 (max. 8388607)
+ 599 compressed objects within 6 object streams
+ 134 named destinations out of 1000 (max. 500000)
+ 355 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -11,7 +11,7 @@ En este capítulo se describen las herramientas, bibliotecas, modelos preentrena
 \section{Frameworks y bibliotecas}
 \label{sec:frameworks}
 
-El sistema se construyó sobre tecnologías de código abierto. El núcleo del trabajo es un flujo de procesamiento de video y señales escrito en \texttt{Python} 3.12, sobre el que se montan un servicio HTTP, una capa de persistencia y una interfaz web. Esta separación permitió que la misma lógica de procesamiento se pudiera invocar desde una línea de comandos, un servicio HTTP o un contenedor sin alterar el núcleo del cálculo.
+El sistema se construyó sobre tecnologías de código abierto. El núcleo del trabajo es un flujo de procesamiento de video y señales escrito en \texttt{Python} 3.12 \citep{python3}, sobre el que se montan un servicio HTTP, una capa de persistencia y una interfaz web. Esta separación permitió que la misma lógica de procesamiento se pudiera invocar desde una línea de comandos, un servicio HTTP o un contenedor sin alterar el núcleo del cálculo.
 
 Para la lectura y manipulación de imagen se utilizó \texttt{OpenCV} \citep{bradski2000opencv}, que cubrió la apertura de los archivos de video, la conversión entre espacios de color y las operaciones de redimensionado y muestreo cuadro a cuadro. La extracción del canal de audio asociado a las grabaciones se realizó con \texttt{moviepy}, y el análisis posterior de ese canal, en particular para la detección de los pulsos del metrónomo que estructuran los ejercicios, se apoyó en \texttt{librosa} \citep{mcfee2015librosa}, una biblioteca especializada en el procesamiento de señales de audio musicales y rítmicas.
 
@@ -58,7 +58,7 @@ El trabajo no contempló el entrenamiento de modelos desde cero, por lo que las 
 
 No se incorporaron conjuntos de datos públicos. La conformación de un conjunto de grabaciones de pacientes con enfermedad de Parkinson exige un marco de consentimiento informado, anonimización y resguardo bajo regulaciones de protección de datos de salud, condiciones que se inscriben en una etapa posterior a la de un prototipo de investigación. Esa restricción se reflejó desde la planificación inicial, que excluyó explícitamente del alcance la validación clínica formal y la integración con sistemas hospitalarios y dejó la evaluación funcional con especialistas como actividad opcional.
 
-En el desarrollo se realizó además un análisis preliminar de los principales puntos de mejora y de criticidad para que el sistema pueda alinearse con normativas vigentes de protección de datos sanitarios, como la \textit{Health Insurance Portability and Accountability Act} (HIPAA) en su jurisdicción de origen. El resultado de ese análisis se desarrolla en los capítulos posteriores como trabajo futuro y propuestas de mejora.
+En el desarrollo se realizó además un análisis preliminar de los principales puntos de mejora y de criticidad para que el sistema pueda alinearse con normativas vigentes de protección de datos sanitarios, como la \textit{Health Insurance Portability and Accountability Act} (HIPAA) \citep{hipaa1996} en su jurisdicción de origen. El resultado de ese análisis se desarrolla en los capítulos posteriores como trabajo futuro y propuestas de mejora.
 
 Para sostener el avance del desarrollo dentro del alcance descripto, se trabajó con dos fuentes complementarias de video: grabaciones propias de personas sin patologías motoras que reprodujeron los ejercicios estandarizados y un conjunto reducido de grabaciones de pacientes obtenidas en condiciones controladas y bajo acuerdo de uso interno, que se mantuvieron por fuera del repositorio de código.
 
@@ -107,7 +107,7 @@ En la figura \ref{fig:mediapipe-hand-cap2} se muestra un ejemplo de los 21 punto
 
 En la imagen se observa la disposición regular de los puntos a lo largo de las falanges y las articulaciones, que permite reconstruir la geometría de la mano cuadro a cuadro y, a partir de ella, derivar las distancias y los ángulos sobre los que se calculan las métricas del sistema.
 
-Para la generación automática de resúmenes interpretativos sobre los resultados de cada sesión y sobre la evolución longitudinal de un paciente se incorporó un modelo de lenguaje de gran tamaño (\textit{large language model}, LLM), accedido a través de la API de OpenAI \citep{openai_api}.
+Para la generación automática de resúmenes interpretativos sobre los resultados de cada sesión y sobre la evolución longitudinal de un paciente se incorporó un modelo de lenguaje de gran tamaño (\textit{Large Language Model}, LLM), accedido a través de la API de OpenAI \citep{openai_api}.
 
 El modelo elegido fue \texttt{GPT-5.4-mini}, una variante orientada a tareas conversacionales con costo y latencia acotados. El componente del sistema responsable de esta funcionalidad envía únicamente las métricas cuantitativas y los metadatos no identificatorios de la sesión, junto con instrucciones en formato de prompt estructurado. Luego, el sistema recibe un texto en lenguaje natural que el profesional de salud puede inspeccionar como apoyo a la lectura del reporte. El modelo nunca recibe identificadores del paciente, en línea con la política de manejo de datos del trabajo.
 
@@ -133,7 +133,7 @@ GPT-5.4-mini (OpenAI) & Modelo de lenguaje generativo. & Conjunto general emplea
 \end{center}
 \vspace{0.4em}
 
-La integración de los modelos respetó los supuestos del proyecto sobre acceso a soluciones de código abierto y la decisión explícita de no entrenar desde cero. De ese modo se concentró el esfuerzo en el flujo de procesamiento, en la derivación de métricas y en la presentación clínica de los resultados, en lugar de en la construcción de un dataset de entrenamiento y de un protocolo de ajuste de redes neuronales. Otro aporte significativo del trabajo fue la operación e integración de los servicios necesarios para conformar una solución completa, que articula la infraestructura de ejecución, la interfaz de usuario, el servicio de aplicación y la persistencia en una arquitectura coherente y reproducible, descripta en el capítulo de diseño e implementación.
+La integración de los modelos respetó los supuestos del trabajo sobre acceso a soluciones de código abierto y la decisión explícita de no entrenar desde cero. De ese modo se concentró el esfuerzo en el flujo de procesamiento, en la derivación de métricas y en la presentación clínica de los resultados, en lugar de en la construcción de un dataset de entrenamiento y de un protocolo de ajuste de redes neuronales. Otro aporte significativo del trabajo fue la operación e integración de los servicios necesarios para conformar una solución completa, que articula la infraestructura de ejecución, la interfaz de usuario, el servicio de aplicación y la persistencia en una arquitectura coherente y reproducible, descripta en el capítulo de diseño e implementación.
 
 \section{Infraestructura}
 \label{sec:infraestructura}
