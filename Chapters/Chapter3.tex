@@ -45,7 +45,7 @@ En la figura \ref{fig:charuco-overlay} se puede observar un fotograma del video 
 
 \subsection{Fase estática y segmentación del ejercicio}
 
-En el ejercicio de finger tapping, los primeros segundos de muchas grabaciones corresponden a la mano en reposo sobre el tablero de calibración. Para excluir ese tramo del cálculo de métricas dinámicas se implementó \texttt{detect\_static\_calibration\_phase}, que calcula la desviación estándar móvil de la distancia pulgar--índice y marca como fase estática los intervalos en los que esa variabilidad permanece por debajo de 1{,}5~mm durante al menos 2~s. La función \texttt{slice\_dynamic\_after\_static} recorta la serie temporal a partir del final de esa fase. Opcionalmente, en la API, el parámetro \texttt{auto\_crop\_taps} acota además la ventana al intervalo entre el primero y el último pico de tapping detectado en la señal, con un margen temporal de 0{,}1~s a cada lado.
+En el ejercicio de finger tapping, los primeros segundos de muchas grabaciones corresponden a la mano en reposo sobre el tablero de calibración. Para excluir ese tramo del cálculo de métricas dinámicas se implementó \texttt{detect\_\allowbreak{}static\_\allowbreak{}calibration\_\allowbreak{}phase}, que calcula la desviación estándar móvil de la distancia pulgar--índice y marca como fase estática los intervalos en los que esa variabilidad permanece por debajo de 1{,}5~mm durante al menos 2~s. La función \texttt{slice\_\allowbreak{}dynamic\_\allowbreak{}after\_\allowbreak{}static} recorta la serie temporal a partir del final de esa fase. Opcionalmente, en la API, el parámetro \texttt{auto\_\allowbreak{}crop\_\allowbreak{}taps} acota además la ventana al intervalo entre el primero y el último pico de tapping detectado en la señal, con un margen temporal de 0{,}1~s a cada lado.
 
 En la figura \ref{fig:static-phase} se observa una gráfica de la distancia pulgar--índice en función del tiempo, en la que se puede observar la fase estática y el inicio del segmento analizado para las métricas de tapping. Las líneas verticales rojas representan las detecciones de los sonidos del metrónomo que el paciente debe seguir con los movimientos del ejercicio a evaluar.
 
@@ -97,7 +97,7 @@ Esta sección describe cómo se relaciona la inferencia con modelos ya presentad
 
 La arquitectura implementada se organizó como una cadena de módulos \texttt{Python} que orquestan inferencia con modelos preentrenados de visión, transforman las salidas en series temporales tabulares y calculan métricas en señales unidimensionales. En ese marco recayó el aporte principal del capítulo en materia de arquitectura: los contratos de datos entre etapas, el subsampleo temporal, la calibración, la agregación de sesión y el ajuste de parámetros de procesamiento de señal, umbrales de detección y reglas de segmentación documentadas en las subsecciones siguientes.
 
-El alcance incluyó también un modelo de lenguaje de gran tamaño (LLM) como capa interpretativa sobre resultados ya cuantificados \citep{openai_api}, orientado a resúmenes por sesión y por evolución longitudinal. El servicio \texttt{/api/insights} consume exclusivamente el \texttt{summary.json} de sesiones finalizadas y no reenvía video ni coordenadas de landmarks al proveedor externo. Las instrucciones se versionaron en plantillas YAML \citep{yaml_spec} (\texttt{session\_summary.yaml} y \texttt{evolution\_summary.yaml}) con rol de sistema y plantilla de usuario separados, de modo que el equipo pudiera iterar el texto sin modificar el código del enrutador.
+El alcance incluyó también un modelo de lenguaje de gran tamaño (LLM) como capa interpretativa sobre resultados ya cuantificados \citep{openai_api}, orientado a resúmenes por sesión y por evolución longitudinal. El servicio \texttt{/api/\allowbreak{}insights} consume exclusivamente el \texttt{summary.\allowbreak{}json} de sesiones finalizadas y no reenvía video ni coordenadas de landmarks al proveedor externo. Las instrucciones se versionaron en plantillas YAML \citep{yaml_spec} (\texttt{session\_\allowbreak{}summary.yaml} y \texttt{evolution\_\allowbreak{}summary.yaml}) con rol de sistema y plantilla de usuario separados, de modo que el equipo pudiera iterar el texto sin modificar el código del enrutador.
 
 Durante la implementación se evaluaron distintas variantes de prompt para acotar tono y extensión de la respuesta generada. Se fijó temperatura baja, límites de tokens de salida, secciones con encabezados predefinidos y prohibición explícita de formular diagnósticos, con recordatorio de que la interpretación final debe ser validada por el personal médico. Las variables interpoladas en cada solicitud se limitaron a metadatos de sesión, indicadores de calidad de la captura y tablas de métricas agregadas, sin nombres ni grabaciones del paciente, en línea con la política de manejo de datos del trabajo. El acceso al endpoint exige autenticación y verificación de que la sesión pertenece al profesional solicitante antes de invocar al modelo.
 
@@ -109,7 +109,7 @@ Se adoptó además una política de clasificación de datos en tres niveles en e
 
 \subsection{Contrato de datos entre etapas}
 
-Para mantener la trazabilidad entre módulos se definieron esquemas de datos inmutables en cada frontera. \texttt{VideoMeta} y \texttt{FrameData} describen el origen temporal de cada fotograma; \texttt{AudioData} e \texttt{ImpulseEvent} encapsulan el audio y los pulsos detectados; \texttt{ProcessedFrame} añade las transformaciones de imagen; \texttt{PoseResult} agrupa las detecciones de mano y cuerpo por cuadro; y \texttt{MetricResult} estandariza la salida de cada algoritmo de métrica con nombre, unidad, validez y metadatos opcionales. El resumen final de sesión (\texttt{SessionSummary}) consolida métricas, retardos, parámetros de calibración, metrónomo y versión del pipeline en un único documento JSON serializable, apto para persistencia relacional y para los prompts del modelo de lenguaje.
+Para mantener la trazabilidad entre módulos se definieron esquemas de datos inmutables en cada frontera. \texttt{VideoMeta} y \texttt{FrameData} describen el origen temporal de cada fotograma; \texttt{AudioData} e \texttt{ImpulseEvent} encapsulan el audio y los pulsos detectados; \texttt{ProcessedFrame} añade las transformaciones de imagen; \texttt{Pose\allowbreak{}Result} agrupa las detecciones de mano y cuerpo por cuadro; y \texttt{Metric\allowbreak{}Result} estandariza la salida de cada algoritmo de métrica con nombre, unidad, validez y metadatos opcionales. El resumen final de sesión (\texttt{Session\allowbreak{}Summary}) consolida métricas, retardos, parámetros de calibración, metrónomo y versión del pipeline en un único documento JSON serializable, apto para persistencia relacional y para los prompts del modelo de lenguaje.
 
 Ese contrato permite sustituir o extender un módulo sin alterar los demás siempre que respete las interfaces acordadas. Por ejemplo, un futuro estimador de pose alternativo podría devolver el mismo \texttt{PoseResult} sin modificar el seguimiento ni las métricas aguas abajo.
 
@@ -145,7 +145,7 @@ En \texttt{nose\_finger} se construye la distancia entre la yema del índice y l
 
 \subsection{Métricas de movimiento implementadas}
 
-El módulo de métricas selecciona, según el tipo de ejercicio, la señal temporal y el conjunto de algoritmos aplicables. Las funciones genéricas \texttt{oscillation\_amplitude}, \texttt{tremor\_frequency} y \texttt{movement\_regularity} operan sobre la serie activa de cada ejercicio cuando hay al menos cuatro muestras válidas. La frecuencia dominante se estima por transformada rápida de Fourier en la banda definida en la ecuación \ref{eq:tremor-band}:
+El módulo de métricas selecciona, según el tipo de ejercicio, la señal temporal y el conjunto de algoritmos aplicables. Las funciones genéricas \texttt{oscillation\_\allowbreak{}amplitude}, \texttt{tremor\_\allowbreak{}frequency} y \texttt{movement\_\allowbreak{}regularity} operan sobre la serie activa de cada ejercicio cuando hay al menos cuatro muestras válidas. La frecuencia dominante se estima por transformada rápida de Fourier en la banda definida en la ecuación \ref{eq:tremor-band}:
 \begin{equation}
 f \in [1{,}0,\, 12{,}0]\ \text{Hz},
 \label{eq:tremor-band}
@@ -191,7 +191,7 @@ Cada magnitud se encapsula en un \texttt{MetricResult} con unidad, validez y not
         \item Precisión del alcance (\texttt{nose\_finger\_accuracy}, adim.): cociente entre distancia mínima y longitud de trayectoria.
         \item Ángulo medio de abducción (\texttt{arm\_angle\_mean}, $^{\circ}$): abducción media de cada brazo (métrica secundaria).
         \item Variabilidad del ángulo (\texttt{arm\_angle\_variability}, $^{\circ}$): rango pico a pico del ángulo de abducción (métrica secundaria).
-        \item Estabilidad postural (\texttt{postural\_stability}, adim.): balanceo del tronco, estimado como proxy hombro--cadera (métrica secundaria).
+        \item Estabilidad postural (\texttt{postural\_\allowbreak{}stability}, adim.): balanceo del tronco, estimado como proxy hombro--cadera (métrica secundaria).
     \end{itemize}
 
     \item Apertura y cierre de manos:
@@ -216,7 +216,9 @@ En la figura \ref{fig:timeseries-metricas} se ilustra, a modo de ejemplo para \t
 \end{center}
 \vspace{0.4em}
 
+\begin{sloppypar}
 En la ejecución por línea de comandos se generan además gráficos \texttt{timeseries.png}, \texttt{metrics\_summary.png} y \texttt{detection\_overview.png} cuando la opción de guardado de figuras está activa. El worker de la API omite esos gráficos para reducir tiempo y uso de memoria en el contenedor y delega la visualización interactiva al frontend.
+\end{sloppypar}
 
 \subsection{Agregación, exportación y trazabilidad}
 
@@ -239,13 +241,17 @@ Aunque ambos caminos comparten la lógica analítica, existieron diferencias ope
 
 \subsection{Servicio HTTP y procesamiento en segundo plano}
 
-La aplicación \texttt{api.main} registra routers para autenticación (\texttt{/api/auth}), pacientes (\texttt{/api/patients}), sesiones de análisis (\texttt{/api/sessions}), comparación entre sesiones (\texttt{/api/compare}), generación de informes (\texttt{/api/sessions/.../report}) e interpretación asistida por modelo de lenguaje (\texttt{/api/insights}). Los esquemas de entrada y salida se validan con modelos \texttt{Pydantic}, lo que homogeneiza los tipos entre el cliente web y el servidor y reduce errores de formato en la carga multipart de videos.
+\begin{sloppypar}
+La aplicación \texttt{api.main} registra routers para autenticación (\texttt{/\allowbreak{}api/\allowbreak{}auth}), pacientes (\texttt{/\allowbreak{}api/\allowbreak{}patients}), sesiones de análisis (\texttt{/\allowbreak{}api/\allowbreak{}sessions}), comparación entre sesiones (\texttt{/\allowbreak{}api/\allowbreak{}compare}), generación de informes (\texttt{/\allowbreak{}api/\allowbreak{}sessions/\allowbreak{}.../\allowbreak{}report}) e interpretación asistida por modelo de lenguaje (\texttt{/\allowbreak{}api/\allowbreak{}insights}). Los esquemas de entrada y salida se validan con modelos \texttt{Pydantic}, lo que homogeneiza los tipos entre el cliente web y el servidor y reduce errores de formato en la carga multipart de videos.
+\end{sloppypar}
 
 El registro de usuarios y el inicio de sesión emiten tokens JWT que deben acompañar las peticiones subsiguientes. Los roles distinguen al menos cuentas de personal de salud y cuentas de portal de paciente con acceso de solo lectura a su propia evolución, de modo de separar la carga de nuevas sesiones de la consulta longitudinal sin exponer datos de terceros.
 
 La carga de un video se realiza mediante \texttt{POST /api/sessions/analyse}, que crea un registro de sesión en estado pendiente y encola un trabajo en un \texttt{ThreadPoolExecutor} con capacidad limitada (2 hilos concurrentes y cola acotada) para evitar saturar la memoria del host. Si la cola supera el máximo configurado, el servicio responde con código HTTP 503 e informa al cliente que debe reintentar más tarde. Existe además un endpoint de análisis por lotes que procesa varios archivos en secuencia y mantiene el orden de envío; resulta útil para sesiones de laboratorio con múltiples repeticiones del mismo ejercicio.
 
+\begin{sloppypar}
 Cada trabajo ejecuta \texttt{run\_pipeline} en un hilo separado. Durante el procesamiento, los eventos de progreso (\texttt{ingestion}, \texttt{preprocessing}, \texttt{pose\_estimation}, \texttt{metrics}, \texttt{aggregation}, \texttt{done} o \texttt{error}) se publican en una cola thread-safe asociada al identificador de sesión. El endpoint \texttt{GET /api/sessions/\{id\}/status} transmite esos eventos al navegador mediante eventos enviados desde el servidor (SSE), con autenticación por token en la cadena de consulta para compatibilidad con \texttt{EventSource}. Al finalizar, un coroutine asíncrono actualiza el campo \texttt{summary\_json} y la ruta de salida en la tabla \texttt{AnalysisSession}.
+\end{sloppypar}
 
 \subsection{Manejo de errores y recuperación de sesión}
 
