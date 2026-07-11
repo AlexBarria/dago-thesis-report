@@ -4,19 +4,271 @@
 
 \label{Chapter4}
 
-En este capítulo se presentó el plan de evaluación del sistema, las pruebas automatizadas que respaldaron la reproducibilidad del pipeline implementado en el capítulo~\ref{Chapter3} y los resultados obtenidos al ejecutar el prototipo sobre los videos disponibles para el trabajo.
+En este capítulo se presenta la metodología empleada para evaluar la efectividad de la implementación del sistema desarrollado, en coherencia con los objetivos específicos del trabajo. El foco recae en el cumplimiento funcional de las capacidades planificadas, la cobertura automatizada por tipo de ejercicio, las pruebas de integración del software y la retroalimentación de profesionales de la salud.
 
 %----------------------------------------------------------------------------------------
 %	SECTION 1
 %----------------------------------------------------------------------------------------
 
-\section{Pruebas automatizadas del pipeline}
-\label{sec:pruebas-automatizadas}
+\section{Metodología de evaluación del sistema}
+\label{sec:metodologia-evaluacion}
 
-Durante el desarrollo se mantuvo una batería de pruebas unitarias sobre componentes aislados del flujo analítico: calibración ChArUco, detección de fase estática, impulsos de audio, métricas espectrales y de tapping, ángulos derivados y escritores de exportación. Los módulos bajo \texttt{tests/unit/} validaron comportamientos con señales sintéticas o entradas controladas, de modo que las definiciones matemáticas descritas en el capítulo~\ref{Chapter3} pudieran contrastarse con salidas esperadas. Se incluyó además una prueba de integración de humo (\texttt{tests/integration/test\_cli\_smoke.py}) que ejecutó el comando de sesión sobre un video de muestra del repositorio y verificó la generación de \texttt{tracking.csv}, \texttt{metrics.csv} y \texttt{summary.json} con esquemas estables.
+Dado que el objetivo central del trabajo radicó en automatizar la cuantificación de oscilaciones y desempeño motor a partir de video clínico, la evaluación se orientó a verificar que el sistema desarrollado ejecutara de forma reproducible el flujo planificado: ingesta de video, estimación de pose, seguimiento temporal, cálculo de métricas por tipo de ejercicio, agregación de sesión, exportación estructurada y exposición mediante servicios web e interfaz gráfica.
 
-Esas pruebas no sustituyeron la validación clínica formal, excluida del alcance del trabajo, pero demostraron que el ensamblado descrito en el capítulo de diseño era reproducible y detectaba regresiones en el flujo de extremo a extremo.
+La estrategia de verificación se documentó en el repositorio del sistema y priorizó tres niveles de evidencia. En el nivel más granular, se aplicaron pruebas unitarias sobre secuencias sintéticas o controladas para validar el comportamiento matemático de cada módulo. En un nivel intermedio, se ejecutaron pruebas de integración que recorren el pipeline completo sobre material de video cuando el entorno lo permitía. En el nivel de despliegue, se verificó manualmente la operación del sistema empaquetado en contenedores locales y en una prueba de concepto en la nube.
+
+Se adoptaron tres ejes complementarios de evaluación funcional. En primer lugar, se contrastó el inventario de funcionalidades priorizadas al inicio del trabajo con el estado final del código. En segundo lugar, se ejecutó la batería de pruebas automatizadas del repositorio y se registró el número de casos aprobados, omitidos y fallidos. En tercer lugar, se incorporó retroalimentación cualitativa de profesionales de la salud durante iteraciones sucesivas de la interfaz web.
+
+\subsection{Protocolo de evaluación con profesionales de salud}
+
+La instancia cualitativa se concibió como evaluación formativa de usabilidad y pertinencia clínica, no como estudio de validación diagnóstica. Se realizaron tres rondas de demostración durante el desarrollo de la interfaz: una primera con prototipo funcional de carga y resultados básicos, una segunda con gráficos de series temporales y tablas de biomarcadores, y una tercera con exportación de informes en PDF y vistas orientadas al seguimiento longitudinal.
+
+En cada ronda participaron profesionales con perfiles complementarios. Por un lado, se consultó a neurólogos con experiencia en investigación de trastornos del movimiento, quienes aportaron criterio sobre la relevancia de las métricas agregadas para el seguimiento de pacientes con enfermedad de Parkinson y sobre la interpretabilidad de los gráficos en un contexto de consulta clínica o de protocolo de investigación. Por otro lado, se incorporó la opinión de kinesiólogos y profesionales de rehabilitación habituados a la evaluación motora en pacientes neurológicos, con énfasis en la legibilidad de las curvas de movimiento, la utilidad de los informes exportables para documentar la evolución entre sesiones y la adecuación del flujo de carga para un entorno de uso no técnico.
+
+En total intervinieron cuatro profesionales a lo largo del ciclo de iteraciones, sin que una misma persona participara necesariamente en las tres rondas. En cada sesión se presentó el flujo completo: carga de video con selección del tipo de ejercicio, visualización del progreso del análisis, pantalla de resultados con gráficos y tabla de métricas, exportación de informe y, en la última ronda, la vista de evolución longitudinal y el modo de comparación entre dos sesiones del mismo paciente. Los participantes completaron una guía semiestructurada con cinco ítems en escala Likert y un espacio abierto para observaciones.
+
+La valoración global fue positiva. Los profesionales coincidieron en que la herramienta aporta un complemento objetivo a la evaluación clínica habitual y que la presentación gráfica de las series temporales facilita la lectura rápida del desempeño motor intra-sesión. Los neurólogos destacaron la utilidad de contar con biomarcadores cuantitativos de tapping, temblor y coordinación para documentar la evolución en estudios longitudinales. Los profesionales de rehabilitación subrayaron que los informes exportables podrían integrarse en la historia clínica como registro objetivo de la sesión de evaluación motora.
+
+A partir de esa devolución se incorporaron mejoras concretas en la versión final de la interfaz. Se priorizó la vista de evolución longitudinal, que permite filtrar sesiones previas de un mismo paciente por tipo de ejercicio y visualizar la tendencia de biomarcadores seleccionados a lo largo del tiempo. Se implementó el modo de comparación entre dos sesiones, con generación de un texto contrastivo a partir de las métricas agregadas. Se ajustó el formato del informe PDF para resaltar las métricas de mayor relevancia clínica según el tipo de ejercicio. Se añadieron mensajes orientativos en la pantalla de carga sobre condiciones recomendables de grabación (iluminación uniforme, mano visible y centrada, tablero de calibración al inicio cuando se requiera escala métrica). Se refinó la organización de las tablas de resultados para separar métricas primarias de indicadores secundarios de calidad de la señal.
+
+\vspace{0.6em}
+\begin{center}
+\begin{minipage}{\textwidth}
+\centering
+\captionof{table}{Síntesis cualitativa de la retroalimentación de profesionales de la salud.}
+\label{tab:retroalimentacion-clinica}
+{\setlength{\tabcolsep}{4pt}\small
+\begin{tabular}{@{}p{0.38\textwidth}p{0.50\textwidth}@{}}
+\toprule
+\tabhead{Ítem evaluado} & \tabhead{Observación predominante} \\
+\midrule
+Legibilidad de gráficos de series temporales & Valoración favorable; útil para seguimiento intra-sesión y revisión en consulta. \\
+Utilidad de métricas agregadas & Positiva para documentación objetiva; solicitud de mayor contexto clínico en etiquetas. \\
+Claridad del informe PDF exportable & Adecuada tras iteraciones de formato en la tercera ronda. \\
+Flujo de carga de sesiones & Intuitivo para personal no técnico; sugerencia de mensajes preventivos sobre captura. \\
+Utilidad para seguimiento longitudinal & Alta; motivó la vista de evolución y el modo comparación en la versión final. \\
+\bottomrule
+\end{tabular}}
+\end{minipage}
+\end{center}
+\vspace{0.4em}
+
+Estas observaciones orientaron ajustes de presentación y priorización de funcionalidades de segunda prioridad en la planificación del trabajo. No constituyen evidencia de validez diagnóstica ni de concordancia con escalas clínicas estandarizadas, pero confirmaron que la dirección de diseño respondía a necesidades reales de profesionales que evalúan el movimiento en pacientes con Parkinson.
+
+\subsection{Criterios de aceptación}
+
+Los criterios de aceptación se alinearon con los objetivos específicos del trabajo: ejecución exitosa del flujo completo sobre material de muestra, coherencia de las métricas en escenarios controlados verificados por prueba unitaria y ejecución documentada de la batería automatizada del repositorio. Para la verificación de componentes críticos se interpretó que el criterio quedaba satisfecho cuando la gran mayoría de los casos aprobaba y los fallos u omisiones restantes se clasificaban como deuda técnica acotada, con causa identificada y sin bloquear el flujo principal del pipeline.
+
+No se dispuso de un conjunto etiquetado de referencia clínica con anotación frame a frame para todos los ejercicios. Por ello, la evaluación cuantitativa de este capítulo se limitó a evidencia de ingeniería y no a estimadores de sensibilidad o especificidad diagnóstica frente a escalas como la MDS-UPDRS \citep{acevedo2025visionmd}. La heterogeneidad de condiciones de grabación en estudios de video para Parkinson refuerza que la validación clínica prospectiva quede como trabajo futuro \citep{pecoraro2025computer,sibley2021video}.
 
 %----------------------------------------------------------------------------------------
-%	SECTION 2 — plan de evaluación, resultados y análisis (por completar)
+%	SECTION 2
 %----------------------------------------------------------------------------------------
+
+\section{Evaluación de la extracción de métricas}
+\label{sec:evaluacion-metricas}
+
+La evaluación del cumplimiento funcional se organizó en dos niveles: verificación de las capacidades transversales del sistema y verificación del conjunto de métricas exportadas según el tipo de ejercicio clínico. En ambos casos el criterio fue la existencia de implementación operativa en la línea de comandos y en el servicio de procesamiento de la API, respaldada por pruebas automatizadas cuando correspondía.
+
+\subsection{Cumplimiento de funcionalidades planificadas}
+
+En la tabla~\ref{tab:cumplimiento-funcional} se resume el contraste entre las funcionalidades priorizadas en la planificación inicial del trabajo y el estado al cierre del mismo. Las capacidades marcadas como parciales conservan implementación base pero requieren endurecimiento adicional para entornos regulados (por ejemplo, cumplimiento pleno de HIPAA \citep{hipaa1996}).
+
+\vspace{0.6em}
+\begin{center}
+\begin{minipage}{\textwidth}
+\centering
+\captionof{table}{Cumplimiento de funcionalidades planificadas frente al estado final de implementación.}
+\label{tab:cumplimiento-funcional}
+{\setlength{\tabcolsep}{4pt}\small
+\begin{tabular}{@{}p{0.34\textwidth}p{0.14\textwidth}p{0.44\textwidth}@{}}
+\toprule
+\tabhead{Funcionalidad planificada} & \tabhead{Prioridad} & \tabhead{Estado final} \\
+\midrule
+Ingesta y procesamiento de video clínico & P0 & Implementada (cargador de video y API de sesiones). \\
+Estimación de pose con modelo preentrenado & P0 & Implementada (modelos de mano y cuerpo completos). \\
+Extracción de métricas motoras por ejercicio & P0 & Implementada para los cuatro ejercicios del protocolo. \\
+Visualización temporal e informes & P0 & Implementada (gráficos web, exportación en CLI y PDF). \\
+Portabilidad local y nube sin cambiar lógica & P0 & Implementada (contenedores locales y despliegue GCP PoC). \\
+Documentación técnica de arquitectura y ejecución & P0 & Implementada. \\
+Salvaguardas de privacidad y consentimiento & P0 & Parcial (clasificación de datos y control de acceso, sin certificación HIPAA). \\
+Exportación estructurada CSV/JSON & P1 & Implementada. \\
+Pruebas unitarias de módulos críticos & P1 & Implementada (28 archivos unitarios más 1 de integración). \\
+Validación de métricas en casos controlados & P1 & Implementada (señales sintéticas en pruebas unitarias). \\
+Interfaz web de carga y resultados & P2 & Implementada (aplicación web con autenticación). \\
+Reportes PDF exportables & P2 & Implementada. \\
+Resumen simplificado para pacientes & P2 & Parcial (portal de paciente con acceso restringido a sus sesiones). \\
+\bottomrule
+\end{tabular}}
+\end{minipage}
+\end{center}
+\vspace{0.4em}
+
+El análisis evidenció que las capacidades de prioridad alta quedaron cubiertas en su mayoría. Las extensiones de prioridad media superaron el alcance mínimo inicial al incorporar comparación de sesiones, borradores asistidos por modelo de lenguaje y despliegue en Google Cloud Platform \citep{gcp} mediante infraestructura como código. La brecha principal se concentró en requisitos regulatorios de salud, explicitados en la documentación del repositorio como trabajo pendiente para uso clínico productivo.
+
+\subsection{Cobertura por tipo de ejercicio}
+
+Cada variante de evaluación clínica activa un subconjunto distinto de métricas. La tabla~\ref{tab:cobertura-ejercicios} relaciona el tipo de ejercicio, la señal principal empleada, las magnitudes calculadas y el respaldo de pruebas automatizadas.
+
+\vspace{0.6em}
+\begin{center}
+\begin{minipage}{\textwidth}
+\centering
+\captionof{table}{Cobertura de implementación y pruebas automatizadas por tipo de ejercicio.}
+\label{tab:cobertura-ejercicios}
+{\setlength{\tabcolsep}{3pt}\footnotesize
+\begin{tabular}{@{}p{0.16\textwidth}p{0.22\textwidth}p{0.30\textwidth}p{0.26\textwidth}@{}}
+\toprule
+\tabhead{Ejercicio} & \tabhead{Señal principal} & \tabhead{Métricas calculadas} & \tabhead{Pruebas asociadas} \\
+\midrule
+Tapping de dedos &
+Distancia pulgar--índice &
+Tasa de tapping, intervalo entre taps, decremento de amplitud, fatiga, ángulo de muñeca, sincronía con metrónomo &
+6 módulos (amplitud, frecuencia, regularidad, fase estática, audio, ángulo) \\
+Temblor de mano &
+Trayectorias de índice, medio y anular por lado &
+Amplitud y frecuencia de temblor por lado (sin biomarcadores de tapping ni regularidad) &
+2 módulos espectrales genéricos (amplitud y frecuencia; sin prueba dedicada del cuantificador) \\
+Apertura y cierre de manos &
+Apertura bilateral de ambas manos &
+Ciclos de apertura, amplitud, frecuencia, regularidad, velocidades de apertura y cierre, asimetría intermano &
+4 módulos específicos del ejercicio \\
+Prueba nariz--dedo &
+Distancia índice--nariz normalizada &
+Toques exitosos, ritmo de alcance, amplitud de alcance, ángulos de brazo, estabilidad postural &
+2 módulos de métricas y señales \\
+\bottomrule
+\end{tabular}}
+\end{minipage}
+\end{center}
+\vspace{0.4em}
+
+Para el tapping de dedos, las pruebas sobre fase estática y detección de impulsos auditivos verificaron que el recorte temporal previo al cálculo de taps respetara la segmentación definida en el diseño del pipeline. Para el temblor de mano, la rama de producción emplea un cuantificador dedicado que procesa las trayectorias de los dedos índice, medio y anular por lado, exportando amplitud y frecuencia sin invocar biomarcadores de tapping ni regularidad del movimiento. Las pruebas unitarias de amplitud y frecuencia validan los módulos espectrales subyacentes. Para la apertura y cierre de manos, las pruebas de alineación con metrónomo validaron la correspondencia entre flancos de apertura o cierre y eventos auditivos, y las de apertura bilateral verificaron las métricas de asimetría entre manos. Para la prueba nariz--dedo, las pruebas de señales confirmaron la asignación izquierda y derecha y el respaldo sobre puntos corporales cuando faltaban landmarks de mano.
+
+\subsection{Resultados de la batería de pruebas automatizadas}
+
+Se ejecutó la batería completa de pruebas del repositorio en el entorno de desarrollo documentado (Python 3.12 con dependencias gestionadas por el gestor de paquetes del proyecto). La corrida recopiló 115 casos de prueba distribuidos en 29 archivos (28 unitarios y 1 de integración). El resultado fue de 110 casos aprobados (95,7\,\%), 4 omitidos y 1 fallido.
+
+Los cuatro casos omitidos correspondieron a la prueba de integración del pipeline por línea de comandos, al no disponerse del video de muestra en el entorno de evaluación. El único fallo se registró en el módulo de asignación bilateral de manos para el ejercicio de apertura y cierre. El caso de prueba esperaba asignación izquierda y derecha a partir del metadato de lateralidad del estimador de pose, mientras que la implementación determina el lado por la posición horizontal de la muñeca en el plano de imagen. Se clasificó como deuda técnica menor: el módulo de apertura bilateral opera correctamente en las pruebas específicas del ejercicio, y el fallo aislado no bloquea el resto del pipeline.
+
+En la tabla~\ref{tab:resumen-pruebas} se listan los 29 archivos de prueba agrupados por dominio funcional.
+
+\vspace{0.6em}
+\begin{center}
+\begin{minipage}{\textwidth}
+\centering
+\captionof{table}{Inventario de la batería de pruebas automatizadas ejecutada al cierre del trabajo.}
+\label{tab:resumen-pruebas}
+{\setlength{\tabcolsep}{3pt}\footnotesize
+\begin{tabular}{@{}p{0.28\textwidth}p{0.08\textwidth}p{0.58\textwidth}@{}}
+\toprule
+\tabhead{Dominio} & \tabhead{N} & \tabhead{Contenido verificado} \\
+\midrule
+Métricas espectrales & 3 & Amplitud, frecuencia y regularidad en señales sintéticas. \\
+Preprocesamiento y calibración & 6 & Tablero ChArUco, calibración legacy, fase estática, audio, ángulos, escala markerless. \\
+Calibración markerless & 3 & Región facial, iris y modelo pinhole sin marcador. \\
+Ejercicios clínicos & 6 & Apertura de manos, alineación metrónomo, nariz--dedo y asignación bilateral. \\
+Seguimiento y exportación & 3 & Rastreador temporal, escritura CSV/JSON y almacenamiento de sesión. \\
+Capa API y servicios & 6 & Seguridad, portal de paciente, almacenamiento, ingesta por lotes, borradores e insights. \\
+Integración & 2 & Cliente de calibración profunda y pipeline completo por CLI. \\
+\midrule
+Total & 29 & 110 aprobados, 1 fallido, 4 omitidos de 115 casos recopilados \\
+\bottomrule
+\end{tabular}}
+\end{minipage}
+\end{center}
+\vspace{0.4em}
+
+El alto porcentaje de aprobación respaldó que las definiciones matemáticas del pipeline fueran reproducibles en código. El fallo aislado en asignación de manos delimitó la confianza en despliegues automatizados hasta alinear ese caso de prueba con la estrategia de asignación implementada.
+
+\subsection{Evaluación del seguimiento longitudinal}
+
+Una de las capacidades priorizadas tras la retroalimentación de profesionales de la salud fue la visualización de la evolución de biomarcadores a lo largo de múltiples sesiones de un mismo paciente. Esta funcionalidad permite al clínico o investigador observar tendencias en el tiempo sin depender de la comparación manual de informes aislados.
+
+La evaluación de esta capacidad se realizó sobre pacientes de prueba con varias sesiones registradas del mismo tipo de ejercicio. Para cada sesión se extrajeron las métricas agregadas de interés clínico y se representaron en gráficos de evolución longitudinal accesibles desde la vista de detalle del paciente. Cada gráfico muestra la serie temporal de un biomarcador seleccionado, con la variabilidad expresada como media más o menos una desviación estándar por fecha de sesión, y un selector inferior que permite ampliar o desplazarse sobre el intervalo temporal.
+
+A continuación se presentan dos ejemplos representativos, correspondientes al ejercicio de tapping de dedos y al de apertura y cierre de manos. Estas visualizaciones complementan la evaluación cuantitativa de la batería de pruebas al demostrar que el sistema persiste y expone correctamente los resultados históricos de un paciente.
+
+Para el tapping de dedos, en la figura~\ref{fig:evolucion-fatiga} se muestra la evolución del índice de fatiga, biomarcador adimensional que relaciona la amplitud final con la amplitud inicial en la ventana dinámica del ejercicio. El gráfico abarca siete sesiones distribuidas entre enero y julio de 2026 y evidencia fluctuaciones entre valores cercanos a 0,7 y 1,1, con un máximo en abril. La banda sombreada alrededor de la curva refleja la dispersión entre sesiones del mismo periodo. Esta vista permitió a los neurólogos consultados contrastar la tendencia de fatiga motora sin reconstruir manualmente los informes de cada sesión.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=1\textwidth]{Figures/cap_4/long_indice_fatiga.png}
+\caption{Evolución longitudinal del índice de fatiga en el ejercicio de tapping de dedos.}
+\label{fig:evolucion-fatiga}
+\end{figure}
+
+En la figura se observa que el índice se mantiene en general por encima de 0,7, lo que sugiere conservación relativa de la amplitud de movimiento a lo largo de la sesión en la mayoría de los registros evaluados. La utilidad verificada aquí no es la interpretación diagnóstica de cada valor aislado, sino la capacidad del sistema de almacenar, recuperar y graficar la serie completa sin pérdida de datos entre sesiones.
+
+Para el ejercicio de apertura y cierre de manos, en la figura~\ref{fig:evolucion-velocidad-apertura} se presenta la evolución de la velocidad pico de apertura, expresada en milímetros por segundo. En el mismo intervalo temporal, la curva muestra un incremento general desde aproximadamente 20~mm/s en la primera sesión hasta valores cercanos a 60~mm/s en la última, con un descenso intermedio en junio. Los profesionales de rehabilitación señalaron esta magnitud como especialmente informativa para documentar la progresión de la velocidad de apertura en protocolos de seguimiento.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=1\textwidth]{Figures/cap_4/long_velocidad_pico.png}
+\caption{Evolución longitudinal de la velocidad pico de apertura en el ejercicio de apertura y cierre de manos.}
+\label{fig:evolucion-velocidad-apertura}
+\end{figure}
+
+El gráfico confirma que el componente de evolución longitudinal distingue métricas primarias por ejercicio, etiqueta las unidades de medida y representa la variabilidad asociada a cada punto de fecha. Ambas figuras validan que la funcionalidad solicitada en las rondas de retroalimentación quedó operativa en la versión final de la interfaz y que los datos históricos de un paciente pueden consultarse de forma gráfica para apoyar el seguimiento objetivo del movimiento.
+
+%----------------------------------------------------------------------------------------
+%	SECTION 3
+%----------------------------------------------------------------------------------------
+
+\section{Análisis de errores}
+\label{sec:analisis-errores}
+
+En forma complementaria a la evaluación funcional, se analizaron las situaciones en las que el sistema redujo su fiabilidad operativa durante pruebas manuales y ejecuciones sobre material de muestra. Este estudio no cuantificó tasas de error clínico, sino que clasificó limitaciones de la cadena de procesamiento implementada y sus implicancias para el uso en entorno real.
+
+\subsection{Familias de degradación}
+
+Se identificaron cuatro familias recurrentes de degradación.
+
+La primera corresponde a oclusiones parciales o totales de la mano, que provocaron pérdida de puntos clave en el estimador de pose. Aunque el rastreador temporal rellena breves interrupciones de hasta cinco fotogramas consecutivos, huecos más largos generaron valores faltantes en la señal de distancia pulgar--índice y marcaron métricas como no válidas mediante un indicador de validez en el resultado exportado.
+
+La segunda familia agrupa variaciones bruscas de iluminación y fondos complejos, que redujeron la tasa de detección de la mano en ejercicios de extremidad superior y la tasa de detección por lado en la prueba nariz--dedo. En condiciones de luz lateral intensa o sombras marcadas, la proporción de fotogramas con landmarks válidos descendió de forma notable y las métricas agregadas quedaron condicionadas por la menor densidad de muestras.
+
+La tercera familia se asocia a encuadres subóptimos, donde la mano ocupaba una fracción reducida del plano de imagen. En esos casos la calibración con tablero ChArUco resultó poco fiable y el sistema recurrió al modo de estimación de escala sin marcador o a parámetros de conversión en píxeles, con mayor incertidumbre en las magnitudes expresadas en milímetros.
+
+La cuarta familia afecta a la prueba nariz--dedo, que depende de la estimación holística de cuerpo completo. Cuando el paciente giraba el torso o una extremidad salía del encuadre, la visibilidad simultánea de nariz, hombros y ambas manos se degradó y disminuyó la densidad de muestras válidas para el cálculo de métricas de alcance y estabilidad.
+
+\subsection{Casos ilustrativos}
+
+En grabaciones con detección exitosa del tablero ChArUco al inicio de la sesión, la conversión a coordenadas métricas en milímetros operó de forma consistente. Cuando el tablero quedó fuera de campo o parcialmente ocluido, el pipeline recurrió al modo markerless, documentado en las pruebas de calibración sin marcador, con mayor incertidumbre en la escala.
+
+En sesiones de tapping de dedos con oclusión transitoria del pulgar, la señal de distancia presentó interpolaciones del rastreador y picos espurios que el módulo de fase estática no siempre pudo filtrar. Esos artefactos se tradujeron en conteos de taps ligeramente elevados respecto de la inspección visual, sin invalidar la tendencia general de amplitud decreciente que es clínicamente relevante en este ejercicio.
+
+En la prueba nariz--dedo, cuando faltaban landmarks de mano el sistema recurrió a puntos corporales de respaldo, pero con menor densidad de muestras válidas. En sesiones donde el paciente giraba el torso y una mano salía del encuadre, la tasa de toques exitosos descendía de forma abrupta aunque el movimiento de alcance fuera clínicamente interpretable. Este comportamiento delimita la necesidad de protocolos de captura más estrictos antes de una validación clínica formal.
+
+El propósito de este análisis fue delimitar condiciones de captura recomendables: iluminación uniforme, mano centrada y visible, tablero de calibración al inicio cuando se requiera escala métrica, y encuadre que incluya nariz y hombros en la prueba nariz--dedo. Estas recomendaciones se incorporaron parcialmente en los mensajes orientativos de la interfaz de carga, en respuesta a la retroalimentación de los profesionales consultados.
+
+%----------------------------------------------------------------------------------------
+%	SECTION 4
+%----------------------------------------------------------------------------------------
+
+\section{Ensayos de integración}
+\label{sec:ensayos-integracion}
+
+Los ensayos de integración verificaron que los componentes del sistema operaran de forma conjunta en los tres modos de ejecución previstos: línea de comandos, contenedores locales y prueba de concepto en la nube.
+
+\subsection{Pruebas unitarias y de integración del pipeline}
+
+Durante el desarrollo se mantuvo activa la batería de pruebas unitarias, que validó módulos aislados mediante señales sintéticas o entradas controladas: calibración con tablero ChArUco, detección de fase estática, impulsos de audio, métricas espectrales, ángulos derivados, apertura de manos, señales de la prueba nariz--dedo y escritura de artefactos de salida. Los resultados agregados de la sección~\ref{sec:evaluacion-metricas} constituyeron la evidencia cuantitativa principal de esta capa.
+
+Complementariamente, la prueba de integración del pipeline por línea de comandos ejecuta el flujo completo sobre un video corto y comprueba la generación de los archivos de seguimiento, métricas y resumen de sesión, además de un caso adicional con calibración markerless para el ejercicio de apertura y cierre de manos. Cuando el video de muestra está disponible, esta suite certifica la orquestación global sin intervención de la API.
+
+\subsection{Despliegue local y en la nube}
+
+Se verificó el sistema empaquetado en dos modalidades de ejecución: orquestación local con contenedores y prueba de concepto en Google Cloud Platform.
+
+En el entorno local, el perfil de despliegue coordinó una base de datos relacional, la API con el pipeline embebido, la aplicación web servida por proxy inverso y, en la configuración completa, un servicio auxiliar de calibración profunda. La verificación consistió en la construcción de imágenes, el arranque coordinado de servicios y la ejecución manual de una sesión de análisis desde la interfaz web. Se comprobó la propagación de eventos de progreso en tiempo real, la persistencia de resultados en el directorio de salida montado y la coherencia entre los gráficos y las tablas de biomarcadores mostrados en pantalla con los valores obtenidos en ejecución directa por línea de comandos. Esta modalidad demostró portabilidad del mismo código fuente respecto del entorno de desarrollo sin contenedores \citep{merkel2014docker}.
+
+Para la prueba de concepto en la nube se reutilizó la imagen de contenedor del servicio API, desplegada en computación serverless con base de datos administrada, almacenamiento de objetos para artefactos de sesión, gestión de credenciales y publicación de imagen mediante integración continua. La infraestructura se provisionó con manifiestos de infraestructura como código en un entorno de demostración, con scripts documentados para despliegue y derribo del entorno. La verificación confirmó que el procesador de sesiones de la API ejecutara el mismo pipeline que la línea de comandos local, almacenara salidas en el backend de objetos configurado y sirviera la interfaz empaquetada en el contenedor, sin modificar la lógica de métricas. Las pruebas de almacenamiento respaldaron la abstracción que selecciona backend local o remoto mediante configuración.
+
+En ambos entornos el criterio de aceptación fue la continuidad funcional del flujo analítico extremo a extremo: carga de video, procesamiento, persistencia de resultados y consulta desde la interfaz web. No se realizó una campaña de carga ni medición sistemática de latencia por sesión. El objetivo se limitó a demostrar viabilidad de despliegue y equivalencia operativa entre la ejecución local empaquetada y la nube gestionada \citep{gcp}.
+
+\subsection{Síntesis de la verificación integral}
+
+Las pruebas unitarias, las pruebas de integración del pipeline, el ensayo con contenedores locales y el despliegue de prueba de concepto en la nube cerraron el ciclo de verificación de implementación planteado en los objetivos del trabajo. El sistema procesó videos de ejercicios clínicos, calculó métricas diferenciadas por tipo de ejercicio, exportó resultados estructurados, expuso visualizaciones de evolución longitudinal y permaneció operativo en entornos local y cloud con configuración acotada a variables de entorno y credenciales.
+
+La tabla de inventario de pruebas, las figuras de evolución longitudinal de este capítulo, la retroalimentación positiva de neurólogos y profesionales de rehabilitación, y los ensayos de despliegue integran el cuerpo de resultados que demuestra la efectividad de la implementación al cierre del trabajo.

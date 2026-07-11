@@ -1,37 +1,50 @@
-% Chapter Template
+% Chapter 5
 
-\chapter{Conclusiones} % Main chapter title
+\chapter{Conclusiones}
 
-\label{Chapter5} % Change X to a consecutive number; for referencing this chapter elsewhere, use \ref{ChapterX}
-Todos los capítulos deben comenzar con un breve párrafo introductorio que indique cuál es el contenido que se encontrará al leerlo.  La redacción sobre el contenido de la memoria debe hacerse en presente y todo lo referido al proyecto en pasado, siempre de modo impersonal.
+\label{Chapter5}
 
-
-%----------------------------------------------------------------------------------------
+En este capítulo se presentan las conclusiones del trabajo. Se analiza el grado de cumplimiento de los objetivos enunciados en el capítulo~\ref{Chapter1}, se repasan los conocimientos de la carrera aplicados durante el desarrollo y se proponen líneas de continuidad para el sistema.
 
 %----------------------------------------------------------------------------------------
 %	SECTION 1
 %----------------------------------------------------------------------------------------
 
-\section{Conclusiones generales }
+\section{Logros alcanzados}
 
-La idea de esta sección es resaltar cuáles son los principales aportes del trabajo realizado y cómo se podría continuar. Debe ser especialmente breve y concisa. Es buena idea usar un listado para enumerar los logros obtenidos.
+El objetivo general del trabajo se cumplió: se diseñó e implementó un sistema de análisis digital de oscilaciones y desempeño motor que procesa videos de ejercicios clínicos asociados a la enfermedad de Parkinson, deriva métricas cuantitativas mediante estimación automática de pose y procesamiento de señales, y las presenta en visualizaciones orientadas al personal de salud.
 
-En esta sección no se deben incluir ni tablas ni gráficos.
+Los objetivos específicos del capítulo~\ref{Chapter1} quedaron cubiertos en lo esencial. Se construyó un flujo completo desde la ingesta de video hasta la exportación de resultados, con calibración espacial, seguimiento temporal y cálculo de métricas diferenciadas según el tipo de ejercicio clínico. Se integraron modelos preentrenados de estimación de pose y se desarrolló la capa de exposición mediante servicios web, interfaz gráfica, informes exportables y vistas de seguimiento longitudinal. La efectividad de la implementación se verificó mediante pruebas automatizadas y ensayos de integración en entornos local y en la nube, con resultados favorables en su conjunto y deuda técnica acotada, según el análisis del capítulo~\ref{Chapter4}.
 
-Algunas preguntas que pueden servir para completar este capítulo:
+El sistema superó el alcance mínimo inicial al incorporar comparación entre sesiones, interpretación asistida sobre métricas agregadas y despliegue reproducible en contenedores y en una prueba de concepto en infraestructura gestionada \citep{gcp,merkel2014docker}. La retroalimentación de profesionales de la salud, entre neurólogos y kinesiólogos, fue positiva respecto de la utilidad de las métricas y de los informes, y orientó mejoras en la presentación de resultados y en el seguimiento entre sesiones.
 
-\begin{itemize}
-\item ¿Cuál es el grado de cumplimiento de los requerimientos?
-\item ¿Cuán fielmente se puedo seguir la planificación original (cronograma incluido)?
-\item ¿Se manifestó algunos de los riesgos identificados en la planificación? ¿Fue efectivo el plan de mitigación? ¿Se debió aplicar alguna otra acción no contemplada previamente?
-\item Si se debieron hacer modificaciones a lo planificado ¿Cuáles fueron las causas y los efectos?
-\item ¿Qué técnicas resultaron útiles para el desarrollo del proyecto y cuáles no tanto?
-\end{itemize}
+El cumplimiento no fue absoluto en todos los frentes planificados. Las salvaguardas de privacidad, el portal de paciente y la cobertura plena de las pruebas de integración con material de video real quedaron en estado parcial o condicionado. Esas brechas se abordan en la sección~\ref{sec:trabajo-futuro}.
 
+Frente al estado del arte, el trabajo se inscribió en la línea de plataformas de análisis markerless basadas en visión por computadora, como las revisadas en el capítulo~\ref{Chapter1} \citep{acevedo2025visionmd,sibley2021video,pecoraro2025computer}. El aporte diferencial radicó en la orientación a servicios, la portabilidad entre entornos de ejecución y el seguimiento longitudinal multiejercicio en una misma herramienta. No corresponde afirmar superioridad diagnóstica: la evaluación verificó la implementación y no la concordancia con escalas clínicas de referencia, de modo que el sistema debe entenderse como complemento objetivo de la evaluación habitual y no como su reemplazo.
 
 %----------------------------------------------------------------------------------------
 %	SECTION 2
 %----------------------------------------------------------------------------------------
-\section{Próximos pasos}
 
-Acá se indica cómo se podría continuar el trabajo más adelante.
+\section{Conocimientos aplicados}
+
+El desarrollo articuló conocimientos de distintas áreas de la carrera. Del aprendizaje automático y la visión por computadora se aplicaron criterios para seleccionar, integrar y orquestar modelos preentrenados, con atención a sus condiciones de validez, su costo computacional y sus limitaciones ante condiciones adversas de captura. La capa interpretativa basada en un modelo de lenguaje exigió además nociones de diseño de instrucciones, control de la generación y resguardo de datos sensibles.
+
+Del procesamiento de señales y la estadística se emplearon técnicas de análisis temporal y espectral, detección de eventos en series cinemáticas, medidas de variabilidad y regularidad, y agregación por sesión para apoyar la lectura clínica de los resultados.
+
+De la ingeniería de software se aplicaron diseño modular, contratos de datos entre etapas, pruebas automatizadas, persistencia relacional, desarrollo de servicios y aplicaciones web, empaquetado con contenedores e infraestructura como código. También se consideraron prácticas de manejo responsable de datos de salud acordes a los requerimientos éticos de la planificación inicial.
+
+%----------------------------------------------------------------------------------------
+%	SECTION 3
+%----------------------------------------------------------------------------------------
+
+\section{Trabajo futuro}
+\label{sec:trabajo-futuro}
+
+Las líneas de continuidad se agrupan en datos, arquitectura, despliegue y validación clínica.
+
+En materia de datos, la prioridad es conformar un conjunto de grabaciones más amplio y anotado, bajo consentimiento informado y resguardo regulatorio, que habilite estudios de concordancia entre las métricas del sistema y puntuaciones clínicas de referencia \citep{sibley2021video}. También conviene completar la cobertura de pruebas de integración en el entorno de desarrollo continuo.
+
+En la arquitectura del sistema quedan mejoras identificadas durante los ensayos: cerrar la deuda técnica residual en las pruebas automatizadas, externalizar el estado de progreso de los análisis para habilitar escalado horizontal, medir de forma sistemática el rendimiento por sesión y explorar el uso de información de profundidad para un análisis tridimensional del movimiento \citep{guarin2025postural}.
+
+En el plano del despliegue y el cumplimiento normativo, el paso hacia un uso clínico productivo exige endurecer las salvaguardas de privacidad hasta alcanzar conformidad plena con marcos regulatorios aplicables \citep{hipaa1996}. Finalmente, la validación clínica prospectiva con evaluadores independientes y protocolos de captura estandarizados constituye el paso necesario para transformar el prototipo verificado en una herramienta de apoyo a la decisión con evidencia de validez diagnóstica \citep{pecoraro2025computer}.

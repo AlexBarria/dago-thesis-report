@@ -4,7 +4,7 @@
 
 \label{Chapter3}
 
-En este capítulo se describen los criterios de diseño del sistema, el flujo de procesamiento de video desde la ingestión hasta la exportación de métricas, la arquitectura analítica, la orquestación de inferencia y el cálculo de métricas, y el desarrollo de la aplicación web con su despliegue. Las bibliotecas, modelos y servicios de terceros ya presentados en el capítulo anterior se asumen como base tecnológica y aquí se detalla cómo se organizan en módulos propios del trabajo.
+En este capítulo se describen los criterios de diseño del sistema, el flujo de procesamiento de video desde la ingesta hasta la exportación de métricas, la arquitectura analítica, la orquestación de inferencia y el cálculo de métricas, y el desarrollo de la aplicación web con su despliegue. Las bibliotecas, modelos y servicios de terceros ya presentados en el capítulo anterior se asumen como base tecnológica y aquí se detalla cómo se organizan en módulos propios del trabajo.
 
 %----------------------------------------------------------------------------------------
 
@@ -13,9 +13,9 @@ En este capítulo se describen los criterios de diseño del sistema, el flujo de
 
 El núcleo del sistema se implementó como un paquete \texttt{pipeline} en \texttt{Python}, independiente de la capa HTTP, de modo que el mismo flujo puede ejecutarse desde la línea de comandos o desde el servicio en segundo plano de la API. El diseño priorizó la modularidad por etapas, la reproducibilidad de parámetros mediante configuración centralizada y la calibración automática de escala sin intervención manual del operador cuando el video incluye un tablero ChArUco al inicio de la grabación, tal como se documentó en la sección \ref{sec:datasets}.
 
-\subsection{Ingestión de video y audio}
+\subsection{Ingesta de video y audio}
 
-La etapa de ingestión comienza con \texttt{VideoLoader}, que abre el archivo mediante \texttt{OpenCV}, extrae metadatos (resolución, cuadros por segundo, cantidad de fotogramas) y expone un iterador de fotogramas con muestreo configurable. En paralelo, \texttt{AudioExtractor} decodifica el canal de audio del contenedor de video a una señal monofónica en formato de punto flotante, requisito para detectar los pulsos del metrónomo que estructuran varios protocolos de grabación.
+La etapa de ingesta comienza con \texttt{VideoLoader}, que abre el archivo mediante \texttt{OpenCV}, extrae metadatos (resolución, cuadros por segundo, cantidad de fotogramas) y expone un iterador de fotogramas con muestreo configurable. En paralelo, \texttt{AudioExtractor} decodifica el canal de audio del contenedor de video a una señal monofónica en formato de punto flotante, requisito para detectar los pulsos del metrónomo que estructuran varios protocolos de grabación.
 
 Sobre esa señal se aplica \texttt{detect\_impulses}, que enfatiza el rango de frecuencias configurado (por defecto entre 400 y 7000~Hz), calcula la envolvente y localiza picos con un umbral de prominencia adaptativo basado en el rango intercuartílico de la envolvente. Los instantes detectados se almacenan como eventos de impulso con marca temporal. A partir de ellos, \texttt{estimate\_metronome\_bpm} estima los pulsos por minuto del metrónomo y una medida de confianza derivada de la variabilidad entre intervalos, información que luego se incorpora al resumen de sesión para contextualizar el ritmo esperado del ejercicio.
 
@@ -27,13 +27,13 @@ Cada fotograma leído pasa por \texttt{FrameProcessor}, que convierte el espacio
 
 Las distancias articulares se expresan preferentemente en milímetros. Para ello, el sistema implementó una estrategia de calibración con alternativas para el uso de un patrón físico impreso o la estimación biométrica sin marcadores.
 
-Cuando el video incluye un tablero impreso al inicio de la grabación, se estima el factor de conversión píxeles a milímetros a partir de detecciones de un tablero ChArUco en una muestra de fotogramas. La geometría del tablero impreso (cuadrícula 5$\times$7, lado de cuadrado 25~mm, marcadores ArUco \texttt{DICT\_4X4\_50}) coincide con la documentación interna del repositorio y con las condiciones de captura descritas en la sección \ref{sec:datasets}. El muestreo de fotogramas para ChArUco se concentra en los primeros 12~s del video, con paso configurable, para privilegiar el intervalo en el que el tablero permanece visible. Cuando la detección de esquinas internas del tablero falla pero los marcadores ArUco individuales son visibles, se aplica un estimador alternativo basado en la longitud conocida del marcador, incrementando la robustez ante oclusión parcial.
+Cuando el video incluye un tablero impreso al inicio de la grabación, se estima el factor de conversión píxeles a milímetros a partir de detecciones de un tablero ChArUco en una muestra de fotogramas. La geometría del tablero impreso (cuadrícula 5$\times$7, lado de cuadrado 25~mm, marcadores ArUco \texttt{DICT\_4X4\_50}) coincide con la documentación interna del repositorio y con las condiciones de captura descritas en la sección \ref{sec:datasets}. El muestreo de fotogramas para ChArUco se concentra en los primeros 12~s del video, con paso configurable, para privilegiar el intervalo en el que el tablero permanece visible. Cuando la detección de esquinas internas del tablero falla pero los marcadores ArUco individuales son visibles, se aplica un estimador alternativo basado en la longitud conocida del marcador, lo que incrementa la robustez ante oclusión parcial.
 
-Para ejercicios donde sostener un tablero impreso resulta impracticable, como en la evaluación del temblor de mano (\texttt{hand\_tremor}), se implementó una calibración biométrica sin marcadores. Este método utiliza el ancho promedio del iris humano como referencia métrica conocida en el plano facial. Para trasladar esa escala desde el rostro hasta la mano que experimenta el temblor, se calcula la profundidad absoluta de ambas partes del cuerpo empleando la red neuronal MeTRAbs (del inglés \textit{Metric Scale 3D Human Pose Estimation}) mencionada en la sección \ref{sec:modelos-preentrenados}. Esta combinación permite ajustar el factor de conversión milímetros por píxel en la mano considerando la perspectiva de la cámara. Como medida de contingencia, el sistema conserva una calibración manual heredada (\texttt{legacy}) mediante parámetros de distancia directa en píxeles.
+Para ejercicios donde sostener un tablero impreso resulta impracticable, como en la evaluación del temblor de mano (\texttt{hand\_tremor}), se implementó una calibración biométrica sin marcadores. Este método utiliza el ancho promedio del iris humano como referencia métrica conocida en el plano facial. Para trasladar esa escala desde el rostro hasta la mano que experimenta el temblor, se calcula la profundidad absoluta de ambas partes del cuerpo mediante la red neuronal MeTRAbs (del inglés \textit{Metric Scale 3D Human Pose Estimation}) mencionada en la sección \ref{sec:modelos-preentrenados}. Esta combinación permite ajustar el factor de conversión milímetros por píxel en la mano en función de la perspectiva de la cámara. Como medida de contingencia, el sistema conserva una calibración manual heredada (\texttt{legacy}) mediante parámetros de distancia directa en píxeles.
 
 El resultado de la calibración se propaga al seguimiento y queda registrado en el resumen de sesión: método empleado (\texttt{charuco}, \texttt{markerless\_iris\_metrabs} o \texttt{legacy}), milímetros por píxel, tasa de detección, disponibilidad de la estimación de profundidad y parámetros geométricos. Esa trazabilidad permite al operador interpretar si las distancias en milímetros deben tomarse con reserva y habilita la auditoría visual del procedimiento.
 
-En la figura \ref{fig:charuco-overlay} se puede observar un fotograma del video con el tablero detectado para estimar la relación milímetros por píxel. Cada uno de los recuadros verdes representa la detección de los marcadores del tablero. A partir de esa medición en píxeles y conociendo la dimensión real de los marcadores en milímetros, se puede obtener la relación milímetros por píxel buscada.
+En la figura \ref{fig:charuco-overlay} se puede observar un fotograma del video con el tablero detectado para estimar la relación milímetros por píxel. Cada uno de los recuadros verdes representa la detección de los marcadores del tablero. A partir de esa medición en píxeles y al conocer la dimensión real de los marcadores en milímetros, se puede obtener la relación milímetros por píxel buscada.
 
 \begin{figure}[htbp]
 \centering
@@ -55,7 +55,7 @@ En la figura \ref{fig:static-phase} se observa una gráfica de la distancia pulg
 \label{fig:static-phase}
 \end{figure}
 
-En la tabla \ref{tab:pipeline-etapas} se resumen las etapas del flujo de procesamiento, los datos que recibe y produce cada una y los módulos del repositorio que implementan la transformación.
+En la tabla \ref{tab:pipeline-etapas} se resumen las etapas del flujo de procesamiento, los datos que recibe y produce cada una, y los módulos del repositorio que implementan la transformación.
 
 \begin{table}[htbp]
 \centering
@@ -66,7 +66,7 @@ En la tabla \ref{tab:pipeline-etapas} se resumen las etapas del flujo de procesa
 \toprule
 \tabhead{Etapa} & \tabhead{Entrada} & \tabhead{Salida} & \tabhead{Módulo principal} \\
 \midrule
-Ingestión & Archivo de video. & Metadatos, audio mono, lista de impulsos. & \texttt{VideoLoader}, \texttt{AudioExtractor}. \\
+Ingesta & Archivo de video. & Metadatos, audio mono, lista de impulsos. & \texttt{VideoLoader}, \texttt{AudioExtractor}. \\
 Preprocesa-\\miento & Fotogramas BGR. & Fotogramas RGB redimensionados. & \texttt{FrameProcessor}. \\
 Calibración & Muestra de fotogramas iniciales. & Factor mm/px y objeto \texttt{Calibration}. & \texttt{charuco}, \texttt{Calibration}. \\
 Estimación de pose & Fotograma procesado. & \texttt{PoseResult} por cuadro. & \texttt{PoseEstimator}. \\
@@ -78,7 +78,7 @@ Agregación y\\exportación & Tracking y métricas. & CSV, JSON, resumen de sesi
 \end{tabular}}
 \end{table}
 
-Las etapas de ingestión, preprocesamiento y calibración corresponden al flujo documentado en esta sección. Las etapas de estimación de pose, seguimiento y segmentación se detallan en la sección~\ref{sec:arquitectura}.
+Las etapas de ingesta, preprocesamiento y calibración corresponden al flujo documentado en esta sección. Las etapas de estimación de pose, seguimiento y segmentación se detallan en la sección~\ref{sec:arquitectura}.
 
 %----------------------------------------------------------------------------------------
 
@@ -107,21 +107,20 @@ Para mantener la trazabilidad entre módulos se definieron esquemas de datos inm
 
 Ese contrato permite sustituir o extender un módulo sin alterar los demás siempre que respete las interfaces acordadas. Por ejemplo, un futuro estimador de pose alternativo podría devolver el mismo \texttt{PoseResult} sin modificar el seguimiento ni las métricas aguas abajo.
 
-La figura \ref{fig:pipeline-dago} muestra el recorrido completo desde el video crudo hasta la persistencia y las interfaces de consulta. En el diagrama se indica de manera genérica la estimación de pose con MediaPipe. En la implementación, los ejercicios centrados en la mano emplean el modelo \texttt{HandLandmarker} y los que requieren contexto corporal el \texttt{PoseLandmarker} lite, según lo descrito en la sección \ref{sec:modelos-preentrenados}. También se observa la separación entre el procesamiento analítico en CPU, la capa de persistencia relacional y los canales de acceso mediante API y aplicación web. Esa organización condicionó las decisiones de integración desarrolladas en la sección \ref{sec:integracion}.
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=0.82\textwidth]{Figures/cap_3/diagrama_flujo_dago.png}
-\caption{Flujo funcional del sistema desde la entrada de video hasta reportes y visualizaciones.}
-\label{fig:pipeline-dago}
-\end{figure}
-
-
 \subsection{Orquestación de la inferencia}
 
 El sistema se diseñó para no depender de un único modelo monolítico. La función \texttt{pose\_model\_for\_exercise} selecciona el landmarker de MediaPipe según el tipo de ejercicio para extraer las señales de alta frecuencia: modo \texttt{HANDS} para \texttt{finger\_tapping}, \texttt{hand\_tremor} y \texttt{open\_close\_hands}, y modo \texttt{HOLISTIC} para \texttt{nose\_finger}. La clase \texttt{PoseEstimator} instancia el modelo correspondiente mediante la API de tareas, con archivos \texttt{.task} en caché local. En paralelo y de forma específica para los fotogramas iniciales, el modelo MeTRAbs se orquesta para resolver la profundidad métrica y establecer el factor de escala global de la sesión.
 
 Las coordenadas de profundidad (\texttt{z}) relativas que genera MediaPipe se almacenan en los esquemas internos pero no intervienen en distancias ni ángulos métricos, dado que la cuantificación operativa permanece en dos dimensiones escalada por la calibración inicial (ChArUco o biometría con MeTRAbs). En modo \texttt{HANDS} se retiene una sola mano dominante por fotograma; en modo \texttt{HOLISTIC} se registran además hombros, codos y muñecas para visualización.
+
+La figura \ref{fig:pipeline-dago} muestra el flujo desde el video crudo hasta las interfaces de consulta. La estimación de pose emplea \texttt{HandLandmarker} para ejercicios de mano y \texttt{PoseLandmarker} lite para contexto corporal (sección \ref{sec:modelos-preentrenados}). Además, se distingue el procesamiento analítico en CPU, la persistencia relacional y el acceso mediante API y web. Esta arquitectura condicionó las decisiones de integración detalladas en la sección \ref{sec:integracion}.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.82\textwidth]{Figures/cap_3/diagrama_flujo_dago.png}
+\caption{Flujo funcional del sistema desde la entrada de video hasta reportes y visualizaciones.}
+\label{fig:pipeline-dago}
+\end{figure}
 
 \subsection{Seguimiento temporal y señales derivadas}
 
@@ -143,7 +142,7 @@ El módulo de métricas selecciona, según el tipo de ejercicio, la señal tempo
 f \in [1{,}0,\, 12{,}0]\ \text{Hz},
 \label{eq:tremor-band}
 \end{equation}
-coherente con el rango de interés clínico para temblor y oscilaciones de extremidad superior \citep{pecoraro2025computer}, empleando la tasa efectiva tras el subsampleo ($f_s = \mathrm{fps}_{\mathrm{video}} / \mathrm{step}$).
+coherente con el rango de interés clínico para temblor y oscilaciones de extremidad superior \citep{pecoraro2025computer}, para lo cual se emplea la tasa efectiva tras el subsampleo ($f_s = \mathrm{fps}_{\mathrm{video}} / \mathrm{step}$).
 
 En \texttt{finger\_tapping}, tras recortar la fase estática y, de manera opcional, la ventana entre el primero y el último tap, se aplican sobre $\{d_t\}$ los biomarcadores de \texttt{compute\_finger\_tapping\_metrics}: tasa de taps, intervalo inter-tap medio y su coeficiente de variación, decremento de amplitud entre picos, índice de fatiga, velocidades medias de apertura y cierre, y el promedio del ángulo en la muñeca (\texttt{thumb\_index\_wrist\_angle\_mean}). La detección de picos usa \texttt{scipy.signal.find\_peaks} con prominencia proporcional al rango de la señal \citep{sibley2021video,acevedo2025visionmd}. \texttt{SessionAggregator} calcula además retardos entre impulsos del metrónomo y mínimos locales de $d_t$ dentro de $\pm 0{,}35$~s (\texttt{delays.csv}).
 
@@ -276,21 +275,22 @@ Informe PDF & PDF & Exportación para revisión offline por el profesional. \\
 
 \subsection{Interfaz web}
 
-La aplicación React define rutas para inicio de sesión y registro, carga de videos (\texttt{UploadPage}) con selección de ejercicio y parámetros de calibración, listado y detalle de pacientes, visualización de resultados por sesión (\texttt{ResultsPage}), exportación, comparación entre dos sesiones y un panel de progreso del paciente. El cliente HTTP centraliza las llamadas en \texttt{api/client.ts}, entre ellas la suscripción SSE que mapea las etapas del pipeline a mensajes legibles en la barra de progreso. La interfaz de carga de datos incorpora tres modalidades operativas: análisis individual, análisis por lotes (para procesar en segundo plano múltiples repeticiones de una sesión clínica) y modo de comparación para encolar dos videos de forma concurrente.
-
-En la pantalla de resultados se combinan tablas de métricas con gráficos de series temporales construidos con una biblioteca de gráficos declarativos, superposición opcional de landmarks sobre el video y solicitud de resúmenes interpretativos bajo demanda. La vista de detalle de paciente integra un componente de evolución que filtra sesiones previas por tipo de ejercicio y representa la tendencia de biomarcadores seleccionados a lo largo del tiempo, en apoyo del seguimiento longitudinal previsto en los objetivos del trabajo. La página de comparación envía las métricas de dos sesiones al servicio de insights para obtener un texto contrastivo, sin transmitir imágenes ni identificadores del paciente al proveedor del modelo de lenguaje.
-
-La figura \ref{fig:ui-upload-results} presenta una composición con dos capturas de pantalla: la vista de carga con progreso en tiempo real y la vista de resultados con gráficos de métricas, sin datos identificables del paciente.
+La aplicación React define rutas para inicio de sesión y registro, carga de videos (\texttt{UploadPage}) con selección de ejercicio y parámetros de calibración, listado y detalle de pacientes, visualización de resultados por sesión (\texttt{ResultsPage}), exportación, comparación entre dos sesiones y un panel de progreso del paciente. El cliente HTTP centraliza las llamadas en \texttt{api/client.ts}, entre ellas la suscripción SSE que mapea las etapas del pipeline a mensajes legibles en la barra de progreso. La interfaz de carga de datos incorpora tres modalidades operativas: análisis individual, análisis por lotes (para procesar en segundo plano múltiples repeticiones de una sesión clínica) y modo de comparación para encolar dos videos de forma concurrente. En la figura \ref{fig:ui-upload} se muestra la interfaz de carga de sesión con la barra de progreso en tiempo real.
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.85\textwidth]{Figures/cap_3/ui_1_pantalla_para_subir_videos.png}
+\caption{Interfaz de carga de sesión.}
+\label{fig:ui-upload}
+\end{figure}
 
-\vspace{0.5cm}
+En la pantalla de resultados se combinan tablas de métricas con gráficos de series temporales construidos con una biblioteca de gráficos declarativos, superposición opcional de landmarks sobre el video y solicitud de resúmenes interpretativos bajo demanda. La vista de detalle de paciente integra un componente de evolución que filtra sesiones previas por tipo de ejercicio y representa la tendencia de biomarcadores seleccionados a lo largo del tiempo, en apoyo del seguimiento longitudinal previsto en los objetivos del trabajo. La página de comparación envía las métricas de dos sesiones al servicio de insights para obtener un texto contrastivo, sin transmitir imágenes ni identificadores del paciente al proveedor del modelo de lenguaje. En la figura \ref{fig:ui-results} se presenta la vista de resultados de una sesión con gráficos de métricas, donde se omiten los datos identificables del paciente.
 
+\begin{figure}[htbp]
+\centering
 \includegraphics[width=0.85\textwidth]{Figures/cap_3/ui_2_resultados_sesion_2.png}
-\caption{Interfaz de carga de sesión y de visualización de resultados.}
-\label{fig:ui-upload-results}
+\caption{Interfaz de visualización de resultados.}
+\label{fig:ui-results}
 \end{figure}
 
 Los endpoints de interpretación envían al modelo de lenguaje únicamente métricas agregadas y metadatos no identificatorios, conforme a la política descrita en la sección \ref{sec:modelos-preentrenados}, y devuelven texto en lenguaje natural como apoyo a la lectura del informe.
@@ -298,20 +298,33 @@ Los endpoints de interpretación envían al modelo de lenguaje únicamente métr
 \subsection{Despliegue local y en la nube}
 
 \begin{sloppypar}
-En entorno local, \texttt{docker-compose} levanta los servicios \texttt{db} (\texttt{postgres:16-alpine}), \texttt{api} (imagen multi-etapa con \texttt{Python} 3.12, dependencias instaladas con \texttt{uv} y límite de memoria de 8~GB), \texttt{frontend} (\texttt{nginx} sirve el build estático y proxifica la API) y un servicio auxiliar \texttt{metrabs}. Para evitar conflictos de dependencias entre las librerías de visión y controlar los desbordes de memoria observados durante la inicialización, el estimador de profundidad MeTRAbs fue encapsulado en su propio contenedor (\textit{sidecar}) que expone una interfaz \texttt{FastAPI}. El pipeline principal alojado en la \texttt{api} se comunica con este servicio a través de peticiones HTTP en la red interna, aislando así las cargas de trabajo de inferencia. Un perfil opcional \texttt{cli} permite ejecutar el contenedor \texttt{api} en modo batch con el módulo \texttt{pipeline.cli.run\_session}. Los modelos de visión y los videos de muestra se montan como volúmenes para no incluirlos en la imagen y facilitar la actualización.
+En entorno local, \texttt{Docker Compose} \citep{merkel2014docker} orquestó cuatro servicios principales: base de datos \texttt{PostgreSQL}~16, API en \texttt{Python}~3.12 (imagen multi-etapa con dependencias instaladas mediante \texttt{uv} y límite de memoria de 12~GiB), frontend con \texttt{nginx} en el puerto~3000 (build estático de \texttt{React} y proxy de la API en el puerto~8000) y el sidecar MeTRAbs descrito en la sección~\ref{sec:pipeline}. Este último se aisló en un contenedor propio de 10~GiB con interfaz \texttt{FastAPI} en el puerto interno~8081, de modo que la carga de \texttt{TensorFlow} no compitiera con \texttt{MediaPipe} en el servicio principal. La comunicación entre ambos contenedores se realizó por HTTP con autenticación por clave compartida. Un perfil opcional permitió además ejecutar el mismo contenedor de la API en modo batch desde la línea de comandos. Los modelos de visión, los videos de muestra y el directorio de salida se montaron como volúmenes para facilitar la actualización sin reconstruir la imagen. La figura~\ref{fig:infra-local-dago} resume la topología local.
 \end{sloppypar}
-
-El punto de entrada del contenedor de API ejecuta migraciones de esquema con \texttt{Alembic} antes de levantar el servidor \texttt{uvicorn}, de modo que un despliegue nuevo aplique automáticamente las revisiones pendientes sobre \texttt{PostgreSQL}. El frontend se construyó en una etapa previa de la imagen multi-etapa (\texttt{Node.js} para compilar TypeScript y \texttt{nginx} para servir archivos estáticos) y el runtime de inferencia se fijó en \texttt{linux/amd64} por compatibilidad con las dependencias de MediaPipe y TensorFlow en arquitecturas sin soporte oficial nativo.
-
-Para la prueba de concepto en la nube se replicó esa topología sobre los servicios gestionados de GCP enumerados en la tabla \ref{tab:infra-gcp-cap2}: \texttt{Cloud Run} aloja el contenedor HTTP con API y pipeline, \texttt{Cloud SQL} aloja \texttt{PostgreSQL}, \texttt{Cloud Storage} almacena videos y resultados, \texttt{Secret Manager} guarda credenciales y \texttt{Cloud Build} ejecuta la cadena de construcción y despliegue. La figura \ref{fig:infra-gcp-dago} resume las relaciones entre el usuario, el cómputo serverless y los servicios de datos y secretos.
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.88\textwidth]{Figures/cap_3/diagrama_bloques_infraestructura_dago.png}
+\includegraphics[width=0.88\textwidth]{Figures/cap_3/diagrama_bloques_infraestructura_dago_local.png}
+\caption{Arquitectura de despliegue local con \texttt{Docker Compose}.}
+\label{fig:infra-local-dago}
+\end{figure}
+
+\begin{sloppypar}
+En el diagrama local se observa la separación entre el acceso web, el procesamiento analítico y la base de datos, con MeTRAbs como servicio independiente. El punto de entrada del contenedor de la API ejecutó migraciones de esquema con \texttt{Alembic} antes de levantar \texttt{uvicorn}, de modo que un despliegue nuevo aplicara automáticamente las revisiones pendientes. El frontend se construyó en una etapa previa de la imagen (\texttt{Node.js} para compilar TypeScript) y el runtime de inferencia se fijó en \texttt{linux/amd64} por compatibilidad con \texttt{MediaPipe}. La configuración del proxy desactivó el buffering en las rutas de la API y extendió el tiempo de lectura a 3600~s, requisito para transmitir el progreso del análisis mediante eventos enviados desde el servidor (SSE).
+\end{sloppypar}
+
+\begin{sloppypar}
+Para la prueba de concepto en la nube se adaptó el diseño a los servicios gestionados de GCP enumerados en la tabla~\ref{tab:infra-gcp-cap2}, con el objetivo de reducir costos operativos y simplificar el despliegue inicial, sin replicar de forma idéntica la topología local. Un único servicio en \texttt{Cloud Run} concentró la API, el pipeline de análisis y la interfaz web empaquetada en el mismo contenedor; no se desplegó un proxy \texttt{nginx} separado ni el sidecar MeTRAbs. \texttt{Cloud SQL} alojó \texttt{PostgreSQL}~16 con conexión por socket Unix; \texttt{Cloud Storage} persistió videos y artefactos de sesión; \texttt{Secret Manager} inyectó las credenciales de base de datos y la clave de firma de tokens; \texttt{Cloud Build} construyó la imagen y la publicó en \texttt{Artifact Registry}. Las migraciones de esquema se ejecutaron mediante un trabajo dedicado en \texttt{Cloud Run Jobs}, separado del arranque del servicio HTTP. La infraestructura se provisionó con \texttt{Terraform} en el entorno de prueba, con 4~vCPU, 8~GiB de memoria, concurrencia~1, tiempo máximo de 3600~s y CPU activa de forma continua para sostener hilos de procesamiento en segundo plano. La figura~\ref{fig:infra-gcp-dago} resume las relaciones entre el usuario, el cómputo serverless y los servicios de datos y secretos.
+\end{sloppypar}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.88\textwidth]{Figures/cap_3/diagrama_bloques_infraestructura_dago_gcp.png}
 \caption{Arquitectura de despliegue del prototipo en Google Cloud Platform.}
 \label{fig:infra-gcp-dago}
 \end{figure}
 
-En el diagrama se aprecia que el procesamiento de video y la inferencia con MediaPipe residen en el mismo servicio de cómputo que expone la API REST, mientras que la persistencia estructurada y los objetos de gran tamaño se externalizan a servicios administrados. Esa separación facilitó escalar horizontalmente el acceso HTTP sin duplicar el almacenamiento de videos en cada instancia, aunque el estado de progreso SSE permanece en memoria de proceso en la versión desplegada, lo que constituye una limitación conocida para despliegues multi-réplica que se abordará en el capítulo de conclusiones.
+\begin{sloppypar}
+En el diagrama de la nube se aprecia que el procesamiento de video y la inferencia con \texttt{MediaPipe} residen en el mismo servicio de cómputo que expone la API REST y sirve la interfaz web, mientras que la persistencia estructurada y los objetos de gran tamaño se externalizan a servicios administrados. Esa separación facilitó desplegar el prototipo sin duplicar el almacenamiento de videos en cada instancia, aunque el estado de progreso SSE permanece en memoria de proceso y el escalado horizontal quedó acotado a una sola réplica; ambas son limitaciones conocidas que se abordarán en el capítulo de conclusiones.
+\end{sloppypar}
 
-Con la arquitectura descrita quedó cerrado el ciclo de diseño e implementación: desde la captura estandarizada descrita en el capítulo anterior hasta la consulta web de métricas y exportación de informes. La verificación automatizada del desarrollo, pruebas unitarias del pipeline e integración de extremo a extremo, se documentó en el capítulo~\ref{Chapter4}. El capítulo siguiente presentará el plan de evaluación y los resultados obtenidos al ejecutar este sistema sobre el conjunto de videos disponible para el trabajo.
+Con la arquitectura descrita quedó cerrado el ciclo de diseño e implementación: desde la captura estandarizada descrita en el capítulo anterior hasta la consulta web de métricas y exportación de informes. En el capítulo~\ref{Chapter4} se presentará el plan de evaluación y los resultados obtenidos al ejecutar este sistema sobre el conjunto de videos disponible para el trabajo, además de documentar la verificación automatizada del desarrollo, las pruebas unitarias y la integración de extremo a extremo del pipeline.
