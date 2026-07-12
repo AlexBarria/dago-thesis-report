@@ -147,7 +147,7 @@ Toques exitosos, ritmo de alcance, amplitud de alcance, ángulos de brazo, estab
 \end{center}
 \vspace{0.4em}
 
-Para el tapping de dedos, las pruebas sobre fase estática y detección de impulsos auditivos verificaron que el recorte temporal previo al cálculo de taps respetara la segmentación definida en el diseño del pipeline. Para el temblor de mano, la rama de producción emplea un cuantificador dedicado que procesa las trayectorias de los dedos índice, medio y anular por lado, exportando amplitud y frecuencia sin invocar biomarcadores de tapping ni regularidad del movimiento. Las pruebas unitarias de amplitud y frecuencia validan los módulos espectrales subyacentes.
+Para el tapping de dedos, las pruebas sobre fase estática y detección de impulsos auditivos verificaron que el recorte temporal previo al cálculo de taps respetara la segmentación definida en el diseño del pipeline. Para el temblor de mano, la rama de producción emplea un cuantificador dedicado que procesa las trayectorias de los dedos índice, medio y anular por lado, y exporta amplitud y frecuencia sin invocar biomarcadores de tapping ni regularidad del movimiento. Las pruebas unitarias de amplitud y frecuencia validan los módulos espectrales subyacentes.
 
 Para la apertura y cierre de manos, las pruebas de alineación con metrónomo validaron la correspondencia entre flancos de apertura o cierre y eventos auditivos, y las de apertura bilateral verificaron las métricas de asimetría entre manos. Para el ejercicio nariz--dedo, las pruebas de señales confirmaron la asignación izquierda y derecha y el respaldo sobre puntos corporales cuando faltaban landmarks de mano.
 
@@ -228,9 +228,11 @@ En forma complementaria a la evaluación funcional, se analizaron las situacione
 
 \subsection{Familias de degradación}
 
-Se identificaron cuatro familias recurrentes de degradación.
+Se identificaron cinco familias recurrentes de degradación.
 
-La primera corresponde a oclusiones parciales o totales de la mano, que provocaron pérdida de puntos clave en el estimador de pose. Aunque el rastreador temporal rellena breves interrupciones de hasta cinco fotogramas consecutivos, huecos más largos generaron valores faltantes en la señal de distancia pulgar--índice y marcaron métricas como no válidas mediante un indicador de validez en el resultado exportado.
+La primera corresponde a oclusiones parciales o totales de la mano, que provocaron pérdida de puntos clave en el estimador de pose. Aunque el rastreador temporal rellena breves interrupciones de hasta cinco fotogramas consecutivos, huecos más largos generaron valores faltantes en la señal de distancia pulgar--índice y marcaron métricas como no válidas mediante un indicador de validez en el resultado exportado. En otros registros, la visibilidad parcial no anuló la detección sino que indujo saltos bruscos en las coordenadas de un landmark entre fotogramas consecutivos, incompatibles con la continuidad del gesto humano.
+
+Esos saltos se propagaron a las señales derivadas e interactuaron con el umbral de detección de picos en las métricas de tapping. Se identificó como vía de mejora un postprocesamiento basado en filtros de Kalman o de partículas, o en ponderación por confiabilidad de cada landmark, siempre que el filtrado se calibre para no atenuar componentes motores atribuibles a la enfermedad de Parkinson, como temblor de baja amplitud, irregularidad de tapping o microcorrecciones posturales, que pueden superponerse parcialmente al ruido de estimación pero constituyen el objetivo clínico del sistema.
 
 La segunda familia agrupa variaciones bruscas de iluminación y fondos complejos, que redujeron la tasa de detección de la mano en ejercicios de extremidad superior y la tasa de detección por lado en la prueba nariz--dedo. En condiciones de luz lateral intensa o sombras marcadas, la proporción de fotogramas con landmarks válidos descendió de forma notable y las métricas agregadas quedaron condicionadas por la menor densidad de muestras.
 
@@ -238,15 +240,19 @@ La tercera familia se asocia a encuadres subóptimos, en los que la mano ocupaba
 
 La cuarta familia afecta a la prueba nariz--dedo, que depende de la estimación holística de cuerpo completo. Cuando el paciente giraba el torso o una extremidad salía del encuadre, la visibilidad simultánea de nariz, hombros y ambas manos se degradó y disminuyó la densidad de muestras válidas para el cálculo de métricas de alcance y estabilidad.
 
+La quinta familia se vincula con la detección de impulsos del metrónomo en el canal de audio. El detector enfatiza transientes en la banda configurada y localiza picos en la envolvente; en sesiones con ruido de fondo, como golpes o arrastre de muebles, ese criterio registró múltiples impulsos espurios además de los pulsos reales del metrónomo. La sobresegmentación afectó la estimación del tempo, los retardos audio--movimiento y las métricas de sincronía. En la práctica, la grabación en un ambiente acústicamente controlado, con el metrónomo claramente por encima del ruido ambiental, resultó determinante para conservar la fiabilidad de esa capa del pipeline.
+
 \subsection{Casos ilustrativos}
 
 En grabaciones con detección exitosa del tablero ChArUco al inicio de la sesión, la conversión a coordenadas métricas en milímetros operó de forma consistente. Cuando el tablero quedó fuera de campo o parcialmente ocluido, el pipeline recurrió al modo markerless, documentado en las pruebas de calibración sin marcador, con mayor incertidumbre en la escala.
 
-En sesiones de tapping de dedos con oclusión transitoria del pulgar, la señal de distancia presentó interpolaciones del rastreador y picos espurios que el módulo de fase estática no siempre pudo filtrar. Esos artefactos se tradujeron en conteos de taps ligeramente elevados respecto de la inspección visual, sin invalidar la tendencia general de amplitud decreciente que es clínicamente relevante en este ejercicio.
+En sesiones de tapping de dedos con oclusión transitoria del pulgar, la señal de distancia manifestó el patrón de interpolaciones y picos espurios descrito anteriormente; el módulo de fase estática no siempre pudo descartarlos. Esos artefactos se tradujeron en conteos de taps ligeramente elevados respecto de la inspección visual, sin invalidar la tendencia general de amplitud decreciente que es clínicamente relevante en este ejercicio.
+
+En ejercicios estructurados por metrónomo grabados con ruido ambiental, la detección de impulsos superó el número de pulsos reales y desplazó las métricas de sincronía. La repetición de la sesión en condiciones acústicas más estables redujo esas detecciones espurias sin modificar el código del pipeline.
 
 En la prueba nariz--dedo, cuando faltaban landmarks de mano el sistema recurrió a puntos corporales de respaldo, pero con menor densidad de muestras válidas. En sesiones en las que el paciente giraba el torso y una mano salía del encuadre, la tasa de toques exitosos descendía de forma abrupta aunque el movimiento de alcance fuera clínicamente interpretable. Este comportamiento delimita la necesidad de protocolos de captura más estrictos antes de una validación clínica formal.
 
-El propósito de este análisis fue delimitar condiciones de captura recomendables: iluminación uniforme, mano centrada y visible, tablero de calibración al inicio cuando se requiera escala métrica, y encuadre que incluya nariz y hombros en la prueba nariz--dedo. Estas recomendaciones se incorporaron parcialmente en los mensajes orientativos de la interfaz de carga, en respuesta a la retroalimentación de los profesionales consultados.
+El propósito de este análisis fue delimitar condiciones de captura recomendables: iluminación uniforme, mano centrada y visible, ambiente con ruido de fondo acotado cuando el ejercicio dependa del metrónomo, tablero de calibración al inicio cuando se requiera escala métrica, y encuadre que incluya nariz y hombros en la prueba nariz--dedo. Estas recomendaciones se incorporaron parcialmente en los mensajes orientativos de la interfaz de carga, en respuesta a la retroalimentación de los profesionales consultados.
 
 %----------------------------------------------------------------------------------------
 %	SECTION 4

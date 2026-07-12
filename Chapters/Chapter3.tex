@@ -126,77 +126,94 @@ La figura \ref{fig:pipeline-dago} muestra el flujo desde el video crudo hasta la
 
 \texttt{KeypointTracker} acumula, por cada fotograma analizado, un registro tabular común con índice temporal, coordenadas normalizadas de los 21 puntos de la mano dominante, distancias derivadas en milímetros cuando existe calibración y, en modo holístico, posiciones de nariz, hombros, codos y muñecas junto con los ángulos de abducción de brazo izquierdo y derecho (\texttt{pose\_left\_arm\_angle}, \texttt{pose\_right\_arm\_angle}). Las detecciones ausentes se registran como valores faltantes y se rellenan hacia adelante hasta un máximo de cinco fotogramas consecutivos para atenuar oclusiones breves. Esa capa de seguimiento es compartida por los cuatro tipos de ejercicio, pero la señal que alimenta las métricas clínicas se elige en función del movimiento evaluado.
 
-En \texttt{finger\_tapping} la señal operativa principal es la distancia pulgar--índice \texttt{hand0\_thumb\_index\_dist}. Con factor de escala $s$ milímetros por píxel y coordenadas normalizadas de pulgar e índice $\mathbf{p}_t$ y $\mathbf{q}_t$ en un fotograma de ancho $W$ y alto $H$ píxeles, se define la distancia $d_t$ mediante la ecuación \ref{eq:thumb-index-dist}:
+En \texttt{finger\_tapping} la señal operativa principal es la distancia pulgar--índice \texttt{hand0\_\allowbreak{}thumb\_\allowbreak{}index\_\allowbreak{}dist}. Con factor de escala $s$ milímetros por píxel y coordenadas normalizadas de pulgar e índice $\mathbf{p}_t$ y $\mathbf{q}_t$ en un fotograma de ancho $W$ y alto $H$ píxeles, se define la distancia $d_t$ mediante la ecuación \ref{eq:thumb-index-dist}:
 \begin{equation}
 d_t = s \,\sqrt{W^2(p_{t,x}-q_{t,x})^2 + H^2(p_{t,y}-q_{t,y})^2}\,.
 \label{eq:thumb-index-dist}
 \end{equation}
-En \texttt{finger\_tapping}, $d_t$ sustenta los biomarcadores de tapping y la sincronía con el metrónomo. En \texttt{hand\_tremor}, la misma serie (o el desplazamiento de la muñeca derivado de \texttt{hand0\_wrist\_px\_*}) cuantifica la oscilación involuntaria de la mano en reposo. En \texttt{open\_close\_hands}, $d_t$ se utiliza para evaluar la amplitud, frecuencia y regularidad de los ciclos voluntarios de apertura y cierre de la mano.
+\begin{sloppypar}
+En \texttt{finger\_tapping}, $d_t$ sustentó los biomarcadores de tapping y la sincronía con el metrónomo. En \texttt{hand\_tremor}, las trayectorias de los dedos índice, medio y anular de cada mano (asignadas a izquierda y derecha según la posición en imagen) alimentaron el cuantificador \texttt{TremorQuantifier}, que estimó amplitud y frecuencia del temblor postural por extremidad. En \texttt{open\_close\_hands}, la apertura de cada mano se expresó mediante las columnas \texttt{left\_\allowbreak{}hand\_\allowbreak{}openness\_\allowbreak{}mm} y \texttt{right\_\allowbreak{}hand\_\allowbreak{}openness\_\allowbreak{}mm}, obtenidas al reasignar los slots \texttt{hand0}/\texttt{hand1} de MediaPipe a la anatomía del paciente.
+\end{sloppypar}
 
-En \texttt{nose\_finger} se construye la distancia entre la yema del índice y la nariz a partir de los landmarks holísticos (\texttt{pose\_nose\_*} y \texttt{hand0\_lm8\_*}), con la misma conversión métrica $s$. El mínimo de esa distancia durante el alcance resume la precisión del contacto nariz--dedo. Además, en este ejercicio se registran como métricas secundarias el ángulo de abducción del brazo en el plano de la imagen (calculado en cada fotograma entre el vector hombro--codo y la línea de hombros) y la estabilidad postural del tronco, lo que permite detectar caídas del brazo o balanceos compensatorios durante la prueba.
+En \texttt{nose\_finger} se normalizó la distancia yema del índice--nariz por el ancho de hombros y se obtuvieron \texttt{left\_\allowbreak{}finger\_\allowbreak{}nose\_\allowbreak{}norm} y \texttt{right\_\allowbreak{}finger\_\allowbreak{}nose\_\allowbreak{}norm}. Los mínimos locales de esas series delimitaron contactos con la nariz; se validaron la postura inicial en cruz, la extensión del brazo contrario y el retorno al alcance. Como métricas secundarias se registraron la variabilidad del ángulo de abducción de cada brazo y la estabilidad postural del tronco mediante un proxy hombro--cadera.
 
 \subsection{Métricas de movimiento implementadas}
 
-El módulo de métricas selecciona, según el tipo de ejercicio, la señal temporal y el conjunto de algoritmos aplicables. Las funciones genéricas \texttt{oscillation\_\allowbreak{}amplitude}, \texttt{tremor\_\allowbreak{}frequency} y \texttt{movement\_\allowbreak{}regularity} operan sobre la serie activa de cada ejercicio cuando hay al menos cuatro muestras válidas. La frecuencia dominante se estima por transformada rápida de Fourier en la banda definida en la ecuación \ref{eq:tremor-band}:
+\begin{sloppypar}
+El módulo de métricas seleccionó, según el tipo de ejercicio, la señal temporal y el conjunto de algoritmos aplicables. En \texttt{finger\_tapping}, las funciones \texttt{oscillation\_\allowbreak{}amplitude}, \texttt{tremor\_\allowbreak{}frequency} y \texttt{movement\_\allowbreak{}regularity} operaron sobre $\{d_t\}$ cuando hubo al menos cuatro muestras válidas; la frecuencia dominante se estimó por transformada rápida de Fourier en la banda definida en la ecuación \ref{eq:tremor-band}:
+\end{sloppypar}
 \begin{equation}
 f \in [1{,}0,\, 12{,}0]\ \text{Hz},
 \label{eq:tremor-band}
 \end{equation}
-coherente con el rango de interés clínico para temblor y oscilaciones de extremidad superior \citep{pecoraro2025computer}, para lo cual se emplea la tasa efectiva tras el subsampleo ($f_s = \mathrm{fps}_{\mathrm{video}} / \mathrm{step}$).
+coherente con el rango de interés clínico para temblor y oscilaciones de extremidad superior \citep{pecoraro2025computer}, para lo cual se empleó la tasa efectiva tras el subsampleo ($f_s = \mathrm{fps}_{\mathrm{video}} / \mathrm{step}$).
 
-En \texttt{finger\_tapping}, tras recortar la fase estática y, de manera opcional, la ventana entre el primero y el último tap, se aplican sobre $\{d_t\}$ los biomarcadores de \texttt{compute\_finger\_tapping\_metrics}: tasa de taps, intervalo intertap medio y su coeficiente de variación, decremento de amplitud entre picos, índice de fatiga, velocidades medias de apertura y cierre, y el promedio del ángulo en la muñeca (\texttt{thumb\_index\_wrist\_angle\_mean}). La detección de picos usa \texttt{scipy.signal.find\_peaks} con prominencia proporcional al rango de la señal \citep{sibley2021video,acevedo2025visionmd}. \texttt{SessionAggregator} calcula además retardos entre impulsos del metrónomo y mínimos locales de $d_t$ dentro de $\pm 0{,}35$~s (\texttt{delays.csv}).
+\begin{sloppypar}
+En \texttt{finger\_tapping}, tras recortar la fase estática y, de manera opcional, la ventana entre el primero y el último tap, se aplicaron sobre $\{d_t\}$ los biomarcadores de \texttt{compute\_\allowbreak{}finger\_\allowbreak{}tapping\_\allowbreak{}metrics}: tasa de taps, intervalo intertap medio y su coeficiente de variación, decremento de amplitud entre picos, índice de fatiga, velocidades medias de apertura y cierre, y el promedio del ángulo en la muñeca (\texttt{thumb\_\allowbreak{}index\_\allowbreak{}wrist\_\allowbreak{}angle\_\allowbreak{}mean}). La detección de picos usó \texttt{scipy.\allowbreak{}signal.\allowbreak{}find\_\allowbreak{}peaks} con prominencia proporcional al rango de la señal \citep{sibley2021video,acevedo2025visionmd}. \texttt{SessionAggregator} calculó además retardos entre impulsos del metrónomo y mínimos locales de $d_t$ dentro de $\pm 0{,}35$~s, exportados en \texttt{delays.csv} y en el resumen como \texttt{movement\_\allowbreak{}delays} (no como magnitud escalar en \texttt{metrics.csv}).
 
-En \texttt{hand\_tremor}, sobre la serie de la mano en reposo se reportan amplitud de oscilación, frecuencia en la banda definida según la ecuación \ref{eq:tremor-band} y regularidad del movimiento. No se calculan métricas de tapping ni retardos con metrónomo.
+En \texttt{hand\_tremor}, \texttt{TremorQuantifier} aplicó un filtro pasabanda Butterworth entre 2 y 10~Hz sobre la trayectoria promedio de los tres dedos y estimó, por mano, la amplitud pico a pico (\texttt{tremor\_\allowbreak{}amplitude\_\allowbreak{}left/\allowbreak{}right}) y la frecuencia principal por método de Welch (\texttt{tremor\_\allowbreak{}frequency\_\allowbreak{}left/\allowbreak{}right}). No se calcularon biomarcadores de tapping, regularidad de movimiento ni retardos con metrónomo.
 
-En \texttt{nose\_finger}, para cada brazo, se cuantifican la distancia mínima y media índice--nariz, la longitud de la trayectoria de la yema del índice y un índice de precisión del alcance (cociente entre distancia mínima y longitud de trayectoria). Como métricas secundarias, se promedian y resumen los ángulos de abducción del brazo (\texttt{arm\_angle\_mean}, \texttt{arm\_angle\_variability}) y se estima la estabilidad postural del tronco (\texttt{postural\_stability}) a partir del desplazamiento del centro de masa definido por hombros y caderas.
+En \texttt{nose\_finger}, \texttt{compute\_\allowbreak{}nose\_\allowbreak{}finger\_\allowbreak{}metrics} cuantificó repeticiones válidas, contactos por mano, ritmo alternado, sincronía con el metrónomo, amplitud de alcance normalizada, velocidades de aproximación y retorno, asimetrías bilaterales, suavidad del gesto y oscilación durante el alcance. Como métricas secundarias se estimaron \texttt{postural\_\allowbreak{}stability} y \texttt{arm\_\allowbreak{}angle\_\allowbreak{}variability\_\allowbreak{}left/\allowbreak{}right} a partir del desplazamiento del centro de masa definido por hombros y caderas y del rango del ángulo de abducción de cada brazo.
 
-En \texttt{open\_close\_hands}, se evalúa la amplitud de apertura máxima, la frecuencia de los ciclos y la regularidad del movimiento, junto con las velocidades medias de apertura y cierre de cada mano. Luego, estas mediciones son usadas para calcular métricas de simetría entre los movimientos de ambas extremidades.
+En \texttt{open\_close\_hands}, \texttt{compute\_\allowbreak{}open\_\allowbreak{}close\_\allowbreak{}hands\_\allowbreak{}metrics} procesó las series bilaterales de apertura para obtener tasas de cierre por mano, intervalos entre cierres, decremento y fatiga de amplitud, velocidades en picos y valles, y asimetrías de amplitud, ritmo, velocidad y alineación con el metrónomo cuando el audio estaba disponible.
+\end{sloppypar}
 
-Cada magnitud se encapsula en un \texttt{MetricResult} con unidad, validez y nota cuando los datos son insuficientes. En el listado siguiente se resume el catálogo por tipo de ejercicio.\label{sec:metricas-implementadas}
+Cada magnitud se encapsuló en un \texttt{MetricResult} con unidad, validez y nota cuando los datos fueron insuficientes. En el listado siguiente se resume el catálogo por tipo de ejercicio.\label{sec:metricas-implementadas}
 
+\begin{sloppypar}
 \begin{itemize}
-    \item Tapping de dedos y temblor de mano:
-    \begin{itemize}
-        \item Amplitud de oscilación (\texttt{oscillation\_amplitude}, mm): rango de $d_t$ o de desplazamiento de muñeca.
-        \item Frecuencia de temblor (\texttt{tremor\_frequency}, Hz): pico espectral sobre la señal de mano, banda definida según la ecuación \ref{eq:tremor-band}.
-        \item Regularidad del movimiento (\texttt{movement\_regularity}, adim.): variabilidad y entropía de la oscilación de mano.
-    \end{itemize}
-
     \item Tapping de dedos:
     \begin{itemize}
+        \item Amplitud de oscilación (\texttt{oscillation\_\allowbreak{}amplitude}, mm): rango pico a pico de $d_t$.
+        \item Frecuencia de temblor (\texttt{tremor\_\allowbreak{}frequency}, Hz): pico espectral sobre $d_t$, banda definida según la ecuación \ref{eq:tremor-band}.
+        \item Regularidad del movimiento (\texttt{movement\_\allowbreak{}regularity}, adim.): variabilidad y entropía muestral de $d_t$.
         \item Tasa de taps (\texttt{tap\_rate}, 1/s): ritmo de taps asociado a bradicinesia.
         \item Intervalo intertap medio (\texttt{iti\_mean}, s): tiempo medio entre taps consecutivos.
         \item Coeficiente de variación del ITI (\texttt{iti\_cv}, adim.): consistencia del ritmo de tapping.
-        \item Decremento de amplitud (\texttt{amplitude\_decrement}, mm/s): pendiente de amplitud entre picos sucesivos.
-        \item Índice de fatiga (\texttt{fatigue\_index}, adim.): amplitud final respecto de la amplitud inicial en la ventana dinámica.
-        \item Velocidad de apertura en picos (\texttt{peak\_opening\_velocity}, mm/s): velocidad media al abrir los dedos en los picos de $d_t$.
-        \item Velocidad de cierre en valles (\texttt{peak\_closing\_velocity}, mm/s): velocidad media al cerrar los dedos en los valles.
-        \item Ángulo medio en muñeca (\texttt{thumb\_index\_wrist\_angle\_mean}, $^{\circ}$): apertura media pulgar--índice en la muñeca.
-        \item Retardo audio--movimiento (\texttt{delays}, s): desfase entre el metrónomo y el mínimo de $d_t$, si hay audio disponible.
+        \item Decremento de amplitud (\texttt{amplitude\_\allowbreak{}decrement}, mm/s): pendiente de amplitud entre picos sucesivos.
+        \item Índice de fatiga (\texttt{fatigue\_\allowbreak{}index}, adim.): amplitud final respecto de la amplitud inicial en la ventana dinámica.
+        \item Velocidad de apertura en picos (\texttt{peak\_\allowbreak{}opening\_\allowbreak{}velocity}, mm/s): velocidad media al abrir los dedos en los picos de $d_t$.
+        \item Velocidad de cierre en valles (\texttt{peak\_\allowbreak{}closing\_\allowbreak{}velocity}, mm/s): velocidad media al cerrar los dedos en los valles.
+        \item Ángulo medio en muñeca (\texttt{thumb\_\allowbreak{}index\_\allowbreak{}wrist\_\allowbreak{}angle\_\allowbreak{}mean}, $^{\circ}$): apertura media pulgar--índice en la muñeca.
+        \item Retardos audio--movimiento (\texttt{movement\_\allowbreak{}delays}, s): desfase por impulso entre el metrónomo y el mínimo local de $d_t$ en $\pm 0{,}35$~s (\texttt{delays.csv}); no se agregó como escalar único en \texttt{metrics.csv}.
+    \end{itemize}
+
+    \item Temblor de mano:
+    \begin{itemize}
+        \item Amplitud de temblor (\texttt{tremor\_\allowbreak{}amplitude\_\allowbreak{}left/\allowbreak{}right}, mm): rango pico a pico filtrado de la trayectoria promedio índice--medio--anular.
+        \item Frecuencia de temblor (\texttt{tremor\_\allowbreak{}frequency\_\allowbreak{}left/\allowbreak{}right}, Hz): frecuencia principal por Welch en banda 2--10~Hz.
     \end{itemize}
 
     \item Prueba nariz--dedo:
     \begin{itemize}
-        \item Distancia mínima nariz--dedo (\texttt{nose\_finger\_min\_distance}, mm): mínima distancia entre la yema del índice de cada mano y la nariz.
-        \item Distancia media nariz--dedo (\texttt{nose\_finger\_mean\_distance}, mm): distancia media durante el alcance.
-        \item Longitud de trayectoria (\texttt{nose\_finger\_path\_length}, mm): recorrido de la yema del índice de cada mano.
-        \item Precisión del alcance (\texttt{nose\_finger\_accuracy}, adim.): cociente entre distancia mínima y longitud de trayectoria.
-        \item Ángulo medio de abducción (\texttt{arm\_angle\_mean}, $^{\circ}$): abducción media de cada brazo (métrica secundaria).
-        \item Variabilidad del ángulo (\texttt{arm\_angle\_variability}, $^{\circ}$): rango pico a pico del ángulo de abducción (métrica secundaria).
-        \item Estabilidad postural (\texttt{postural\_\allowbreak{}stability}, adim.): balanceo del tronco, estimado como proxy hombro--cadera (métrica secundaria).
+        \item Repeticiones completadas (\texttt{repetitions\_\allowbreak{}completed}, cont.): toques válidos con brazo contrario extendido y retorno a la postura en cruz.
+        \item Tasa de éxito (\texttt{touch\_\allowbreak{}success\_\allowbreak{}rate}, adim.): cociente entre repeticiones válidas y aproximaciones detectadas.
+        \item Conteo de contactos (\texttt{touch\_\allowbreak{}count\_\allowbreak{}left/\allowbreak{}right}, \texttt{failed\_\allowbreak{}touches}, cont.): aproximaciones por mano y fallos de protocolo.
+        \item Ritmo de contactos (\texttt{touch\_rate}, 1/s; \texttt{iti\_mean}, s; \texttt{iti\_cv}, adim.): cadencia alternada entre manos.
+        \item Sincronía con metrónomo (\texttt{on\_\allowbreak{}beat\_\allowbreak{}ratio}, adim.; \texttt{timing\_\allowbreak{}error\_\allowbreak{}mean}, \texttt{timing\_\allowbreak{}error\_\allowbreak{}abs\_\allowbreak{}mean}, s; \texttt{timing\_\allowbreak{}cv}, adim.): desfase respecto de los impulsos de audio.
+        \item Amplitud de alcance (\texttt{reach\_\allowbreak{}amplitude\_\allowbreak{}left/\allowbreak{}right}, adim.): rango normalizado (referencia extendida menos contacto, / hombros).
+        \item Velocidades de aproximación y retorno (\texttt{approach\_\allowbreak{}velocity\_\allowbreak{}left/\allowbreak{}right}, \texttt{return\_\allowbreak{}velocity\_\allowbreak{}left/\allowbreak{}right}, adim./s): picos de velocidad hacia la nariz y de vuelta.
+        \item Asimetrías (\texttt{amplitude\_\allowbreak{}asymmetry}, \texttt{velocity\_\allowbreak{}asymmetry}, \texttt{count\_\allowbreak{}asymmetry}, \texttt{rhythm\_\allowbreak{}asymmetry}, adim.): diferencias bilaterales de alcance, velocidad, conteo y ritmo.
+        \item Suavidad del gesto (\texttt{movement\_\allowbreak{}smoothness\_\allowbreak{}left/\allowbreak{}right}, adim.): regularidad de la trayectoria índice--nariz por mano.
+        \item Oscilación en el alcance (\texttt{tremor\_\allowbreak{}frequency\_\allowbreak{}left/\allowbreak{}right}, Hz): componente espectral baja del dedo índice durante el movimiento.
+        \item Estabilidad postural (\texttt{postural\_\allowbreak{}stability}, adim./fotograma): balanceo del tronco, estimado como proxy hombro--cadera (métrica secundaria).
+        \item Variabilidad del ángulo de abducción (\texttt{arm\_\allowbreak{}angle\_\allowbreak{}variability\_\allowbreak{}left/\allowbreak{}right}, $^{\circ}$): rango pico a pico del ángulo de brazo (métrica secundaria; la media figura en los metadatos de la métrica).
     \end{itemize}
 
     \item Apertura y cierre de manos:
     \begin{itemize}
-        \item Amplitud de apertura (\texttt{oscillation\_amplitude}, mm): rango de apertura máxima de cada mano.
-        \item Frecuencia de ciclos (\texttt{open\_close\_rate}, 1/s): ritmo de los ciclos voluntarios de apertura y cierre.
-        \item Regularidad del movimiento (\texttt{movement\_regularity}, adim.): variabilidad y entropía de los ciclos.
-        \item Velocidad de apertura en picos (\texttt{peak\_opening\_velocity}, mm/s): velocidad media al abrir cada mano.
-        \item Velocidad de cierre en valles (\texttt{peak\_closing\_velocity}, mm/s): velocidad media al cerrar cada mano.
-        \item Índice de simetría entre manos (\texttt{hand\_movement\_symmetry}, adim.): comparación relativa de la amplitud, velocidad y frecuencia de apertura/cierre entre ambas manos para cuantificar la coordinación bilateral.
-   
+        \item Tasa de ciclos (\texttt{cycle\_\allowbreak{}rate\_\allowbreak{}left/\allowbreak{}right}, 1/s): eventos de cierre por segundo en cada mano.
+        \item Amplitud media de apertura (\texttt{mean\_\allowbreak{}openness\_\allowbreak{}amplitude\_\allowbreak{}left/\allowbreak{}right}, mm): apertura media en los cierres detectados.
+        \item Intervalos entre cierres (\texttt{iti\_\allowbreak{}mean\_\allowbreak{}close\_\allowbreak{}left/\allowbreak{}right}, s; \texttt{iti\_\allowbreak{}cv\_\allowbreak{}close\_\allowbreak{}left/\allowbreak{}right}, adim.): ritmo y consistencia por mano.
+        \item Decremento de amplitud (\texttt{amplitude\_\allowbreak{}decrement\_\allowbreak{}left/\allowbreak{}right}, mm/s): pendiente de amplitud en cierres sucesivos.
+        \item Índice de fatiga (\texttt{fatigue\_\allowbreak{}index\_\allowbreak{}left/\allowbreak{}right}, adim.): cociente entre amplitud del último y primer tercio de cierres.
+        \item Velocidad de apertura en picos (\texttt{peak\_\allowbreak{}opening\_\allowbreak{}velocity\_\allowbreak{}left/\allowbreak{}right}, mm/s): velocidad media al abrir cada mano.
+        \item Velocidad de cierre en valles (\texttt{peak\_\allowbreak{}closing\_\allowbreak{}velocity\_\allowbreak{}left/\allowbreak{}right}, mm/s): velocidad media al cerrar cada mano.
+        \item Asimetrías bilaterales (\texttt{amplitude\_\allowbreak{}asymmetry}, \texttt{rhythm\_\allowbreak{}asymmetry\_\allowbreak{}iti}, \texttt{velocity\_\allowbreak{}asymmetry\_\allowbreak{}open/\allowbreak{}close}, \texttt{fatigue\_\allowbreak{}asymmetry}, adim.): comparación relativa entre manos.
+        \item Alineación con metrónomo (\texttt{inter\_\allowbreak{}hand\_\allowbreak{}timing\_\allowbreak{}lag}, s; \texttt{mean\_\allowbreak{}close/\allowbreak{}open\_\allowbreak{}delay\_\allowbreak{}left/\allowbreak{}right}, s): retardos por mano y fase cuando hubo audio disponible.
     \end{itemize}
 \end{itemize}
+\end{sloppypar}
 
 En la figura \ref{fig:timeseries-metricas} se ilustra, a modo de ejemplo para \texttt{finger\_tapping}, la serie $d_t$ con picos de tapping y las detecciones de los pulsos del metrónomo marcados con líneas verticales rojas.
 
