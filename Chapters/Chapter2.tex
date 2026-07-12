@@ -11,7 +11,7 @@ En este capítulo se describen las herramientas, bibliotecas, modelos preentrena
 \section{Frameworks y bibliotecas}
 \label{sec:frameworks}
 
-El sistema se construyó sobre tecnologías de código abierto. El núcleo del trabajo es un flujo de procesamiento de video y señales escrito en \texttt{Python} 3.12 \citep{python3}, sobre el que se montan un servicio HTTP, una capa de persistencia y una interfaz web. Esta separación permitió que la misma lógica de procesamiento se pudiera invocar desde una línea de comandos, un servicio HTTP o un contenedor sin alterar el núcleo del cálculo.
+El sistema se construyó sobre tecnologías de código abierto. El núcleo del trabajo es un flujo de procesamiento de video y señales escrito en \texttt{Python}~3.12 \citep{python3}, sobre el que se montan un servicio HTTP, una capa de persistencia y una interfaz web. Esta separación permitió que la misma lógica de procesamiento se pudiera invocar desde una línea de comandos, un servicio HTTP o un contenedor sin alterar el núcleo del cálculo.
 
 Para la lectura y manipulación de imagen se utilizó \texttt{OpenCV} \citep{bradski2000opencv}, que cubrió la apertura de los archivos de video, la conversión entre espacios de color y las operaciones de redimensionado y muestreo cuadro a cuadro. La extracción del canal de audio asociado a las grabaciones se realizó con \texttt{moviepy}, y el análisis posterior de ese canal, en particular para la detección de los pulsos del metrónomo que estructuran los ejercicios, se apoyó en \texttt{librosa} \citep{mcfee2015librosa}, una biblioteca especializada en el procesamiento de señales de audio musicales y rítmicas.
 
@@ -36,7 +36,7 @@ En la tabla \ref{tab:bibliotecas-cap2} se listan las bibliotecas y herramientas 
 \toprule
 \tabhead{Capa} & \tabhead{Herramientas} & \tabhead{Motivo de elección} \\
 \midrule
-Visión y video & MediaPipe, OpenCV & Modelos preentrenados de pose listos para uso y manipulación robusta de archivos de video. \\
+Visión y video & \texttt{MediaPipe}, OpenCV & Modelos preentrenados de pose listos para uso y manipulación robusta de archivos de video. \\
 Audio & librosa, moviepy & Extracción del canal de audio y detección de pulsos rítmicos para los ejercicios con metrónomo. \\
 Numérica y métricas & NumPy, SciPy, pandas & Operaciones vectoriales, estimadores espectrales y manipulación tabular ampliamente probadas. \\
 Servicios HTTP & FastAPI, Pydantic & Validación de datos integrada y soporte nativo para flujos de progreso por SSE. \\
@@ -124,8 +124,8 @@ En la tabla \ref{tab:modelos-cap2} se listan los modelos preentrenados utilizado
 \toprule
 \tabhead{Modelo} & \tabhead{Tarea} & \tabhead{Origen y datos de preentrenamiento} & \tabhead{Uso en el sistema} \\
 \midrule
-HandLandmarker (MediaPipe 0.10) & Detección de 21 puntos por mano. & Imágenes anotadas de manos en distintas poses, entornos y condiciones de iluminación \citep{zhang2020mediapipehands}. & Ejercicios de finger tapping, temblor de mano y apertura y cierre de manos. \\
-PoseLandmarker Lite (MediaPipe 0.10) & Detección de 33 puntos corporales. & Imágenes y video con anotaciones de pose corporal completa \citep{bazarevsky2020blazepose}. & Prueba nariz--dedo (contexto de tronco y brazos). \\
+HandLandmarker (\texttt{MediaPipe} 0.10) & Detección de 21 puntos por mano. & Imágenes anotadas de manos en distintas poses, entornos y condiciones de iluminación \citep{zhang2020mediapipehands}. & Ejercicios de finger tapping, temblor de mano y apertura y cierre de manos. \\
+PoseLandmarker Lite (\texttt{MediaPipe} 0.10) & Detección de 33 puntos corporales. & Imágenes y video con anotaciones de pose corporal completa \citep{bazarevsky2020blazepose}. & Prueba nariz--dedo (contexto de tronco y brazos). \\
 GPT-5.4-mini (OpenAI) & Modelo de lenguaje generativo. & Conjunto general empleado por OpenAI para sus modelos de propósito general \citep{openai_api}. & Resúmenes interpretativos por sesión y por evolución a partir de las métricas calculadas. \\
 \bottomrule
 \end{tabular}}
@@ -144,7 +144,7 @@ Además de las bibliotecas de aplicación, el trabajo contempló tecnologías de
 
 Los modelos de estimación de pose son demandantes de memoria RAM pero, en el uso típico de \texttt{MediaPipe}, no requieren unidad de procesamiento gráfico dedicada. Debido a eso, la infraestructura prevista se orientó a cómputo en CPU con memoria ampliada, tanto en estaciones locales como en instancias gestionadas en la nube.
 
-Para el despliegue en la nube se seleccionó \textit{Google Cloud Platform} (GCP), ecosistema que admite ejecutar las mismas imágenes de contenedor definidas para el entorno local. En la tabla \ref{tab:infra-gcp-cap2} se resumen los servicios gestionados seleccionados para la prueba de concepto de bajo costo en una única región.
+Para el despliegue en la nube se seleccionó Google Cloud Platform (GCP), ecosistema que admite ejecutar las mismas imágenes de contenedor definidas para el entorno local. En la tabla \ref{tab:infra-gcp-cap2} se resumen los servicios gestionados seleccionados para la prueba de concepto de bajo costo en una única región.
 
 \vspace{0.4em}
 \begin{center}

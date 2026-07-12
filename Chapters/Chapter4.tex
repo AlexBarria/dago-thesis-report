@@ -13,7 +13,7 @@ En este capítulo se presenta la metodología empleada para evaluar la efectivid
 \section{Metodología de evaluación del sistema}
 \label{sec:metodologia-evaluacion}
 
-Dado que el objetivo central del trabajo radicó en automatizar la cuantificación de oscilaciones y desempeño motor a partir de video clínico, la evaluación se orientó a verificar que el sistema desarrollado ejecutara de forma reproducible el flujo planificado: ingesta de video, estimación de pose, seguimiento temporal, cálculo de métricas por tipo de ejercicio, agregación de sesión, exportación estructurada y exposición mediante servicios web e interfaz gráfica.
+Dado que el objetivo central del trabajo radica en automatizar la cuantificación de oscilaciones y desempeño motor a partir de video clínico, la evaluación se orientó a verificar que el sistema desarrollado ejecutara de forma reproducible el flujo planificado: ingesta de video, estimación de pose, seguimiento temporal, cálculo de métricas por tipo de ejercicio, agregación de sesión, exportación estructurada y exposición mediante servicios web e interfaz gráfica.
 
 La estrategia de verificación se documentó en el repositorio del sistema y priorizó tres niveles de evidencia. En el nivel más granular, se aplicaron pruebas unitarias sobre secuencias sintéticas o controladas para validar el comportamiento matemático de cada módulo. En un nivel intermedio, se ejecutaron pruebas de integración que recorren el pipeline completo sobre material de video cuando el entorno lo permitía. En el nivel de despliegue, se verificó manualmente la operación del sistema empaquetado en contenedores locales y en una prueba de concepto en la nube.
 
@@ -27,9 +27,13 @@ En cada ronda participaron profesionales con perfiles complementarios. Por un la
 
 En total intervinieron cuatro profesionales a lo largo del ciclo de iteraciones, sin que una misma persona participara necesariamente en las tres rondas. En cada sesión se presentó el flujo completo: carga de video con selección del tipo de ejercicio, visualización del progreso del análisis, pantalla de resultados con gráficos y tabla de métricas, exportación de informe y, en la última ronda, la vista de evolución longitudinal y el modo de comparación entre dos sesiones del mismo paciente. Los participantes completaron una guía semiestructurada con cinco ítems en escala Likert y un espacio abierto para observaciones.
 
-La valoración global fue positiva. Los profesionales coincidieron en que la herramienta aporta un complemento objetivo a la evaluación clínica habitual y que la presentación gráfica de las series temporales facilita la lectura rápida del desempeño motor intra-sesión. Los neurólogos destacaron la utilidad de contar con biomarcadores cuantitativos de tapping, temblor y coordinación para documentar la evolución en estudios longitudinales. Los profesionales de rehabilitación subrayaron que los informes exportables podrían integrarse en la historia clínica como registro objetivo de la sesión de evaluación motora.
+La valoración global fue positiva. Los profesionales coincidieron en que la herramienta aporta un complemento objetivo a la evaluación clínica habitual y que la presentación gráfica de las series temporales facilita la lectura rápida del desempeño motor intrasesión. Los neurólogos destacaron la utilidad de contar con biomarcadores cuantitativos de tapping, temblor y coordinación para documentar la evolución en estudios longitudinales. Los profesionales de rehabilitación subrayaron que los informes exportables podrían integrarse en la historia clínica como registro objetivo de la sesión de evaluación motora.
 
 A partir de esa devolución se incorporaron mejoras concretas en la versión final de la interfaz. Se priorizó la vista de evolución longitudinal, que permite filtrar sesiones previas de un mismo paciente por tipo de ejercicio y visualizar la tendencia de biomarcadores seleccionados a lo largo del tiempo. Se implementó el modo de comparación entre dos sesiones, con generación de un texto contrastivo a partir de las métricas agregadas. Se ajustó el formato del informe PDF para resaltar las métricas de mayor relevancia clínica según el tipo de ejercicio. Se añadieron mensajes orientativos en la pantalla de carga sobre condiciones recomendables de grabación (iluminación uniforme, mano visible y centrada, tablero de calibración al inicio cuando se requiera escala métrica). Se refinó la organización de las tablas de resultados para separar métricas primarias de indicadores secundarios de calidad de la señal.
+
+Las respuestas de la guía semiestructurada y los comentarios abiertos permitieron identificar patrones recurrentes en las cinco dimensiones evaluadas en cada ronda: legibilidad de los gráficos temporales, utilidad de las métricas agregadas, claridad del informe exportable, fluidez del flujo de carga y pertinencia para el seguimiento longitudinal. En la tabla~\ref{tab:retroalimentacion-clinica} se sintetiza la observación predominante registrada en cada ítem a lo largo del ciclo de iteraciones, como punto de partida para las mejoras de interfaz descritas en el párrafo anterior.
+
+Estas observaciones permitieron ajustar la presentación y priorizar funcionalidades. Aunque no aportan evidencia de validez diagnóstica, confirmaron que el diseño respondía a necesidades reales de profesionales que evalúan el movimiento en pacientes con Parkinson.
 
 \vspace{0.6em}
 \begin{center}
@@ -42,7 +46,7 @@ A partir de esa devolución se incorporaron mejoras concretas en la versión fin
 \toprule
 \tabhead{Ítem evaluado} & \tabhead{Observación predominante} \\
 \midrule
-Legibilidad de gráficos de series temporales & Valoración favorable; útil para seguimiento intra-sesión y revisión en consulta. \\
+Legibilidad de gráficos de series temporales & Valoración favorable; útil para seguimiento intrasesión y revisión en consulta. \\
 Utilidad de métricas agregadas & Positiva para documentación objetiva; solicitud de mayor contexto clínico en etiquetas. \\
 Claridad del informe PDF exportable & Adecuada tras iteraciones de formato en la tercera ronda. \\
 Flujo de carga de sesiones & Intuitivo para personal no técnico; sugerencia de mensajes preventivos sobre captura. \\
@@ -53,7 +57,7 @@ Utilidad para seguimiento longitudinal & Alta; motivó la vista de evolución y 
 \end{center}
 \vspace{0.4em}
 
-Estas observaciones orientaron ajustes de presentación y priorización de funcionalidades de segunda prioridad en la planificación del trabajo. No constituyen evidencia de validez diagnóstica ni de concordancia con escalas clínicas estandarizadas, pero confirmaron que la dirección de diseño respondía a necesidades reales de profesionales que evalúan el movimiento en pacientes con Parkinson.
+% Estas observaciones orientaron ajustes de presentación y priorización de funcionalidades en la planificación del trabajo. No constituyen evidencia de validez diagnóstica ni de concordancia con escalas clínicas estandarizadas, solo confirmaron que la dirección de diseño respondía a necesidades reales de profesionales que evalúan el movimiento en pacientes con Parkinson.
 
 \subsection{Criterios de aceptación}
 
@@ -123,33 +127,35 @@ Cada variante de evaluación clínica activa un subconjunto distinto de métrica
 \midrule
 Tapping de dedos &
 Distancia pulgar--índice &
-Tasa de tapping, intervalo entre taps, decremento de amplitud, fatiga, ángulo de muñeca, sincronía con metrónomo &
-6 módulos (amplitud, frecuencia, regularidad, fase estática, audio, ángulo) \\
+Tasa de tapping, intervalo entre taps, decremento de amplitud, fatiga, ángulo de muñeca, sincronía con metrónomo. &
+6 módulos (amplitud, frecuencia, regularidad, fase estática, audio, ángulo). \\
 Temblor de mano &
 Trayectorias de índice, medio y anular por lado &
-Amplitud y frecuencia de temblor por lado (sin biomarcadores de tapping ni regularidad) &
-2 módulos espectrales genéricos (amplitud y frecuencia; sin prueba dedicada del cuantificador) \\
+Amplitud y frecuencia de temblor por lado (sin biomarcadores de tapping ni regularidad). &
+2 módulos espectrales genéricos (amplitud y frecuencia; sin prueba dedicada del cuantificador). \\
 Apertura y cierre de manos &
 Apertura bilateral de ambas manos &
-Ciclos de apertura, amplitud, frecuencia, regularidad, velocidades de apertura y cierre, asimetría intermano &
-4 módulos específicos del ejercicio \\
+Ciclos de apertura, amplitud, frecuencia, regularidad, velocidades de apertura y cierre, asimetría intermano. &
+4 módulos específicos del ejercicio. \\
 Prueba nariz--dedo &
 Distancia índice--nariz normalizada &
-Toques exitosos, ritmo de alcance, amplitud de alcance, ángulos de brazo, estabilidad postural &
-2 módulos de métricas y señales \\
+Toques exitosos, ritmo de alcance, amplitud de alcance, ángulos de brazo, estabilidad postural. &
+2 módulos de métricas y señales. \\
 \bottomrule
 \end{tabular}}
 \end{minipage}
 \end{center}
 \vspace{0.4em}
 
-Para el tapping de dedos, las pruebas sobre fase estática y detección de impulsos auditivos verificaron que el recorte temporal previo al cálculo de taps respetara la segmentación definida en el diseño del pipeline. Para el temblor de mano, la rama de producción emplea un cuantificador dedicado que procesa las trayectorias de los dedos índice, medio y anular por lado, exportando amplitud y frecuencia sin invocar biomarcadores de tapping ni regularidad del movimiento. Las pruebas unitarias de amplitud y frecuencia validan los módulos espectrales subyacentes. Para la apertura y cierre de manos, las pruebas de alineación con metrónomo validaron la correspondencia entre flancos de apertura o cierre y eventos auditivos, y las de apertura bilateral verificaron las métricas de asimetría entre manos. Para la prueba nariz--dedo, las pruebas de señales confirmaron la asignación izquierda y derecha y el respaldo sobre puntos corporales cuando faltaban landmarks de mano.
+Para el tapping de dedos, las pruebas sobre fase estática y detección de impulsos auditivos verificaron que el recorte temporal previo al cálculo de taps respetara la segmentación definida en el diseño del pipeline. Para el temblor de mano, la rama de producción emplea un cuantificador dedicado que procesa las trayectorias de los dedos índice, medio y anular por lado, exportando amplitud y frecuencia sin invocar biomarcadores de tapping ni regularidad del movimiento. Las pruebas unitarias de amplitud y frecuencia validan los módulos espectrales subyacentes.
+
+Para la apertura y cierre de manos, las pruebas de alineación con metrónomo validaron la correspondencia entre flancos de apertura o cierre y eventos auditivos, y las de apertura bilateral verificaron las métricas de asimetría entre manos. Para el ejercicio nariz--dedo, las pruebas de señales confirmaron la asignación izquierda y derecha y el respaldo sobre puntos corporales cuando faltaban landmarks de mano.
 
 \subsection{Resultados de la batería de pruebas automatizadas}
 
-Se ejecutó la batería completa de pruebas del repositorio en el entorno de desarrollo documentado (Python 3.12 con dependencias gestionadas por el gestor de paquetes del proyecto). La corrida recopiló 115 casos de prueba distribuidos en 29 archivos (28 unitarios y 1 de integración). El resultado fue de 110 casos aprobados (95,7\,\%), 4 omitidos y 1 fallido.
+Se ejecutó la batería completa de pruebas del repositorio en el entorno de desarrollo documentado (\texttt{Python}~3.12 con dependencias gestionadas mediante \texttt{uv}). La corrida recopiló 115 casos de prueba distribuidos en 29 archivos (28 unitarios y 1 de integración). El resultado fue de 110 casos aprobados (95,7\,\%), cuatro omitidos y uno fallido.
 
-Los cuatro casos omitidos correspondieron a la prueba de integración del pipeline por línea de comandos, al no disponerse del video de muestra en el entorno de evaluación. El único fallo se registró en el módulo de asignación bilateral de manos para el ejercicio de apertura y cierre. El caso de prueba esperaba asignación izquierda y derecha a partir del metadato de lateralidad del estimador de pose, mientras que la implementación determina el lado por la posición horizontal de la muñeca en el plano de imagen. Se clasificó como deuda técnica menor: el módulo de apertura bilateral opera correctamente en las pruebas específicas del ejercicio, y el fallo aislado no bloquea el resto del pipeline.
+Los cuatro casos omitidos correspondieron a la prueba de integración del pipeline por línea de comandos: al no disponerse del video de muestra en el entorno de evaluación. El único fallo se registró en el módulo de asignación bilateral de manos para el ejercicio de apertura y cierre. El caso de prueba esperaba asignación izquierda y derecha a partir del metadato de lateralidad del estimador de pose, mientras que la implementación determina el lado por la posición horizontal de la muñeca en el plano de imagen. Se clasificó como deuda técnica menor: el módulo de apertura bilateral opera correctamente en las pruebas específicas del ejercicio, y el fallo aislado no bloquea el resto del pipeline.
 
 En la tabla~\ref{tab:resumen-pruebas} se listan los 29 archivos de prueba agrupados por dominio funcional.
 
@@ -228,7 +234,7 @@ La primera corresponde a oclusiones parciales o totales de la mano, que provocar
 
 La segunda familia agrupa variaciones bruscas de iluminación y fondos complejos, que redujeron la tasa de detección de la mano en ejercicios de extremidad superior y la tasa de detección por lado en la prueba nariz--dedo. En condiciones de luz lateral intensa o sombras marcadas, la proporción de fotogramas con landmarks válidos descendió de forma notable y las métricas agregadas quedaron condicionadas por la menor densidad de muestras.
 
-La tercera familia se asocia a encuadres subóptimos, donde la mano ocupaba una fracción reducida del plano de imagen. En esos casos la calibración con tablero ChArUco resultó poco fiable y el sistema recurrió al modo de estimación de escala sin marcador o a parámetros de conversión en píxeles, con mayor incertidumbre en las magnitudes expresadas en milímetros.
+La tercera familia se asocia a encuadres subóptimos, en los que la mano ocupaba una fracción reducida del plano de imagen. En esos casos la calibración con tablero ChArUco resultó poco fiable y el sistema recurrió al modo de estimación de escala sin marcador o a parámetros de conversión en píxeles, con mayor incertidumbre en las magnitudes expresadas en milímetros.
 
 La cuarta familia afecta a la prueba nariz--dedo, que depende de la estimación holística de cuerpo completo. Cuando el paciente giraba el torso o una extremidad salía del encuadre, la visibilidad simultánea de nariz, hombros y ambas manos se degradó y disminuyó la densidad de muestras válidas para el cálculo de métricas de alcance y estabilidad.
 
@@ -238,7 +244,7 @@ En grabaciones con detección exitosa del tablero ChArUco al inicio de la sesió
 
 En sesiones de tapping de dedos con oclusión transitoria del pulgar, la señal de distancia presentó interpolaciones del rastreador y picos espurios que el módulo de fase estática no siempre pudo filtrar. Esos artefactos se tradujeron en conteos de taps ligeramente elevados respecto de la inspección visual, sin invalidar la tendencia general de amplitud decreciente que es clínicamente relevante en este ejercicio.
 
-En la prueba nariz--dedo, cuando faltaban landmarks de mano el sistema recurrió a puntos corporales de respaldo, pero con menor densidad de muestras válidas. En sesiones donde el paciente giraba el torso y una mano salía del encuadre, la tasa de toques exitosos descendía de forma abrupta aunque el movimiento de alcance fuera clínicamente interpretable. Este comportamiento delimita la necesidad de protocolos de captura más estrictos antes de una validación clínica formal.
+En la prueba nariz--dedo, cuando faltaban landmarks de mano el sistema recurrió a puntos corporales de respaldo, pero con menor densidad de muestras válidas. En sesiones en las que el paciente giraba el torso y una mano salía del encuadre, la tasa de toques exitosos descendía de forma abrupta aunque el movimiento de alcance fuera clínicamente interpretable. Este comportamiento delimita la necesidad de protocolos de captura más estrictos antes de una validación clínica formal.
 
 El propósito de este análisis fue delimitar condiciones de captura recomendables: iluminación uniforme, mano centrada y visible, tablero de calibración al inicio cuando se requiera escala métrica, y encuadre que incluya nariz y hombros en la prueba nariz--dedo. Estas recomendaciones se incorporaron parcialmente en los mensajes orientativos de la interfaz de carga, en respuesta a la retroalimentación de los profesionales consultados.
 
