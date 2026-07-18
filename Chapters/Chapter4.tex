@@ -114,6 +114,10 @@ El análisis evidenció que las capacidades de prioridad alta quedaron cubiertas
 
 Cada variante de evaluación clínica activa un subconjunto distinto de métricas. La tabla~\ref{tab:cobertura-ejercicios} relaciona el tipo de ejercicio, la señal principal empleada, las magnitudes calculadas y el respaldo de pruebas automatizadas.
 
+Para el tapping de dedos, las pruebas sobre fase estática y detección de impulsos auditivos verificaron que el recorte temporal previo al cálculo de taps respetara la segmentación definida en el diseño del pipeline. Para el temblor de mano, la rama de producción emplea un cuantificador dedicado que procesa las trayectorias de los dedos índice, medio y anular por lado, y exporta amplitud y frecuencia sin invocar biomarcadores de tapping ni regularidad del movimiento. Las pruebas unitarias de amplitud y frecuencia validan los módulos espectrales subyacentes.
+
+Para la apertura y cierre de manos, las pruebas de alineación con metrónomo validaron la correspondencia entre flancos de apertura o cierre y eventos auditivos, y las de apertura bilateral verificaron las métricas de asimetría entre manos. Para el ejercicio nariz--dedo, las pruebas de señales confirmaron la asignación izquierda y derecha y el respaldo sobre puntos corporales cuando faltaban landmarks de mano.
+
 \vspace{0.6em}
 \begin{center}
 \begin{minipage}{\textwidth}
@@ -147,9 +151,9 @@ Toques exitosos, ritmo de alcance, amplitud de alcance, ángulos de brazo, estab
 \end{center}
 \vspace{0.4em}
 
-Para el tapping de dedos, las pruebas sobre fase estática y detección de impulsos auditivos verificaron que el recorte temporal previo al cálculo de taps respetara la segmentación definida en el diseño del pipeline. Para el temblor de mano, la rama de producción emplea un cuantificador dedicado que procesa las trayectorias de los dedos índice, medio y anular por lado, y exporta amplitud y frecuencia sin invocar biomarcadores de tapping ni regularidad del movimiento. Las pruebas unitarias de amplitud y frecuencia validan los módulos espectrales subyacentes.
 
-Para la apertura y cierre de manos, las pruebas de alineación con metrónomo validaron la correspondencia entre flancos de apertura o cierre y eventos auditivos, y las de apertura bilateral verificaron las métricas de asimetría entre manos. Para el ejercicio nariz--dedo, las pruebas de señales confirmaron la asignación izquierda y derecha y el respaldo sobre puntos corporales cuando faltaban landmarks de mano.
+
+
 
 \subsection{Resultados de la batería de pruebas automatizadas}
 
@@ -157,7 +161,9 @@ Se ejecutó la batería completa de pruebas del repositorio en el entorno de des
 
 Los cuatro casos omitidos correspondieron a la prueba de integración del pipeline por línea de comandos: al no disponerse del video de muestra en el entorno de evaluación. El único fallo se registró en el módulo de asignación bilateral de manos para el ejercicio de apertura y cierre. El caso de prueba esperaba asignación izquierda y derecha a partir del metadato de lateralidad del estimador de pose, mientras que la implementación determina el lado por la posición horizontal de la muñeca en el plano de imagen. Se clasificó como deuda técnica menor: el módulo de apertura bilateral opera correctamente en las pruebas específicas del ejercicio, y el fallo aislado no bloquea el resto del pipeline.
 
-En la tabla~\ref{tab:resumen-pruebas} se listan los 29 archivos de prueba agrupados por dominio funcional.
+En la tabla~\ref{tab:resumen-pruebas} se listan los 29 archivos de prueba agrupados por dominio funcional, desde el preprocesamiento y la calibración hasta la capa API y la integración por CLI.
+
+El alto porcentaje de aprobación respaldó que las definiciones matemáticas del pipeline fueran reproducibles en código. El fallo aislado en asignación de manos delimitó la confianza en despliegues automatizados hasta alinear ese caso de prueba con la estrategia de asignación implementada.
 
 \vspace{0.6em}
 \begin{center}
@@ -185,7 +191,7 @@ Total & 29 & 110 aprobados, 1 fallido, 4 omitidos de 115 casos recopilados \\
 \end{center}
 \vspace{0.4em}
 
-El alto porcentaje de aprobación respaldó que las definiciones matemáticas del pipeline fueran reproducibles en código. El fallo aislado en asignación de manos delimitó la confianza en despliegues automatizados hasta alinear ese caso de prueba con la estrategia de asignación implementada.
+
 
 \subsection{Evaluación del seguimiento longitudinal}
 
